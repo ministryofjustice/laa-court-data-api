@@ -1,0 +1,71 @@
+version: 2.1
+
+orbs:
+  slack: circleci/slack@4.6.1
+  snyk: snyk/snyk@1.1.2
+  helm: circleci/helm@1.2.0
+
+references:
+  _save-requirements: &save-requirements
+    save_cache:
+      key: deps-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+      paths:
+        - "venv"
+
+  _restore-requirements: &restore-requirements
+    restore_cache:
+      keys:
+        - deps-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+        - deps-{{ .Branch }}
+
+  _install-requirements: &install-requirements
+    run:
+      name: Install Requirements
+      command: |
+        python3 -m venv venv
+        . venv/bin/activate
+        pip install -r requirements.txt
+
+executors:
+  build-image-executor:
+    resource_class: small
+    docker:
+      - image: cimg/python:3.10.2
+
+  cloud-platform-executor:
+    resource_class: small
+    docker:
+      - image: ministryofjustice/cloud-platform-tools
+        environment:
+          GITHUB_TEAM_NAME_SLUG: laa-get-paid
+          REPO_NAME: laa-court-data-api
+
+commands:
+  install-requirements:
+    steps:
+      - *restore-requirements
+      - *install-requirements
+      - *save-requirements
+
+
+jobs:
+  lint-helm-config:
+    executor: build-image-executor
+    steps:
+      - checkout
+      - helm/install-helm-client:
+          version: v3.7.2
+      - run:
+          command: |
+            helm lint --values ./values-dev.yaml ./values-uat.yaml ./values-staging.yaml ./values-prod.yaml
+          name: Add cncf stable repo
+
+workflows:
+  version: 2
+  pr-checks:
+    jobs:
+      - lint-helm-config:
+          filters:
+            branches:
+              ignore:
+                -main
