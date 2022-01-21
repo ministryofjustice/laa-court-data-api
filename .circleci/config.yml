@@ -57,6 +57,7 @@ jobs:
           version: v3.7.2
       - run:
           command: |
+            pushd ./helm_deploy/laa-court-data-api
             helm lint --values ./values-dev.yaml ./values-uat.yaml ./values-staging.yaml ./values-prod.yaml
           name: Add cncf stable repo
 
