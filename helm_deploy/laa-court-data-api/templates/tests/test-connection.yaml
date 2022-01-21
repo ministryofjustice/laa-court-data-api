@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "laa-court-data-api.fullname" . }}-test-connection"
+  labels:
+    {{- include "laa-court-data-api.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "laa-court-data-api.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
