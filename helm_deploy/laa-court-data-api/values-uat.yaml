@@ -37,15 +37,8 @@ ingress:
     external-dns.alpha.kubernetes.io/set-identifier: laa-court-data-api-app-ingress-laa-court-data-api-uat-blue
     external-dns.alpha.kubernetes.io/aws-weight: "100"
   hosts:
-    - host: uat.court-data-api.service.justice.gov.uk
-      paths:
-        - path: /
-              serviceName: laa-court-data-ui-app-service
-              servicePort: 80
-  tls: []
-    - hosts:
-      - uat.court-data-api.service.justice.gov.uk
-      secretName: laa-court-data-ui-uat-cert
+    - host: laa-court-data-api-uat.court-data-api.service.justice.gov.uk
+      paths: []
 
 autoscaling:
   enabled: false
