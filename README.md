@@ -20,7 +20,7 @@ $ pipenv install
 
 Running the application can be done by using the following command from the root of the project
 ```shell
-python ./laa-court-data-api-app/main.py --reload
+python ./laa_court_data_api_app/main.py --reload
 ```
 The application will reload on code changes to save on rebuild times
 
