@@ -69,4 +69,4 @@ workflows:
           filters:
             branches:
               ignore:
-                -main
+                - main
