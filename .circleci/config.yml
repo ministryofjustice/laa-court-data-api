@@ -50,8 +50,8 @@ commands:
   run-tests:
     steps:
       - run:
-        name: run pytest
-        command: pytest --cov-report term --cov-report xml:coverage/cov.xml --cov=laa_court_data_api_app test
+          name: run pytest
+          command: pytest --cov-report term --cov-report xml:coverage/cov.xml --cov=laa_court_data_api_app test
       - store_test_results:
           path: test-results
       - store_artifacts:
@@ -86,4 +86,4 @@ workflows:
             branches:
               ignore:
                 - main
-      - run-tests
+      - test-app
