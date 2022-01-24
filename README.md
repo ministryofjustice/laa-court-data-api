@@ -11,9 +11,9 @@ This application is using python 3.10.
 
 This application uses venv for its virtual environment. To get started run the following commands
 ```shell
-$ python3 -m venv venv
-$ . venv/bin/activate
-$ pip install -r requirements.txt
+$ pip3 install pipenv
+$ pipenv shell
+$ pipenv install
 ```
 
 ### Running the application
@@ -28,5 +28,5 @@ The application will reload on code changes to save on rebuild times
 
 Running tests can be done by using the following command from the root of the project
 ```shell
-pytest
+pytest --cov-report term --cov=laa_court_data_api_app test
 ```
