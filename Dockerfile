@@ -6,11 +6,13 @@ RUN apk add gcc \
     musl-dev \
     build-base
 
-COPY ./requirements.txt /code/requirements.txt
+COPY ./Pipfile /code/Pipfile
+COPY ./Pipfile.lock /code/Pipfile.lock
 COPY ./laa_court_data_api_app /code/laa_court_data_api_app
 
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+RUN pip install --upgrade pip pipenv
+
+RUN PIPENV_PIPFILE="/code/Pipfile" pipenv install --system --deploy
 
 RUN addgroup -g 1001 -S appuser && adduser -u 1001 -S appuser -G appuser
 RUN chown -R appuser:appuser /code
