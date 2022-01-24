@@ -5,11 +5,18 @@ Information around this service can be found within the [runbook](https://dsdmoj
 
 ## Setting up the service
 
-This application is using python 3.10.
+This application is using python 3.10
 
-### Installing venv
+### Pre-requisites
 
-This application uses venv for its virtual environment. To get started run the following commands
+#### Pyenv
+To manage Python versions locally on your device, you may want to use [pyenv](https://github.com/pyenv/pyenv). 
+
+Installation instructions can be found [here](https://realpython.com/intro-to-pyenv/#installing-pyenv)
+
+### Installing pipenv
+
+This application uses pipenv for its virtual environment. To get started run the following commands
 ```shell
 $ pip3 install pipenv
 $ pipenv shell
