@@ -22,15 +22,15 @@ references:
     run:
       name: Install Requirements
       command: |
-        python3 -m venv venv
-        . venv/bin/activate
-        pip install -r requirements.txt
+        pip3 install pipenv
+        pipenv shell
+        pipenv install
 
 executors:
   build-image-executor:
     resource_class: small
     docker:
-      - image: cimg/python:3.10.2
+      - image: cimg/python:3.10.1
 
   cloud-platform-executor:
     resource_class: small
