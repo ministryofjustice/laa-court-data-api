@@ -21,10 +21,7 @@ references:
   _install-requirements: &install-requirements
     run:
       name: Install Requirements
-      command: |
-        pip3 install pipenv
-        pipenv shell
-        pipenv install
+      command: pipenv install
 
 executors:
   build-image-executor:
