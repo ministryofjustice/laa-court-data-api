@@ -16,5 +16,14 @@ RUN addgroup -g 1001 -S appuser && adduser -u 1001 -S appuser -G appuser
 RUN chown -R appuser:appuser /code
 USER appuser
 
+ARG COMMIT_ID
+ARG BUILD_DATE
+ARG BUILD_TAG
+ARG APP_BRANCH
+ENV COMMIT_ID=${COMMIT_ID}
+ENV BUILD_DATE=${BUILD_DATE}
+ENV BUILD_TAG=${BUILD_TAG}
+ENV APP_BRANCH=${APP_BRANCH}
+
 EXPOSE 80
 CMD ["uvicorn", "laa_court_data_api_app.main:app", "--host", "0.0.0.0", "--port", "80"]

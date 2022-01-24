@@ -54,6 +54,20 @@ commands:
       - store_artifacts:
           path: coverage
 
+  build-docker-image:
+    steps:
+      - run:
+          name: Compile Docker Image
+          command: |
+              docker build \
+                --build-arg BUILD_DATE=$(date +%Y-%m-%dT%H:%M:%S%z) \
+                --build-arg COMMIT_ID=${CIRCLE_SHA1} \
+                --build-arg BUILD_TAG="app-${CIRCLE_SHA1}" \
+                --build-arg APP_BRANCH=${CIRCLE_BRANCH} \
+                --pull \
+                --tag "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}" \
+                --file Dockerfile .
+
 jobs:
   lint-helm-config:
     executor: build-image-executor
@@ -74,6 +88,15 @@ jobs:
       - install-requirements
       - run-tests
 
+  build-and-push:
+    executor: build-image-executor
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.11
+          docker_layer_caching: true
+      - build-docker-image
+
 workflows:
   version: 2
   pr-checks:
@@ -84,3 +107,6 @@ workflows:
               ignore:
                 - main
       - test-app
+      - build-and-push:
+          requires:
+            - test-app
