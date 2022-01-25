@@ -126,6 +126,7 @@ jobs:
       - setup_remote_docker:
           version: 20.10.11
           docker_layer_caching: true
+      - *login-ecr
       - build-docker-image
       - *push-docker-image
 
