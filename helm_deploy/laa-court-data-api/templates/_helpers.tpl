@@ -49,14 +49,3 @@ Selector labels
 app.kubernetes.io/name: {{ include "laa-court-data-api.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "laa-court-data-api.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "laa-court-data-api.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
-{{- end }}
