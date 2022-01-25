@@ -99,6 +99,8 @@ commands:
                 --file Dockerfile .
 
   deploy_to_environment:
+    description: >
+      Deploy image to the specified environment
     parameters:
       environment:
         description: Name of environment to deploy to
@@ -108,15 +110,15 @@ commands:
       - *login-ecr
       - setup_remote_docker:
           version: 20.10.11
-      run:
-        name: Deploy to namespace
-        command: |
-            helm upgrade laa-court-data-api ./helm_deploy/laa-court-data-api/. \
-                --install --wait \
-                --namespace=${K8S_NAMESPACE} \
-                --values ./helm_deploy/laa-court-data-api/values-<< parameters.environment >>.yaml \
-                --set image.repository="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}" \
-                --set image.tag="${CIRCLE_SHA1}"
+      - run:
+          name: Deploy to namespace
+          command: |
+              helm upgrade laa-court-data-api ./helm_deploy/laa-court-data-api/. \
+                  --install --wait \
+                  --namespace=${K8S_NAMESPACE} \
+                  --values ./helm_deploy/laa-court-data-api/values-<< parameters.environment >>.yaml \
+                  --set image.repository="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}" \
+                  --set image.tag="${CIRCLE_SHA1}"
 
 jobs:
   lint-helm-config:
@@ -170,7 +172,7 @@ jobs:
   deploy-dev:
     executor: cloud-platform-executor
     steps:
-      - deploy-to-environment:
+      - deploy_to_environment:
           environment: dev
 
 workflows:
