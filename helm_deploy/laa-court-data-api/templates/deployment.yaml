@@ -54,12 +54,12 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: court-data-adaptor
-                  value: uid
+                  key: uid
             - name: CDA_SECRET
               valueFrom:
                 secretKeyRef:
                   name: court-data-adaptor
-                  value: secret
+                  key: secret
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
