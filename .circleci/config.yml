@@ -95,7 +95,7 @@ commands:
                 --build-arg BUILD_TAG="app-${CIRCLE_SHA1}" \
                 --build-arg APP_BRANCH=${CIRCLE_BRANCH} \
                 --pull \
-                --tag app . \
+                --tag app \
                 --file Dockerfile .
 
 jobs:
