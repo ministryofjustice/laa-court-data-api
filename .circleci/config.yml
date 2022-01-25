@@ -120,7 +120,7 @@ jobs:
       - run-tests
 
   build-and-push:
-    executor: build-image-executor
+    executor: cloud-platform-executor
     steps:
       - checkout
       - setup_remote_docker:
