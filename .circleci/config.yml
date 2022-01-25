@@ -98,6 +98,26 @@ commands:
                 --tag app \
                 --file Dockerfile .
 
+  deploy_to_environment:
+    parameters:
+      environment:
+        description: Name of environment to deploy to
+        type: string
+    steps:
+      - checkout
+      - *login-ecr
+      - setup_remote_docker:
+          version: 20.10.11
+      run:
+        name: Deploy to namespace
+        command: |
+            helm upgrade laa-court-data-api ./helm_deploy/laa-court-data-api/. \
+                --install --wait \
+                --namespace=${K8S_NAMESPACE} \
+                --values ./helm_deploy/laa-court-data-api/values-<< parameters.environment >>.yaml \
+                --set image.repository="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}" \
+                --set image.tag="${CIRCLE_SHA1}"
+
 jobs:
   lint-helm-config:
     executor: build-image-executor
@@ -147,6 +167,12 @@ jobs:
           severity-threshold: "high"
           fail-on-issues: true
 
+  deploy-dev:
+    executor: cloud-platform-executor
+    steps:
+      - deploy-to-environment:
+          environment: dev
+
 workflows:
   version: 2
   pr-checks:
@@ -162,3 +188,11 @@ workflows:
           requires:
             - test-app
             - scan-docker-image
+      - hold-dev:
+          type: approval
+          requires:
+            - build-and-push
+      - deploy-dev:
+          context: laa-court-data-api-live-dev
+          requires:
+            - hold-dev
