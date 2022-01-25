@@ -38,7 +38,9 @@ ingress:
     external-dns.alpha.kubernetes.io/aws-weight: "100"
   hosts:
     - host: court-data-api.service.justice.gov.uk
-      paths: []
+      paths:
+        - path: /
+          pathType: Prefix
 
 autoscaling:
   enabled: false
