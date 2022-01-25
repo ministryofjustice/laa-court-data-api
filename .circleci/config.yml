@@ -108,6 +108,7 @@ commands:
     steps:
       - checkout
       - *login-ecr
+      - *authenticate-kubectl
       - setup_remote_docker:
           version: 20.10.11
       - run:
