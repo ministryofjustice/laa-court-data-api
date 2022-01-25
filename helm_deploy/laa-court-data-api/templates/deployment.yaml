@@ -53,12 +53,12 @@ spec:
             - name: CDA_UID
               valueFrom:
                 secretKeyRef:
-                  name: court_data_adaptor
+                  name: court-data-adaptor
                   value: uid
             - name: CDA_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: court_data_adaptor
+                  name: court-data-adaptor
                   value: secret
       {{- with .Values.nodeSelector }}
       nodeSelector:
