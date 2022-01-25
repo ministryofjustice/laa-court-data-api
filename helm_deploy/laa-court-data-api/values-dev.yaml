@@ -34,12 +34,5 @@ ingress:
         - path: /
           pathType: Prefix
 
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
-
 court_data_adaptor:
   url: https://dev.court-data-adaptor.service.justice.gov.uk/
