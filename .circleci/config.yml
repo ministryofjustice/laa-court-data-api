@@ -132,6 +132,16 @@ jobs:
             helm lint --values ./values-dev.yaml --values ./values-uat.yaml --values ./values-staging.yaml --values ./values-prod.yaml
           name: Lint charts for errors
   
+  lint-python:
+    executor: build-image-executor
+    steps:
+      - checkout
+      - install-requirements
+      - run:
+          command:
+            pycodestyle .
+          name: Lint Python for style convention errors
+
   test-app:
     executor: build-image-executor
     parallelism: 1
