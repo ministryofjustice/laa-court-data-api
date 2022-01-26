@@ -16,7 +16,7 @@ RUN PIPENV_PIPFILE="/code/Pipfile" pipenv install --system --deploy
 
 RUN addgroup -g 1001 -S appuser && adduser -u 1001 -S appuser -G appuser
 RUN chown -R appuser:appuser /code
-USER appuser
+USER 1001
 
 ARG COMMIT_ID
 ARG BUILD_DATE
