@@ -113,7 +113,7 @@ commands:
           name: Deploy to namespace
           command: |
               helm upgrade laa-court-data-api ./helm_deploy/laa-court-data-api/. \
-                  --install --wait \
+                  --install --wait --force \
                   --namespace=${K8S_NAMESPACE} \
                   --values ./helm_deploy/laa-court-data-api/values-<< parameters.environment >>.yaml \
                   --set image.repository="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}" \
