@@ -14,38 +14,25 @@ imagePullSecrets: []
 nameOverride: laa-court-data-api-app
 fullnameOverride: laa-court-data-api-app
 
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
-
 service:
   type: ClusterIP
   port: 80
 
 ingress:
   enabled: true
+  namespace: laa-court-data-api-dev
   annotations:
     kubernetes.io/ingress.class: modsec01
     nginx.ingress.kubernetes.io/enable-modsecurity: "true"
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
       SecRuleEngine On
-    external-dns.alpha.kubernetes.io/set-identifier: laa-court-data-api-app-ingress-laa-court-data-api-dev-blue
+    external-dns.alpha.kubernetes.io/set-identifier: laa-court-data-api-app-laa-court-data-api-dev-green
     external-dns.alpha.kubernetes.io/aws-weight: "100"
   hosts:
     - host: laa-court-data-api-dev.apps.live.cloud-platform.service.justice.gov.uk
-      paths: []
-
-autoscaling:
-  enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+      paths:
+        - path: /
+          pathType: Prefix
 
 court_data_adaptor:
   url: https://dev.court-data-adaptor.service.justice.gov.uk/

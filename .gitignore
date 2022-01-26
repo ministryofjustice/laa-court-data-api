@@ -1,2 +1,6 @@
 .dccache
 .DS_Store
+.idea
+__pycache__
+.coverage
+.pytest_cache

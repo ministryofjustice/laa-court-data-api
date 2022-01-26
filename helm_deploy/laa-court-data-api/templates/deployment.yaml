@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "laa-court-data-api.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "laa-court-data-api.selectorLabels" . | nindent 6 }}
@@ -24,7 +22,6 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "laa-court-data-api.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -53,13 +50,13 @@ spec:
             - name: CDA_UID
               valueFrom:
                 secretKeyRef:
-                  name: court_data_adaptor
-                  value: uid
+                  name: court-data-adaptor
+                  key: uid
             - name: CDA_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: court_data_adaptor
-                  value: secret
+                  name: court-data-adaptor
+                  key: secret
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
