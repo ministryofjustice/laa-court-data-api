@@ -193,6 +193,7 @@ workflows:
             branches:
               ignore:
                 - main
+      - lint-python
       - test-app
       - scan-docker-image
       - build-and-push:
