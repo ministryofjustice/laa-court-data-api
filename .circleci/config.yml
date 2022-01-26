@@ -109,9 +109,8 @@ commands:
       - checkout
       - *login-ecr
       - *authenticate-kubectl
-      - helm/install-helm-client:
-          version: 'v3.7.2'
       - helm/upgrade-helm-chart:
+          version: v3.7.2
           namespace: ${K8S_NAMESPACE}
           update-repositories: false
           chart: ./helm_deploy/laa-court-data-api
