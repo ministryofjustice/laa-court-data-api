@@ -109,14 +109,15 @@ commands:
       - checkout
       - *login-ecr
       - *authenticate-kubectl
-      - helm/upgrade-helm-chart:
-          version: v3.7.2
-          namespace: ${K8S_NAMESPACE}
-          update-repositories: false
-          chart: ./helm_deploy/laa-court-data-api
-          release-name: laa-court-data-api
-          values: ./helm_deploy/laa-court-data-api/values-<< parameters.environment >>.yaml
-          values-to-override: 'image.tag="${CIRCLE_SHA1}",image.repository="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}"'
+      - run:
+          name: Deploy to namespace
+          command: |
+              helm upgrade laa-court-data-api ./helm_deploy/laa-court-data-api/. \
+                  --install --wait \
+                  --namespace=${K8S_NAMESPACE} \
+                  --values ./helm_deploy/laa-court-data-api/values-<< parameters.environment >>.yaml \
+                  --set image.repository="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}" \
+                  --set image.tag="${CIRCLE_SHA1}"
 
 jobs:
   lint-helm-config:
