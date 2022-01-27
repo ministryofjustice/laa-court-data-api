@@ -77,9 +77,10 @@ commands:
   run-linters:
     steps:
       - run:
-          name: Lint Python against PEP8 style conventions
+          name: Lint Python
           command:
-            pipenv install pycodestyle
+            pipenv shell
+            pipenv install
             pipenv run pycodestyle .
 
   run-tests:
