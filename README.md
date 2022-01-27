@@ -30,3 +30,10 @@ Running tests can be done by using the following command from the root of the pr
 ```shell
 pytest --cov-report term --cov=laa_court_data_api_app test
 ```
+
+### Running linters
+
+Running linters can be done using the following command from the root of the project
+```shell
+pycodestyle .
+```
