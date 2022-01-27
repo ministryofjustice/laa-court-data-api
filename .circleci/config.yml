@@ -139,7 +139,7 @@ jobs:
       - install-requirements
       - run:
           command:
-            pycodestyle .
+            pipenv pycodestyle .
           name: Lint Python for style convention errors
 
   test-app:
