@@ -139,8 +139,8 @@ jobs:
       - install-requirements
       - run:
           command:
-            pipenv pycodestyle .
-          name: Lint Python for style convention errors
+            pycodestyle .
+          name: Lint Python against PEP8 style conventions
 
   test-app:
     executor: build-image-executor
