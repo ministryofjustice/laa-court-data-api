@@ -139,7 +139,7 @@ jobs:
       - install-requirements
       - run:
           command:
-            pycodestyle .
+            pipenv run pycodestyle .
           name: Lint Python against PEP8 style conventions
 
   test-app:
