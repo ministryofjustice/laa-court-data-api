@@ -79,8 +79,6 @@ commands:
       - run:
           name: Lint Python
           command:
-            pipenv shell
-            pipenv install
             pipenv run pycodestyle .
 
   run-tests:
