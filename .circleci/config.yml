@@ -74,6 +74,14 @@ commands:
       - *install-requirements
       - *save-requirements
 
+  run-linters:
+    steps:
+      - run:
+          name: Lint Python against PEP8 style conventions
+          command:
+            pipenv install pycodestyle
+            pipenv run pycodestyle .
+
   run-tests:
     steps:
       - run:
@@ -137,10 +145,7 @@ jobs:
     steps:
       - checkout
       - install-requirements
-      - run:
-          command:
-            pipenv run pycodestyle .
-          name: Lint Python against PEP8 style conventions
+      - run-linters
 
   test-app:
     executor: build-image-executor
