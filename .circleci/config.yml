@@ -224,12 +224,12 @@ workflows:
 
   main-deploy:
     jobs:
-      - test-app
+      - test-app:
           filters:
             branches:
               only:
                 - main
-      - scan-docker-image
+      - scan-docker-image:
           filters:
             branches:
               only:
