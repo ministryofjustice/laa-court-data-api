@@ -2,7 +2,7 @@ FROM python:3.10-alpine
 
 WORKDIR /code
 
-RUN apk add gcc \
+RUN apk --no-cache add --upgrade gcc \
     musl-dev \
     build-base
 
