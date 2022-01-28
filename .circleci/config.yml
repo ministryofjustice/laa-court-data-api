@@ -21,7 +21,7 @@ references:
   _install-requirements: &install-requirements
     run:
       name: Install Requirements
-      command: pipenv install
+      command: pipenv install --dev
 
   _login-ecr: &login-ecr
     run:
@@ -175,6 +175,7 @@ jobs:
           docker-image-name: app
           target-file: ./Dockerfile
           organization: 'legal-aid-agency'
+          project: ministryofjustice/laa-court-data-api
           severity-threshold: "high"
           fail-on-issues: true
 
@@ -193,9 +194,46 @@ workflows:
             branches:
               ignore:
                 - main
-      - lint-python
+      - lint-python:
+          filters:
+            branches:
+              ignore:
+                - main
+      - test-app:
+          filters:
+            branches:
+              ignore:
+                - main
+      - scan-docker-image:
+          filters:
+            branches:
+              ignore:
+                - main
+      - build-and-push:
+          requires:
+            - test-app
+            - scan-docker-image
+      - hold-dev:
+          type: approval
+          requires:
+            - build-and-push
+      - deploy-dev:
+          context: laa-court-data-api-live-dev
+          requires:
+            - hold-dev
+
+  main-deploy:
+    jobs:
       - test-app
+          filters:
+            branches:
+              only:
+                - main
       - scan-docker-image
+          filters:
+            branches:
+              only:
+                - main
       - build-and-push:
           requires:
             - test-app
