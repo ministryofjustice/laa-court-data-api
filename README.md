@@ -13,7 +13,7 @@ This application uses pipenv for its virtual environment. To get started run the
 ```shell
 $ pip3 install pipenv
 $ pipenv shell
-$ pipenv install
+$ pipenv install --dev
 ```
 
 ### Running the application
