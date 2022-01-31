@@ -21,7 +21,7 @@ references:
   _install-requirements: &install-requirements
     run:
       name: Install Requirements
-      command: pipenv install
+      command: pipenv install --dev
 
   _login-ecr: &login-ecr
     run:
@@ -29,7 +29,6 @@ references:
       command: |
           login="$(AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} aws ecr get-login --no-include-email)"
           ${login}
-
   _authenticate-kubectl: &authenticate-kubectl
     run:
       name: Authenticate K8s
@@ -40,7 +39,6 @@ references:
           kubectl config set-context ${K8S_CLUSTER_NAME} --cluster=${K8S_CLUSTER_NAME} --user=circleci --namespace=${K8S_NAMESPACE}
           kubectl config use-context ${K8S_CLUSTER_NAME}
           kubectl --namespace=${K8S_NAMESPACE} get pods
-
   _push-docker-image: &push-docker-image
     run:
       name: Tag and push images
@@ -52,7 +50,6 @@ references:
               docker tag app "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:latest"
               docker push "${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:latest"
           esac
-
 executors:
   build-image-executor:
     resource_class: small
@@ -97,7 +94,6 @@ commands:
                 --pull \
                 --tag app \
                 --file Dockerfile .
-
   deploy_to_environment:
     description: >
       Deploy image to the specified environment
@@ -118,7 +114,6 @@ commands:
                   --values ./helm_deploy/laa-court-data-api/values-<< parameters.environment >>.yaml \
                   --set image.repository="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}" \
                   --set image.tag="${CIRCLE_SHA1}"
-
 jobs:
   lint-helm-config:
     executor: build-image-executor
@@ -175,6 +170,7 @@ jobs:
           docker-image-name: app
           target-file: ./Dockerfile
           organization: 'legal-aid-agency'
+          project: ministryofjustice/laa-court-data-api
           severity-threshold: "high"
           fail-on-issues: true
 
@@ -193,9 +189,46 @@ workflows:
             branches:
               ignore:
                 - main
-      - lint-python
-      - test-app
-      - scan-docker-image
+      - lint-python:
+          filters:
+            branches:
+              ignore:
+                - main
+      - test-app:
+          filters:
+            branches:
+              ignore:
+                - main
+      - scan-docker-image:
+          filters:
+            branches:
+              ignore:
+                - main
+      - build-and-push:
+          requires:
+            - test-app
+            - scan-docker-image
+      - hold-dev:
+          type: approval
+          requires:
+            - build-and-push
+      - deploy-dev:
+          context: laa-court-data-api-live-dev
+          requires:
+            - hold-dev
+
+  main-deploy:
+    jobs:
+      - test-app:
+          filters:
+            branches:
+              only:
+                - main
+      - scan-docker-image:
+          filters:
+            branches:
+              only:
+                - main
       - build-and-push:
           requires:
             - test-app
