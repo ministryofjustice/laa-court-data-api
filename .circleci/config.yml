@@ -113,7 +113,9 @@ commands:
                   --namespace=${K8S_NAMESPACE} \
                   --values ./helm_deploy/laa-court-data-api/values-<< parameters.environment >>.yaml \
                   --set image.repository="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}" \
-                  --set image.tag="${CIRCLE_SHA1}"
+                  --set image.tag="${CIRCLE_SHA1}" \
+                  --atomic
+
 jobs:
   lint-helm-config:
     executor: build-image-executor
