@@ -6,7 +6,7 @@ class AppSettings(BaseSettings):
     app_name: str
 
     class Config:
-        env_file = "config/.env"
+        env_file = "../.env"
         env_file_encoding = 'utf-8'
 
 
