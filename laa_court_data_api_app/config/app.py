@@ -1,9 +1,14 @@
 from pydantic import BaseSettings
 from functools import lru_cache
+from typing import Optional
 
 
 class AppSettings(BaseSettings):
-    app_name: str
+    app_name: str = "Court Data API"
+    commit_id: Optional[str] = None
+    build_date: Optional[str] = None
+    build_tag: Optional[str] = None
+    app_branch: Optional[str] = None
 
     class Config:
         env_file = "../.env"
