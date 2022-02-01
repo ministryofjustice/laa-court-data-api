@@ -23,8 +23,9 @@ Configuration for the app is stored within the /laa_court_data_api_app/config/ d
 
 [Read here](https://fastapi.tiangolo.com/advanced/settings/#the-env-file) for more information about how settings work in FastAPI. Note that config should be added as a dependency to a given module as such: 
 
-`from laa_court_data_api_app.config.settingsFile import targetSetting, targetSettingFunc
-`
+`from laa_court_data_api_app.config.settingsFile import targetSetting, targetSettingFunc`
+
+
 Where targetSetting is a defined class for the config and targetSettingFunc is an instantiation function for the class.
 
 The purpose of each of the config files is as follows:
