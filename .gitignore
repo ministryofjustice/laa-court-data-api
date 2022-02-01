@@ -3,5 +3,6 @@
 .idea
 __pycache__
 .coverage
-.pytest_cache
 .env
+.pytest_cache
+.vscode

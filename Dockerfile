@@ -2,12 +2,13 @@ FROM python:3.10-alpine
 
 WORKDIR /code
 
-RUN apk add gcc \
+RUN apk --no-cache add --upgrade gcc \
     musl-dev \
     build-base
 
 COPY ./Pipfile /code/Pipfile
 COPY ./Pipfile.lock /code/Pipfile.lock
+COPY ./logging.conf /code/logging.conf
 COPY ./laa_court_data_api_app /code/laa_court_data_api_app
 
 RUN pip install --upgrade pip pipenv
