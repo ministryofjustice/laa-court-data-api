@@ -13,7 +13,7 @@ This application uses pipenv for its virtual environment. To get started run the
 ```shell
 $ pip3 install pipenv
 $ pipenv shell
-$ pipenv install
+$ pipenv install --dev
 ```
 
 ### Running the application
@@ -33,3 +33,10 @@ pytest --cov-report term --cov=laa_court_data_api_app test
 
 ## Documentation
 * [Development](docs/development.md)
+
+### Running linters
+
+Running linters can be done using the following command from the root of the project
+```shell
+pycodestyle .
+```
