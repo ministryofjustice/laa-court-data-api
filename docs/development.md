@@ -1,23 +1,5 @@
 # Development
 
-## Running
-
-To run the app locally see [readme](../readme)
-
-## Running locally with Docker
-
-To run via a docker container:
-1. Perform the docker build with: 
-
-`docker-compose build app`
-2. You can optionally set build arguments by adding:
-
-`--build-arg arg_name='arg_value'`
-4. Run the container with:
-
-`docker-compose up app`
-
-
 ## Config
 Configuration for the app is stored within the /laa_court_data_api_app/config/ directory of the repository
 
@@ -40,10 +22,10 @@ The purpose of each of the config files is as follows:
 
 Settings: 
 
-| Variable   | Purpose                                                  |
-|------------|----------------------------------------------------------|
-| APP_NAME   | An identifier for the app                                |
- | COMMIT_ID  | ID of the commit that the target version of the app is linked to |   
- | BUILD_DATE | Date the app was built via build tools                   |
-| BUILD_TAG  | Tag       of the target version of the app              |
-| APP_BRANCH | Name of branch that the target version of the app is linked to |
+| Variable   | Purpose                                                  | Optional                          |
+|------------|----------------------------------------------------------|-----------------------------------|
+| APP_NAME   | An identifier for the app                                | No (Defaults to "Court Data API") |
+ | COMMIT_ID  | ID of the commit that the target version of the app is linked to | Yes                               |   
+ | BUILD_DATE | Date the app was built via build tools                   | Yes                               |
+| BUILD_TAG  | Tag       of the target version of the app              | Yes                               |
+| APP_BRANCH | Name of branch that the target version of the app is linked to | Yes                               |
