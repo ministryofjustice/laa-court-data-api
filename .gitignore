@@ -4,5 +4,6 @@
 __pycache__
 .coverage
 /coverage
+.env
 .pytest_cache
 .vscode
