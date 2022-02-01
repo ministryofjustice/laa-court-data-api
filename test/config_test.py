@@ -17,4 +17,6 @@ def test_environment_variable_passes_to_app_settings():
     os.environ["APP_NAME"] = "Test App"
     settings = get_app_settings()
     assert settings.app_name == "Test App"
+
+
     
