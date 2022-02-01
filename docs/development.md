@@ -28,6 +28,8 @@ Configuration for the app is stored within the /laa_court_data_api_app/config/ d
 
 Where targetSetting is a defined class for the config and targetSettingFunc is an instantiation function for the class.
 
+Note that the settings are cached once instantiated, if you need to change settings whilst the app is running e.g. during unit tests, you need to run `clear_cache()` on the function that gets the settings before any extra processes
+
 The purpose of each of the config files is as follows:
 
 | Filename  | Purpose             |
