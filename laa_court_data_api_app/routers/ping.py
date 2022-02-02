@@ -12,9 +12,6 @@ router = APIRouter()
 async def ping():
     logger.debug('Calling GET Endpoint')
     settings = get_app_settings()
-    os.environ["BUILD_TAG"] = "BLA BLA BLA"
-    logger.debug(settings.app_branch)
-    logger.debug(settings.build_tag)
     results = {'app_branch': settings.app_branch,
                'build_date': settings.build_date,
                'build_tag': settings.build_tag,
