@@ -17,4 +17,5 @@ class AppSettings(BaseSettings):
 
 @lru_cache()
 def get_app_settings():
+    get_app_settings.cache_clear()
     return AppSettings()

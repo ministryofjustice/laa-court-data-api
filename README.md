@@ -20,7 +20,7 @@ $ pipenv install --dev
 
 Running the application can be done by using the following command from the root of the project
 ```shell
-python ./laa_court_data_api_app/main.py --reload
+uvicorn laa_court_data_api_app.main:app --reload
 ```
 The application will reload on code changes to save on rebuild times
 
@@ -54,3 +54,4 @@ Running linters can be done using the following command from the root of the pro
 ```shell
 pycodestyle .
 ```
+
