@@ -1,4 +1,5 @@
 from pydantic import BaseSettings
+from functools import lru_cache
 from typing import Optional
 
 
@@ -14,5 +15,6 @@ class AppSettings(BaseSettings):
         env_file_encoding = 'utf-8'
 
 
+@lru_cache()
 def get_app_settings():
     return AppSettings()
