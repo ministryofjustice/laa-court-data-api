@@ -26,7 +26,7 @@ async def patch(endpoint: str, params: Optional[dict[str, str]] = None, headers:
 
 async def __send_request(method: str, endpoint: str, params: Optional[dict[str, str]] = None,
                          headers: Optional[dict[str, str]] = None, body: Optional[any] = None):
-    auth_token = await OauthClient.retrieve_token()
+    auth_token = await OauthClient().retrieve_token()
     if auth_token is None:
         return auth_token
 
