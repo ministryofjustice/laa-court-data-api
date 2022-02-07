@@ -40,13 +40,18 @@ To run via a docker container:
 
 ### Running tests
 
-Running tests can be done by using the following command from the root of the project
+Unit tests
+Run units tests with the following command from the root of the project
 ```shell
 pytest --cov-report term --cov=laa_court_data_api_app test
 ```
 
-## Documentation
-* [Development](docs/development.md)
+API tests
+Run API tests with the following command from the root of the project
+```shell
+newman run postman/postman_collection.json
+```
+
 
 ### Running linters
 
@@ -54,4 +59,8 @@ Running linters can be done using the following command from the root of the pro
 ```shell
 pycodestyle .
 ```
+
+
+## Documentation
+* [Development](docs/development.md)
 

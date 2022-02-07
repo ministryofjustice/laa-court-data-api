@@ -29,11 +29,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8000",
+					"raw": "localhost:80",
 					"host": [
 						"localhost"
 					],
-					"port": "8000"
+					"port": "80"
 				}
 			},
 			"response": []
@@ -63,11 +63,11 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8000/ping",
+					"raw": "localhost:80/ping",
 					"host": [
 						"localhost"
 					],
-					"port": "8000",
+					"port": "80",
 					"path": [
 						"ping"
 					]
