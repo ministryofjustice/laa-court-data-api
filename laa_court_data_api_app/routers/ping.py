@@ -1,4 +1,3 @@
-import os
 import logging
 from fastapi import APIRouter, Depends
 from laa_court_data_api_app.config.app import AppSettings, get_app_settings
