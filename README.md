@@ -47,9 +47,9 @@ pytest --cov-report term --cov=laa_court_data_api_app test
 ```
 
 API tests
-Run API tests with the following command from the root of the project
+API tests are grouped into collections. Run each collection with the following command
 ```shell
-newman run postman/postman_collection.json
+newman run [collection_file] -e postman/environments/local.postman_environment.json
 ```
 
 
