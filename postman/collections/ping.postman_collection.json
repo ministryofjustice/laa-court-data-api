@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0cb4ea12-8a65-4f2c-8b9d-4ee4228396af",
+		"_postman_id": "f1bb944d-f810-4423-85de-bcd3dc5eb30b",
 		"name": "ping",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -28,13 +28,18 @@
 			],
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{Username}}",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "{{host}}:{{port}}/ping",
+					"raw": "{{BaseUrl}}/ping",
 					"host": [
-						"{{host}}"
+						"{{BaseUrl}}"
 					],
-					"port": "{{port}}",
 					"path": [
 						"ping"
 					]

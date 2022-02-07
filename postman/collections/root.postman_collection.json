@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1faf64e3-2bee-4a6d-9e4c-039a7db28a32",
+		"_postman_id": "10959676-bb08-4db0-b3c6-8cb6b710dbb7",
 		"name": "root",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -27,13 +27,18 @@
 			],
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{Username}}",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "{{host}}:{{port}}/",
+					"raw": "{{BaseUrl}}/",
 					"host": [
-						"{{host}}"
+						"{{BaseUrl}}"
 					],
-					"port": "{{port}}",
 					"path": [
 						""
 					]
