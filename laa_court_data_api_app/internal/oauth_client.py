@@ -12,14 +12,12 @@ logger = logging.getLogger(__name__)
 
 class OauthClient:
     __instance = None
+    __token = None
 
-    def __new__(cls, *args, **kwargs):
-        if not hasattr(cls, "instance"):
+    def __new__(cls):
+        if cls.__instance is None:
             cls.__instance = super(OauthClient, cls).__new__(cls)
         return cls.__instance
-
-    def __init__(self):
-        self.__token = None
 
     @property
     def token(self) -> TokenResponse:
@@ -37,11 +35,11 @@ class OauthClient:
                 response = await client.post("/oauth/token", data=self.generate_params(settings))
                 if response.status_code == 200:
                     logger.debug("Token_Retrieved_From_Service")
-                    token = TokenResponse(**response.json())
+                    self.token = TokenResponse(**response.json())
                 else:
                     logger.debug("Unable_To_Retrieve_Token")
-                    token = None
-        return token
+                    self.token = None
+        return self.token
 
     def token_has_expired(self) -> bool:
         converted_expiry = dt.datetime(1970, 1, 1) + dt.timedelta(seconds=self.token.created_at)
@@ -49,14 +47,24 @@ class OauthClient:
 
     @staticmethod
     def generate_params(settings: cda.CdaSettings) -> dict[str, str]:
-        return {
-            'grant_type': 'client_credentials',
-            'client_id': settings.cda_uid,
-            'client_secret': settings.cda_secret
-        }
+        try:
+            return {
+                'grant_type': 'client_credentials',
+                'client_id': settings.cda_uid,
+                'client_secret': settings.cda_secret
+            }
+        except AttributeError as e:
+            logger.error("Error_Generating_OAuth_Parameters")
+            raise e
 
     @staticmethod
     def generate_auth_header(token: TokenResponse) -> dict[str, str]:
-        return {
-            "Authorization": f"{token.token_type} {token.access_token}"
-        }
+        try:
+            if token.access_token is None:
+                raise AttributeError("token.access_token is not found")
+            return {
+                "Authorization": f"{token.token_type} {token.access_token}"
+            }
+        except AttributeError as e:
+            logger.error("Error_Generating_Header")
+            raise e
