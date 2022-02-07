@@ -1,22 +1,15 @@
-from fastapi import Depends
 from fastapi.testclient import TestClient
-from laa_court_data_api_app.config.app import get_app_settings
+from laa_court_data_api_app.config.app import get_app_settings, AppSettings
 from laa_court_data_api_app.main import app
-from laa_court_data_api_app.routers.ping import router
-import os
 
 client = TestClient(app)
 
 
-class OverrideAppSettings:
-    commit_id = '123456'
-    build_date = '02022022'
-    build_tag = 'test'
-    app_branch = 'test_branch'
-
-
 def override_get_app_settings():
-    return OverrideAppSettings
+    return AppSettings(commit_id="123456",
+                       build_date="02022022",
+                       build_tag="test",
+                       app_branch="test_branch")
 
 
 app.dependency_overrides[get_app_settings] = override_get_app_settings
