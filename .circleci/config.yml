@@ -4,6 +4,7 @@ orbs:
   slack: circleci/slack@4.6.1
   snyk: snyk/snyk@1.1.2
   helm: circleci/helm@1.2.0
+  newman: postman/newman@0.0.2
 
 references:
   _save-requirements: &save-requirements
@@ -182,6 +183,19 @@ jobs:
       - deploy_to_environment:
           environment: dev
 
+  postman-test-dev:
+    executor: newman/postman-newman-docker
+    steps:
+      - checkout
+      - newman/newman-run:
+          collection: ./postman/collections/root.postman_collection.json
+          environment: ./postman/environments/dev.postman_environment.json
+          additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
+      - newman/newman-run:
+          collection: ./postman/collections/ping.postman_collection.json
+          environment: ./postman/environments/dev.postman_environment.json
+          additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
+
 workflows:
   version: 2
   pr-checks:
@@ -218,6 +232,9 @@ workflows:
           context: laa-court-data-api-live-dev
           requires:
             - hold-dev
+      - postman-test-dev:
+          requires:
+            - deploy-dev
 
   main-deploy:
     jobs:
@@ -243,3 +260,6 @@ workflows:
           context: laa-court-data-api-live-dev
           requires:
             - hold-dev
+      - postman-test-dev:
+          requires:
+            - deploy-dev
