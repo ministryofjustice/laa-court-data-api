@@ -11,7 +11,7 @@ class AppSettings(BaseSettings):
     app_branch: Optional[str] = None
 
     class Config:
-        env_file = "../.env"
+        env_file = ".env"
         env_file_encoding = 'utf-8'
 
 

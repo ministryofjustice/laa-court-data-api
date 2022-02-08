@@ -1,5 +1,4 @@
 from fastapi.testclient import TestClient
-
 from laa_court_data_api_app.main import app
 
 client = TestClient(app)

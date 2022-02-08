@@ -4,7 +4,8 @@ WORKDIR /code
 
 RUN apk --no-cache add --upgrade gcc \
     musl-dev \
-    build-base
+    build-base \
+    expat
 
 COPY ./Pipfile /code/Pipfile
 COPY ./Pipfile.lock /code/Pipfile.lock

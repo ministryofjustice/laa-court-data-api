@@ -20,7 +20,7 @@ $ pipenv install --dev
 
 Running the application can be done by using the following command from the root of the project
 ```shell
-python ./laa_court_data_api_app/main.py --reload
+uvicorn laa_court_data_api_app.main:app --reload
 ```
 The application will reload on code changes to save on rebuild times
 
@@ -40,13 +40,18 @@ To run via a docker container:
 
 ### Running tests
 
-Running tests can be done by using the following command from the root of the project
+Unit tests
+Run units tests with the following command from the root of the project
 ```shell
 pytest --cov-report term --cov=laa_court_data_api_app test
 ```
 
-## Documentation
-* [Development](docs/development.md)
+API tests
+API tests are grouped into collections. Run each collection with the following command
+```shell
+newman run [collection_file] -e postman/environments/local.postman_environment.json
+```
+
 
 ### Running linters
 
@@ -54,3 +59,8 @@ Running linters can be done using the following command from the root of the pro
 ```shell
 pycodestyle .
 ```
+
+
+## Documentation
+* [Development](docs/development.md)
+
