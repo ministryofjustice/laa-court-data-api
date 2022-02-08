@@ -1,4 +1,6 @@
 import httpx
+
+from laa_court_data_api_app.internal.oauth_client import OauthClient
 from test.internal.internal_fixtures import *
 
 
