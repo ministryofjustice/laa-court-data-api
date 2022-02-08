@@ -28,24 +28,26 @@ def get_new_token_response():
                          created_at=int(created_at.total_seconds()))
 
 
-async def get_token_async():
-    return TokenResponse(access_token="12345", token_type="Bearer", expires_in=300, created_at=1643981187)
-
-
 @pytest.fixture(scope="function")
 def mock_cda_client(get_new_token_response, response_code):
     with respx.mock(base_url="http://test-url/", assert_all_called=False) as respx_mock:
         get_route = respx_mock.get("/get/", name="get_endpoint")
         get_route.return_value = Response(response_code, json=[])
+        get_exception = respx_mock.get("/get/exception", name="get_exception_endpoint")
+        get_exception.side_effect = Exception("Failed")
         post_route = respx_mock.post("/post/", name="post_endpoint")
         post_route.return_value = Response(response_code, json=[])
+        post_exception = respx_mock.get("/post/exception", name="post_exception_endpoint")
+        post_exception.side_effect = Exception("Failed")
         patch_route = respx_mock.patch("/patch/", name="patch_endpoint")
         patch_route.return_value = Response(response_code, json={})
+        patch_exception = respx_mock.get("/patch/exception", name="patch_exception_endpoint")
+        patch_exception.side_effect = Exception("Failed")
         yield respx_mock
 
 
 @pytest.fixture(scope="function")
-def mock_oauth_client():
+def mock_oauth_client(token_function):
     oauth_client = Mock()
-    oauth_client.retrieve_token.side_effect = get_token_async
+    oauth_client.retrieve_token.side_effect = token_function
     return oauth_client
