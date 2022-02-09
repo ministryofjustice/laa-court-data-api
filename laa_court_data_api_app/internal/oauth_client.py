@@ -2,9 +2,8 @@ import datetime as dt
 import logging
 
 import httpx
-from fastapi import Depends
 
-from ..config import court_data_adaptor as cda
+from ..config.court_data_adaptor import CdaSettings, get_cda_settings
 from ..models.token_response import TokenResponse
 
 logger = logging.getLogger(__name__)
@@ -27,12 +26,16 @@ class OauthClient:
     def token(self, value):
         self.__token = value
 
-    async def retrieve_token(self, settings: cda.CdaSettings = Depends(cda.get_cda_settings)) -> TokenResponse:
+    @property
+    def settings(self) -> CdaSettings:
+        return get_cda_settings()
+
+    async def retrieve_token(self) -> TokenResponse:
         logger.debug("OAuth_Retrieving_token")
         if self.token is None or self.token_has_expired():
             logger.debug("Token_expired_or_missing")
-            async with httpx.AsyncClient(base_url=settings.cda_endpoint) as client:
-                response = await client.post("/oauth/token", data=self.generate_params(settings))
+            async with httpx.AsyncClient(base_url=self.settings.cda_endpoint) as client:
+                response = await client.post("/oauth/token", data=self.generate_params(self.settings))
                 if response.status_code == 200:
                     logger.debug("Token_Retrieved_From_Service")
                     self.token = TokenResponse(**response.json())
@@ -46,7 +49,7 @@ class OauthClient:
         return converted_expiry + dt.timedelta(seconds=self.token.expires_in) < dt.datetime.utcnow()
 
     @staticmethod
-    def generate_params(settings: cda.CdaSettings) -> dict[str, str]:
+    def generate_params(settings: CdaSettings) -> dict[str, str]:
         try:
             return {
                 'grant_type': 'client_credentials',
