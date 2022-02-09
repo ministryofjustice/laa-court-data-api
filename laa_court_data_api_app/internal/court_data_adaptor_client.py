@@ -2,45 +2,43 @@ import logging
 from typing import Optional
 
 import httpx
-from fastapi import Depends
 
-from ..config.court_data_adaptor import CdaSettings
+from laa_court_data_api_app.config.court_data_adaptor import get_cda_settings
 from ..internal.oauth_client import OauthClient
 
 logger = logging.getLogger(__name__)
 
 
-async def get(endpoint: str, params: Optional[dict[str, str]] = None, headers: Optional[dict[str, str]] = None,
-              oauth_client: OauthClient = Depends(OauthClient), settings: CdaSettings = Depends(CdaSettings)):
-    response = await __send_request(oauth_client, settings, method='GET', endpoint=endpoint, params=params,
+async def get(endpoint: str, params: Optional[dict[str, str]] = None, headers: Optional[dict[str, str]] = None):
+    response = await __send_request(method='GET', endpoint=endpoint, params=params,
                                     headers=headers)
     return response
 
 
 async def post(endpoint: str, params: Optional[dict[str, str]] = None, headers: Optional[dict[str, str]] = None,
-               body: Optional[any] = None, oauth_client: OauthClient = Depends(OauthClient),
-               settings: CdaSettings = Depends(CdaSettings)):
-    response = await __send_request(oauth_client, settings, method='POST', endpoint=endpoint, params=params,
+               body: Optional[any] = None):
+    response = await __send_request(method='POST', endpoint=endpoint, params=params,
                                     headers=headers, body=body)
     return response
 
 
 async def patch(endpoint: str, params: Optional[dict[str, str]] = None, headers: Optional[dict[str, str]] = None,
-                body: Optional[any] = None, oauth_client: OauthClient = Depends(OauthClient),
-                settings: CdaSettings = Depends(CdaSettings)):
-    response = await __send_request(oauth_client, settings, method='PATCH', endpoint=endpoint, params=params,
+                body: Optional[any] = None):
+    response = await __send_request(method='PATCH', endpoint=endpoint, params=params,
                                     headers=headers, body=body)
     return response
 
 
-async def __send_request(oauth_client: OauthClient, settings: CdaSettings, method: str, endpoint: str,
+async def __send_request(method: str, endpoint: str,
                          params: Optional[dict[str, str]] = None,
                          headers: Optional[dict[str, str]] = None, body: Optional[any] = None):
-    auth_token = await oauth_client.retrieve_token()
-    if auth_token is None:
-        return auth_token
+    oauth_client = OauthClient()
+    token = await oauth_client.retrieve_token()
+    if token is None:
+        return token
 
-    async with httpx.AsyncClient(base_url=settings.cda_endpoint, headers=OauthClient.generate_auth_header(auth_token)) \
+    async with httpx.AsyncClient(base_url=get_cda_settings().cda_endpoint,
+                                 headers=oauth_client.generate_auth_header(token)) \
             as client:
         try:
             request = client.build_request(method=method, url=endpoint, params=params, headers=headers, data=body)

@@ -1,9 +1,8 @@
 import datetime as dt
-from unittest.mock import Mock
 
+import httpx
 import pytest
 import respx
-
 from httpx import Response
 
 from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
@@ -46,8 +45,7 @@ def mock_cda_client(get_new_token_response, response_code):
         yield respx_mock
 
 
-@pytest.fixture(scope="function")
-def mock_oauth_client(token_function):
-    oauth_client = Mock()
-    oauth_client.retrieve_token.side_effect = token_function
-    return oauth_client
+@pytest.fixture()
+def mock_oauth_client(respx_mock, token_function):
+    respx_mock.post("/oauth/token").mock(return_value=httpx.Response(status_code=200,
+                                                                     json=token_function().dict()))
