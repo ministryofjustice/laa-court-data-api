@@ -20,3 +20,9 @@ async def get_defendant(urn: str):
         prosecution_case_results = ProsecutionCasesResults(**cda_response.json())
         defendants = prosecution_case_results.results[0].defendant_summaries
         return defendants
+
+@router.get('/defendant')
+async def get_defendant(urn: str | None):
+    logger.debug('Calling GET Endpoint')
+    results = {"defendantData": "true"}
+    return results
