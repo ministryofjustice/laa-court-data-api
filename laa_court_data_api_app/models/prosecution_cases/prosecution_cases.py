@@ -11,4 +11,3 @@ class ProsecutionCases(BaseModel):
     prosecution_case_status: Optional[str] = Field(None, alias="case_status")
     defendant_summaries: Optional[list[DefendantSummary]] = None
     hearing_summaries: Optional[list[HearingSummary]] = None
-
