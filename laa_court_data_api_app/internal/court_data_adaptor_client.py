@@ -9,20 +9,20 @@ from ..internal.oauth_client import OauthClient
 logger = logging.getLogger(__name__)
 
 
-async def get(endpoint: str, params: Optional[dict[str, str]] = None, headers: Optional[dict[str, str]] = None):
+async def get(endpoint: str, params: Optional[dict[str, str]] = None, headers: Optional[dict[str, any]] = None):
     response = await __send_request(method='GET', endpoint=endpoint, params=params,
                                     headers=headers)
     return response
 
 
-async def post(endpoint: str, params: Optional[dict[str, str]] = None, headers: Optional[dict[str, str]] = None,
+async def post(endpoint: str, params: Optional[dict[str, str]] = None, headers: Optional[dict[str, any]] = None,
                body: Optional[any] = None):
     response = await __send_request(method='POST', endpoint=endpoint, params=params,
                                     headers=headers, body=body)
     return response
 
 
-async def patch(endpoint: str, params: Optional[dict[str, str]] = None, headers: Optional[dict[str, str]] = None,
+async def patch(endpoint: str, params: Optional[dict[str, str]] = None, headers: Optional[dict[str, any]] = None,
                 body: Optional[any] = None):
     response = await __send_request(method='PATCH', endpoint=endpoint, params=params,
                                     headers=headers, body=body)
@@ -31,7 +31,7 @@ async def patch(endpoint: str, params: Optional[dict[str, str]] = None, headers:
 
 async def __send_request(method: str, endpoint: str,
                          params: Optional[dict[str, str]] = None,
-                         headers: Optional[dict[str, str]] = None, body: Optional[any] = None):
+                         headers: Optional[dict[str, any]] = None, body: Optional[any] = None):
     oauth_client = OauthClient()
     token = await oauth_client.retrieve_token()
     if token is None:
