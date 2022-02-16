@@ -25,7 +25,7 @@ async def test_hearing_summaries_returns_ok(mock_settings, mock_cda_settings, ov
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 async def test_hearing_summaries_returns_bad_request(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                            mock_cda_client):
+                                                     mock_cda_client):
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
     response = client.get("/v2/hearingsummaries/fail")
@@ -38,7 +38,7 @@ async def test_hearing_summaries_returns_bad_request(mock_settings, mock_cda_set
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 async def test_hearing_summaries_returns_server_error(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                            mock_cda_client):
+                                                      mock_cda_client):
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
     response = client.get("/v2/hearingsummaries/exception")

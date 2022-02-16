@@ -10,7 +10,7 @@ logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
 
 logger = logging.getLogger(__name__)
 
-app = FastAPI(    
+app = FastAPI(
     title=get_app_settings().app_name,
     version='0.0.1',
     contact={
