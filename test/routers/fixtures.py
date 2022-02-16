@@ -27,6 +27,10 @@ def mock_cda_client(get_new_token_response):
     with respx.mock(base_url="http://test-url/", assert_all_called=False) as respx_mock:
         get_route = respx_mock.post("/oauth/token", name="token_endpoint")
         get_route.return_value = Response(200, json=get_new_token_response.dict())
-        pass_route = respx_mock.get("/api/internal/v2/prosecution_cases", name="pass_route")
+        pass_route = respx_mock.get("/api/internal/v2/prosecution_cases", params={"filter[prosecution_case_reference]": "pass"}, name="pass_route")
         pass_route.return_value = Response(200, json=ProsecutionCasesResults(total_results=0, results=[]).dict())
+        fail_route = respx_mock.get("/api/internal/v2/prosecution_cases", params={"filter[prosecution_case_reference]": "fail"}, name="fail_route")
+        fail_route.return_value = Response(400)
+        exception_route = respx_mock.get("/api/internal/v2/prosecution_cases", params={"filter[prosecution_case_reference]": "exception"}, name="exception_route")
+        exception_route.return_value = Response(500)
         yield respx_mock

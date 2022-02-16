@@ -1,4 +1,5 @@
 import logging
+from fastapi.responses import Response
 
 from fastapi import APIRouter
 
@@ -10,17 +11,20 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-@router.get("/v2/hearingsummaries/{urn}", response_model=HearingSummariesResponse)
+@router.get("/v2/hearingsummaries/{urn}", response_model=HearingSummariesResponse, status_code=200)
 async def get_hearing_summaries(urn: str):
     logging.info(f"Hearing_Summaries_Get_{urn}")
     client = CourtDataAdaptorClient()
     cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                     params={"filter[prosecution_case_reference]": urn})
 
-    logging.info(f"Response_Returned_Status_Code_{cda_response.status_code}")
+    if cda_response is None or cda_response.status_code != 200:
+        logging.info("Prosecution_Case_Endpoint_Returned_failed")
+        return Response(status_code=424)
 
-    if cda_response.status_code == 200:
-        prosecution_case_results = ProsecutionCasesResults(**cda_response.json())
-        hearing_summaries = [x.hearing_summaries for x in prosecution_case_results.results]
-        summaries = [item for sublist in hearing_summaries for item in sublist]
-        return HearingSummariesResponse(hearing_summaries=summaries)
+    logging.info("Prosecution_Case_Endpoint_Returned_Success")
+    prosecution_case_results = ProsecutionCasesResults(**cda_response.json())
+    hearing_summaries = [x.hearing_summaries for x in prosecution_case_results.results]
+    summaries = [item for sublist in hearing_summaries for item in sublist]
+    logging.info(f"Hearing_Summaries_To_Show: {summaries.count}")
+    return HearingSummariesResponse(hearing_summaries=summaries)

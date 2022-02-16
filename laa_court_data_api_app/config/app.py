@@ -4,7 +4,10 @@ from typing import Optional
 
 
 class AppSettings(BaseSettings):
-    app_name: str = "Court Data API"
+    app_name: str = "LAA Court Data API"
+    app_repo: str = "https://www.github.com/ministryofjustice/laa-court-data-api"
+    contact_email: str = "assessaclaim@digital.justice.gov.uk"
+    contact_team: str = "Assess a Claim"
     commit_id: Optional[str] = None
     build_date: Optional[str] = None
     build_tag: Optional[str] = None
