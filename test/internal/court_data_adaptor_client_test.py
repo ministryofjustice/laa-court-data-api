@@ -26,7 +26,8 @@ async def test_get_request_returns_correctly(mock_settings, mock_cda_settings, m
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings', new_callable=PropertyMock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
 @pytest.mark.parametrize("response_code,token_function", [(200, get_token_async)])
 async def test_get_request_throws_exception(mock_settings, mock_cda_settings, mock_cda_client, mock_oauth_client,
                                             get_cda_env_vars):
@@ -39,7 +40,8 @@ async def test_get_request_throws_exception(mock_settings, mock_cda_settings, mo
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings', new_callable=PropertyMock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
 @pytest.mark.parametrize("response_code,expected,token_function", test_codes)
 async def test_post_request_returns_correctly(mock_settings, mock_cda_settings, mock_cda_client, mock_oauth_client,
                                               get_cda_env_vars, expected):
@@ -53,7 +55,8 @@ async def test_post_request_returns_correctly(mock_settings, mock_cda_settings, 
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings', new_callable=PropertyMock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
 @pytest.mark.parametrize("response_code,token_function", [(200, get_token_async)])
 async def test_post_request_throws_exception(mock_settings, mock_cda_settings, mock_cda_client, mock_oauth_client,
                                              get_cda_env_vars):
@@ -66,7 +69,8 @@ async def test_post_request_throws_exception(mock_settings, mock_cda_settings, m
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings', new_callable=PropertyMock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
 @pytest.mark.parametrize("response_code,expected,token_function", test_codes)
 async def test_patch_request_returns_correctly(mock_settings, mock_cda_settings, mock_cda_client, mock_oauth_client,
                                                get_cda_env_vars, expected):
@@ -80,7 +84,8 @@ async def test_patch_request_returns_correctly(mock_settings, mock_cda_settings,
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings', new_callable=PropertyMock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
 @pytest.mark.parametrize("response_code,token_function", [(200, get_token_async)])
 async def test_patch_request_throws_exception(mock_settings, mock_cda_settings, mock_cda_client, mock_oauth_client,
                                               get_cda_env_vars):
