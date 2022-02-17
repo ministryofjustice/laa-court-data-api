@@ -27,7 +27,13 @@
 			],
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{Username}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "{{BaseUrl}}/v2/hearingsummaries/{{Urn}}",
 					"host": [
