@@ -1,5 +1,4 @@
 import datetime as dt
-import uuid
 
 import pytest
 import respx

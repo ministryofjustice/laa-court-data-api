@@ -1,7 +1,7 @@
 import logging
-from fastapi.responses import Response
 
 from fastapi import APIRouter
+from fastapi.responses import Response
 
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
 from laa_court_data_api_app.models.hearing_summaries.hearing_summaries_response import HearingSummariesResponse
@@ -39,5 +39,3 @@ async def get_hearing_summaries(urn: str):
         case _:
             logging.info("Prosecution_Case_Endpoint_Error_Returning")
             return Response(status_code=424)
-
-
