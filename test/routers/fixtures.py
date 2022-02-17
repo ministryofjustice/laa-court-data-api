@@ -32,21 +32,24 @@ def get_prosecution_case_results():
 
 @pytest.fixture()
 def mock_cda_client(get_new_token_response, get_prosecution_case_results):
-    with respx.mock(base_url="http://test-url/", assert_all_called=False) as respx_mock:
-        get_route = respx_mock.post("/oauth/token", name="token_endpoint")
+    with respx.mock(assert_all_called=False) as respx_mock:
+        get_route = respx_mock.post("http://test-url/oauth/token", name="token_endpoint")
         get_route.return_value = Response(200, json=get_new_token_response.dict())
 
-        pass_route = respx_mock.get("/api/internal/v2/prosecution_cases",
+        failed_token_route = respx_mock.post("http://failed-test-url/oauth/token",  name="failed_token_endpoint")
+        failed_token_route.return_value = Response(500)
+
+        pass_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
                                     params={"filter[prosecution_case_reference]": "pass"}, name="pass_route")
         pass_route.return_value = Response(200, json=get_prosecution_case_results.dict())
-        fail_route = respx_mock.get("/api/internal/v2/prosecution_cases",
+        fail_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
                                     params={"filter[prosecution_case_reference]": "fail"}, name="fail_route")
         fail_route.return_value = Response(400)
-        notfound_route = respx_mock.get("/api/internal/v2/prosecution_cases",
+        notfound_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
                                         params={"filter[prosecution_case_reference]": "notfound"},
                                         name="notfound_route")
         notfound_route.return_value = Response(404)
-        exception_route = respx_mock.get("/api/internal/v2/prosecution_cases",
+        exception_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
                                          params={"filter[prosecution_case_reference]": "exception"},
                                          name="exception_route")
         exception_route.return_value = Response(500)
