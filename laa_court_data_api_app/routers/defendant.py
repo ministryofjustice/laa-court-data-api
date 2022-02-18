@@ -2,6 +2,7 @@ import logging
 from fastapi import APIRouter
 from laa_court_data_api_app.internal import court_data_adaptor_client
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
+from laa_court_data_api_app.models.defendants.defendants_response import DefendantsResponse
 
 logger = logging.getLogger(__name__)
 
@@ -18,11 +19,7 @@ async def get_defendant(urn: str):
 
     if cda_response.status_code == 200:
         prosecution_case_results = ProsecutionCasesResults(**cda_response.json())
-        defendants = prosecution_case_results.results[0].defendant_summaries
-        return defendants
-
-@router.get('/defendant')
-async def get_defendant(urn: str | None):
-    logger.debug('Calling GET Endpoint')
-    results = {"defendantData": "true"}
-    return results
+        results = [x.defendant_summaries for x in prosecution_case_results.results]
+        defendant_summaries = defendant_summaries=[x for x in results]
+        summaries = [item for sublist in defendant_summaries for item in sublist]
+        return DefendantsResponse(defendant_summaries=summaries)
