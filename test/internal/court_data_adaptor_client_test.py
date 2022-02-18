@@ -1,6 +1,6 @@
 from unittest.mock import PropertyMock, patch, Mock
 
-from laa_court_data_api_app.internal import court_data_adaptor_client
+from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
 from test.internal.internal_fixtures import *
 
 
@@ -18,69 +18,80 @@ async def test_get_request_returns_correctly(mock_settings, mock_cda_settings, m
                                              get_cda_env_vars, expected):
     mock_settings.return_value = get_cda_env_vars
     mock_cda_settings.return_value = get_cda_env_vars
-    response = await court_data_adaptor_client.get("/get/")
+    client = CourtDataAdaptorClient()
+    response = await client.get("/get/")
 
     assert response.status_code == expected
     assert response.json() == []
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-@patch('laa_court_data_api_app.config.court_data_adaptor.CdaSettings', new_callable=Mock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
 @pytest.mark.parametrize("response_code,token_function", [(200, get_token_async)])
 async def test_get_request_throws_exception(mock_settings, mock_cda_settings, mock_cda_client, mock_oauth_client,
                                             get_cda_env_vars):
     mock_settings.return_value = get_cda_env_vars
     mock_cda_settings.return_value = get_cda_env_vars
-    response = await court_data_adaptor_client.get("/get/exception")
+    client = CourtDataAdaptorClient()
+    response = await client.get("/get/exception")
 
     assert response is None
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-@patch('laa_court_data_api_app.config.court_data_adaptor.CdaSettings', new_callable=Mock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
 @pytest.mark.parametrize("response_code,expected,token_function", test_codes)
 async def test_post_request_returns_correctly(mock_settings, mock_cda_settings, mock_cda_client, mock_oauth_client,
                                               get_cda_env_vars, expected):
     mock_settings.return_value = get_cda_env_vars
     mock_cda_settings.return_value = get_cda_env_vars
-    response = await court_data_adaptor_client.post("/post/")
+    client = CourtDataAdaptorClient()
+    response = await client.post("/post/")
 
     assert response.status_code == expected
     assert response.json() == []
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-@patch('laa_court_data_api_app.config.court_data_adaptor.CdaSettings', new_callable=Mock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
 @pytest.mark.parametrize("response_code,token_function", [(200, get_token_async)])
 async def test_post_request_throws_exception(mock_settings, mock_cda_settings, mock_cda_client, mock_oauth_client,
                                              get_cda_env_vars):
     mock_settings.return_value = get_cda_env_vars
     mock_cda_settings.return_value = get_cda_env_vars
-    response = await court_data_adaptor_client.get("/post/exception")
+    client = CourtDataAdaptorClient()
+    response = await client.get("/post/exception")
 
     assert response is None
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-@patch('laa_court_data_api_app.config.court_data_adaptor.CdaSettings', new_callable=Mock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
 @pytest.mark.parametrize("response_code,expected,token_function", test_codes)
 async def test_patch_request_returns_correctly(mock_settings, mock_cda_settings, mock_cda_client, mock_oauth_client,
                                                get_cda_env_vars, expected):
     mock_settings.return_value = get_cda_env_vars
     mock_cda_settings.return_value = get_cda_env_vars
-    response = await court_data_adaptor_client.patch("/patch/")
+    client = CourtDataAdaptorClient()
+    response = await client.patch("/patch/")
 
     assert response.status_code == expected
     assert response.json() == {}
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-@patch('laa_court_data_api_app.config.court_data_adaptor.CdaSettings', new_callable=Mock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
 @pytest.mark.parametrize("response_code,token_function", [(200, get_token_async)])
 async def test_patch_request_throws_exception(mock_settings, mock_cda_settings, mock_cda_client, mock_oauth_client,
                                               get_cda_env_vars):
     mock_settings.return_value = get_cda_env_vars
     mock_cda_settings.return_value = get_cda_env_vars
-    response = await court_data_adaptor_client.get("/patch/exception")
+    client = CourtDataAdaptorClient()
+    response = await client.get("/patch/exception")
 
     assert response is None
