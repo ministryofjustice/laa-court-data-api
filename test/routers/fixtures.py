@@ -5,6 +5,7 @@ import respx
 from httpx import Response
 
 from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
+from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
 from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
@@ -27,7 +28,8 @@ def get_new_token_response():
 @pytest.fixture()
 def get_prosecution_case_results():
     return ProsecutionCasesResults(total_results=1,
-                                   results=[ProsecutionCases(hearing_summaries=[HearingSummary(hearing_type="test")])])
+                                   results=[ProsecutionCases(hearing_summaries=[HearingSummary(hearing_type="test")],
+                                                             defendant_summaries=[DefendantSummary(name="test")])])
 
 
 @pytest.fixture()
@@ -53,4 +55,8 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results):
                                          params={"filter[prosecution_case_reference]": "exception"},
                                          name="exception_route")
         exception_route.return_value = Response(500)
+        fail_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
+                                    params={"filter[prosecution_case_reference]": "invalid"}, name="invalid_route")
+        fail_route.return_value = Response(404)
+
         yield respx_mock
