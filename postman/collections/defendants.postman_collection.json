@@ -1,0 +1,212 @@
+{
+	"info": {
+		"_postman_id": "2a026e67-9b59-4071-8335-8e034c0835e2",
+		"name": "Defendants",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Defendants by URN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Defendants Included\", function () {",
+							"    var json_data = pm.response.json();",
+							"    pm.expect(json_data).to.haveOwnProperty('defendant_summaries');",
+							"});",
+							"",
+							"pm.test(\"Defendants is Array\", function () {",
+							"    var json_data = pm.response.json();",
+							"    var defendants = json_data.defendant_summaries;",
+							"    pm.expect(defendants).to.be.a('array');",
+							"});",
+							"",
+							"pm.test(\"Defendant Properties Are Correct\", function () {",
+							"    var json_data = pm.response.json();",
+							"    var defendant = json_data.defendant_summaries[0];",
+							"    pm.expect(defendant).to.haveOwnProperty('id');",
+							"    pm.expect(defendant).to.haveOwnProperty('national_insurance_number');",
+							"    pm.expect(defendant).to.haveOwnProperty('arrest_summons_number');",
+							"    pm.expect(defendant).to.haveOwnProperty('name');",
+							"    pm.expect(defendant).to.haveOwnProperty('first_name');",
+							"    pm.expect(defendant).to.haveOwnProperty('middle_name');",
+							"    pm.expect(defendant).to.haveOwnProperty('last_name');",
+							"    pm.expect(defendant).to.haveOwnProperty('date_of_birth');",
+							"    pm.expect(defendant).to.haveOwnProperty('proceedings_concluded');",
+							"    pm.expect(defendant).to.haveOwnProperty('representation_order');",
+							"    pm.expect(defendant).to.haveOwnProperty('offence_summaries');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/v2/defendants?urn={{Urn}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"v2",
+						"defendants"
+					],
+					"query": [
+						{
+							"key": "urn",
+							"value": "{{Urn}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Defendants by Name and DoB",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Defendants Included\", function () {",
+							"    var json_data = pm.response.json();",
+							"    pm.expect(json_data).to.haveOwnProperty('defendant_summaries');",
+							"});",
+							"",
+							"pm.test(\"Defendants is Array\", function () {",
+							"    var json_data = pm.response.json();",
+							"    var defendants = json_data.defendant_summaries;",
+							"    pm.expect(defendants).to.be.a('array');",
+							"});",
+							"",
+							"pm.test(\"Defendant Properties Are Correct\", function () {",
+							"    var json_data = pm.response.json();",
+							"    var defendant = json_data.defendant_summaries[0];",
+							"    pm.expect(defendant).to.haveOwnProperty('id');",
+							"    pm.expect(defendant).to.haveOwnProperty('national_insurance_number');",
+							"    pm.expect(defendant).to.haveOwnProperty('arrest_summons_number');",
+							"    pm.expect(defendant).to.haveOwnProperty('name');",
+							"    pm.expect(defendant).to.haveOwnProperty('first_name');",
+							"    pm.expect(defendant).to.haveOwnProperty('middle_name');",
+							"    pm.expect(defendant).to.haveOwnProperty('last_name');",
+							"    pm.expect(defendant).to.haveOwnProperty('date_of_birth');",
+							"    pm.expect(defendant).to.haveOwnProperty('proceedings_concluded');",
+							"    pm.expect(defendant).to.haveOwnProperty('representation_order');",
+							"    pm.expect(defendant).to.haveOwnProperty('offence_summaries');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/v2/defendants?name={{Name}}&dob={{Dob}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"v2",
+						"defendants"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{Name}}"
+						},
+						{
+							"key": "dob",
+							"value": "{{Dob}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Defendants by URN and UUID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Defendants Included\", function () {",
+							"    var json_data = pm.response.json();",
+							"    pm.expect(json_data).to.haveOwnProperty('defendant_summaries');",
+							"});",
+							"",
+							"pm.test(\"Defendants is Array\", function () {",
+							"    var json_data = pm.response.json();",
+							"    var defendants = json_data.defendant_summaries;",
+							"    pm.expect(defendants).to.be.a('array');",
+							"});",
+							"",
+							"pm.test(\"Defendant Properties Are Correct\", function () {",
+							"    var json_data = pm.response.json();",
+							"    var defendant = json_data.defendant_summaries[0];",
+							"    pm.expect(defendant).to.haveOwnProperty('id');",
+							"    pm.expect(defendant).to.haveOwnProperty('national_insurance_number');",
+							"    pm.expect(defendant).to.haveOwnProperty('arrest_summons_number');",
+							"    pm.expect(defendant).to.haveOwnProperty('name');",
+							"    pm.expect(defendant).to.haveOwnProperty('first_name');",
+							"    pm.expect(defendant).to.haveOwnProperty('middle_name');",
+							"    pm.expect(defendant).to.haveOwnProperty('last_name');",
+							"    pm.expect(defendant).to.haveOwnProperty('date_of_birth');",
+							"    pm.expect(defendant).to.haveOwnProperty('proceedings_concluded');",
+							"    pm.expect(defendant).to.haveOwnProperty('representation_order');",
+							"    pm.expect(defendant).to.haveOwnProperty('offence_summaries');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/v2/defendants?urn={{Urn}}&$uuid={{Uuid}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"v2",
+						"defendants"
+					],
+					"query": [
+						{
+							"key": "urn",
+							"value": "{{Urn}}"
+						},
+						{
+							"key": "$uuid",
+							"value": "{{Uuid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

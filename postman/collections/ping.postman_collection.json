@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f1bb944d-f810-4423-85de-bcd3dc5eb30b",
+		"_postman_id": "a60556dc-2f23-4b92-a485-56777ea6b083",
 		"name": "ping",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -17,9 +17,9 @@
 							"});",
 							"",
 							"pm.test(\"Returns correct properties in body\", function () {",
-							"    var jsonData = pm.response.json();",
+							"    var json_data = pm.response.json();",
 							"    var properties = ['app_branch', 'build_date', 'build_tag', 'commit_id']",
-							"    pm.expect(jsonData).to.contain.keys(properties);",
+							"    pm.expect(json_data).to.contain.keys(properties);",
 							"});"
 						],
 						"type": "text/javascript"
