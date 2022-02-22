@@ -14,7 +14,7 @@ client = TestClient(app)
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
-async def test_invalid_search_returns_not_found(mock_settings, mock_cda_settings,
+def test_invalid_search_returns_not_found(mock_settings, mock_cda_settings,
                                                         override_get_cda_settings, mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
