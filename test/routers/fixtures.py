@@ -56,9 +56,24 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results):
                                          name="exception_route")
         exception_route.return_value = Response(500)
 
+        # /defendants by name and date of birth
         pass_name_dob_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
                                        params={"filter[name]": "pass", "filter[date_of_birth]": "pass"},
                                        name="pass_name_dob_route")
         pass_name_dob_route.return_value = Response(200, json=get_prosecution_case_results.dict())
+        fail_name_dob_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
+                                       params={"filter[name]": "fail", "filter[date_of_birth]": "fail"},
+                                       name="fail_name_dob_route")
+        fail_name_dob_route.return_value = Response(400)
+        notfound_name_dob_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
+                                        params={"filter[name]": "notfound", "filter[date_of_birth]": "notfound"},
+                                        name="notfound_name_dob_route")
+        notfound_name_dob_route.return_value = Response(404)
+        exception_name_dob_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
+                                                  params={"filter[name]": "exception", "filter[date_of_birth]": "exception"},
+                                         name="exception_name_dob_route")
+        exception_name_dob_route.return_value = Response(500)
+
+        # /defendants by urn and uuid
 
         yield respx_mock
