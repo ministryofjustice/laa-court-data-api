@@ -14,7 +14,7 @@ client = TestClient(app)
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_hearing_summaries_returns_ok(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                            mock_cda_client):
+                                      mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
@@ -30,7 +30,7 @@ def test_hearing_summaries_returns_ok(mock_settings, mock_cda_settings, override
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_hearing_summaries_returns_bad_request(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                                     mock_cda_client):
+                                               mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
@@ -45,7 +45,7 @@ def test_hearing_summaries_returns_bad_request(mock_settings, mock_cda_settings,
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_hearing_summaries_returns_not_found(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                                   mock_cda_client):
+                                             mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
@@ -60,7 +60,7 @@ def test_hearing_summaries_returns_not_found(mock_settings, mock_cda_settings, o
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_hearing_summaries_returns_server_error(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                                      mock_cda_client):
+                                                mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
@@ -75,7 +75,7 @@ def test_hearing_summaries_returns_server_error(mock_settings, mock_cda_settings
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_hearing_summaries_returns_none(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                              mock_cda_client):
+                                        mock_cda_client):
     OauthClient().token = None
     mock_cda_settings.return_value = CdaSettings(cda_endpoint="http://failed-test-url/", cda_secret="12345",
                                                  cda_uid="12345")

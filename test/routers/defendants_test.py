@@ -15,7 +15,7 @@ client = TestClient(app)
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_invalid_search_returns_not_found(mock_settings, mock_cda_settings,
-                                                        override_get_cda_settings, mock_cda_client):
+                                          override_get_cda_settings, mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
@@ -31,7 +31,7 @@ def test_invalid_search_returns_not_found(mock_settings, mock_cda_settings,
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_defendants_by_name_dob_returns_ok(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                            mock_cda_client):
+                                           mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
@@ -47,7 +47,7 @@ def test_defendants_by_name_dob_returns_ok(mock_settings, mock_cda_settings, ove
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_defendants_by_name_dob_returns_bad_request(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                                     mock_cda_client):
+                                                    mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
@@ -62,7 +62,7 @@ def test_defendants_by_name_dob_returns_bad_request(mock_settings, mock_cda_sett
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_defendants_by_name_dob_returns_not_found(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                                   mock_cda_client):
+                                                  mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
@@ -77,7 +77,7 @@ def test_defendants_by_name_dob_returns_not_found(mock_settings, mock_cda_settin
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_defendants_by_name_dob_returns_server_error(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                                      mock_cda_client):
+                                                     mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
@@ -92,7 +92,7 @@ def test_defendants_by_name_dob_returns_server_error(mock_settings, mock_cda_set
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_defendants_by_name_dob_returns_none(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                              mock_cda_client):
+                                             mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = CdaSettings(cda_endpoint="http://failed-test-url/", cda_secret="12345",
@@ -104,13 +104,105 @@ def test_defendants_by_name_dob_returns_none(mock_settings, mock_cda_settings, o
     assert mock_cda_client["failed_token_endpoint"].called
 
 
+# Search defendant by urn and uuid
+
+@patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
+def test_defendants_by_urn_uuid_returns_ok(mock_settings, mock_cda_settings, override_get_cda_settings,
+                                           mock_cda_client):
+    OauthClient().token = None
+    mock_settings.return_value = override_get_cda_settings
+    mock_cda_settings.return_value = override_get_cda_settings
+    response = client.get("/v2/defendants?urn=pass&uuid=22d2222c-22ff-22ec-b222-2222ac222222")
+
+    assert response.status_code == 200
+    assert mock_cda_client["pass_urn_uuid_route"].called
+    model = DefendantsResponse(**response.json())
+    assert len(model.defendant_summaries) == 1
+
+
+@patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
+def test_defendants_by_urn_uuid_returns_bad_request(mock_settings, mock_cda_settings, override_get_cda_settings,
+                                                    mock_cda_client):
+    OauthClient().token = None
+    mock_settings.return_value = override_get_cda_settings
+    mock_cda_settings.return_value = override_get_cda_settings
+    response = client.get("/v2/defendants?urn=fail&uuid=22d2222c-22ff-22ec-b222-2222ac222222")
+
+    assert response.status_code == 400
+    assert mock_cda_client["fail_urn_uuid_route"].called
+    assert response.content == b''
+
+
+@patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
+def test_defendants_by_urn_uuid_returns_not_found(mock_settings, mock_cda_settings, override_get_cda_settings,
+                                                  mock_cda_client):
+    OauthClient().token = None
+    mock_settings.return_value = override_get_cda_settings
+    mock_cda_settings.return_value = override_get_cda_settings
+    response = client.get("/v2/defendants?urn=notfound&uuid=22d2222c-22ff-22ec-b222-2222ac222222")
+
+    assert response.status_code == 404
+    assert mock_cda_client["notfound_urn_uuid_route"].called
+    assert response.content == b''
+
+
+@patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
+def test_defendants_by_urn_uuid_returns_server_error(mock_settings, mock_cda_settings, override_get_cda_settings,
+                                                     mock_cda_client):
+    OauthClient().token = None
+    mock_settings.return_value = override_get_cda_settings
+    mock_cda_settings.return_value = override_get_cda_settings
+    response = client.get("/v2/defendants?urn=exception&uuid=22d2222c-22ff-22ec-b222-2222ac222222")
+
+    assert response.status_code == 424
+    assert mock_cda_client["exception_urn_uuid_route"].called
+    assert response.content == b''
+
+
+@patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
+def test_defendants_by_urn_uuid_returns_none(mock_settings, mock_cda_settings, override_get_cda_settings,
+                                             mock_cda_client):
+    OauthClient().token = None
+    mock_settings.return_value = override_get_cda_settings
+    mock_cda_settings.return_value = CdaSettings(cda_endpoint="http://failed-test-url/", cda_secret="12345",
+                                                 cda_uid="12345")
+    response = client.get("/v2/defendants?urn=exception&uuid=22d2222c-22ff-22ec-b222-2222ac222222")
+
+    assert response.status_code == 424
+    assert response.content == b''
+    assert mock_cda_client["failed_token_endpoint"].called
+
+
+@patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
+@patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+       new_callable=PropertyMock)
+def test_defendants_by_urn_uuid_returns_unprocessable_error(mock_settings, mock_cda_settings, override_get_cda_settings,
+                                                            mock_cda_client):
+    OauthClient().token = None
+    mock_settings.return_value = override_get_cda_settings
+    mock_cda_settings.return_value = override_get_cda_settings
+    response = client.get("/v2/defendants?urn=exception&uuid=invalid")
+
+    assert response.status_code == 422
+
+
 # Search defendant by urn
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_defendants_by_urn_returns_ok(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                            mock_cda_client):
+                                      mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
@@ -126,7 +218,7 @@ def test_defendants_by_urn_returns_ok(mock_settings, mock_cda_settings, override
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_defendants_by_urn_returns_bad_request(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                                     mock_cda_client):
+                                               mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
@@ -141,7 +233,7 @@ def test_defendants_by_urn_returns_bad_request(mock_settings, mock_cda_settings,
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_defendants_by_urn_returns_not_found(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                                   mock_cda_client):
+                                             mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
@@ -156,7 +248,7 @@ def test_defendants_by_urn_returns_not_found(mock_settings, mock_cda_settings, o
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_defendants_by_urn_returns_server_error(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                                      mock_cda_client):
+                                                mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
@@ -171,7 +263,7 @@ def test_defendants_by_urn_returns_server_error(mock_settings, mock_cda_settings
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
 def test_defendants_by_urn_returns_none(mock_settings, mock_cda_settings, override_get_cda_settings,
-                                              mock_cda_client):
+                                        mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = CdaSettings(cda_endpoint="http://failed-test-url/", cda_secret="12345",
