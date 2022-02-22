@@ -55,8 +55,10 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results):
                                          params={"filter[prosecution_case_reference]": "exception"},
                                          name="exception_route")
         exception_route.return_value = Response(500)
-        fail_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
-                                    params={"filter[prosecution_case_reference]": "invalid"}, name="invalid_route")
-        fail_route.return_value = Response(404)
+
+        pass_name_dob_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
+                                       params={"filter[name]": "pass", "filter[date_of_birth]": "pass"},
+                                       name="pass_name_dob_route")
+        pass_name_dob_route.return_value = Response(200)
 
         yield respx_mock

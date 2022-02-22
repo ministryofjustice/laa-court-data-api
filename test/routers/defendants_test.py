@@ -1,4 +1,5 @@
 from unittest.mock import patch, PropertyMock
+from unittest import TestCase
 
 from fastapi.testclient import TestClient
 
@@ -13,16 +14,32 @@ client = TestClient(app)
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
 @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
        new_callable=PropertyMock)
-async def test_defendants_by_urn_returns_invalid_search(mock_settings, mock_cda_settings,
+async def test_invalid_search_returns_not_found(mock_settings, mock_cda_settings,
                                                         override_get_cda_settings, mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/defendants?urn=invalid")
+    response = client.get("/v2/defendants?invalid_route")
 
     assert response.status_code == 404
     assert response.content == b''
-    assert mock_cda_client["invalid_route"].called
+
+
+class DefendantByNameAndDobTestCase(TestCase):
+    @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
+    @patch('laa_court_data_api_app.internal.court_data_adaptor_client.CourtDataAdaptorClient.settings',
+           new_callable=PropertyMock)
+    async def test_returns_ok(self, mock_settings, mock_cda_settings, override_get_cda_settings,
+                              mock_cda_client):
+        OauthClient().token = None
+        mock_settings.return_value = override_get_cda_settings
+        mock_cda_settings.return_value = override_get_cda_settings
+        response = client.get("/v2/defendants?name=pass&dob=pass")
+
+        assert response.status_code == 200
+        assert mock_cda_client["pass_name_dob_route"].called
+        model = DefendantsResponse(**response.json())
+        assert len(model.defendant_summaries) == 1
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
