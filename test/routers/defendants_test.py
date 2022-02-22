@@ -145,7 +145,7 @@ def test_defendants_by_urn_uuid_returns_not_found(mock_settings, mock_cda_settin
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/defendants?urn=notfound&uuid=22d2222c-22ff-22ec-b222-2222ac222222")
+    response = client.get("/v2/defendants?urn=404&uuid=22d2222c-22ff-22ec-b222-2222ac222222")
 
     assert response.status_code == 404
     assert mock_cda_client["notfound_urn_uuid_route"].called
@@ -160,7 +160,7 @@ def test_defendants_by_urn_uuid_returns_server_error(mock_settings, mock_cda_set
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/defendants?urn=exception&uuid=22d2222c-22ff-22ec-b222-2222ac222222")
+    response = client.get("/v2/defendants?urn=error&uuid=22d2222c-22ff-22ec-b222-2222ac222222")
 
     assert response.status_code == 424
     assert mock_cda_client["exception_urn_uuid_route"].called
@@ -194,6 +194,7 @@ def test_defendants_by_urn_uuid_returns_unprocessable_error(mock_settings, mock_
     response = client.get("/v2/defendants?urn=exception&uuid=invalid")
 
     assert response.status_code == 422
+    assert response.json()["detail"][0]["msg"] == "value is not a valid uuid"
 
 
 # Search defendant by urn
