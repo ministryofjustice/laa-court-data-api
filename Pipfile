@@ -17,7 +17,7 @@ typing-extensions = "==4.1.1"
 uvicorn = "==0.17.5"
 uvloop = "==0.16.0"
 watchgod = "==0.7"
-websockets = "==10.1"
+websockets = "==10.2"
 PyYAML = "==6.0"
 httpx = "==0.22.*"
 
