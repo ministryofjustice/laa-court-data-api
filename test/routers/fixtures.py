@@ -5,6 +5,7 @@ import respx
 from httpx import Response
 
 from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
+from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
 from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
@@ -27,7 +28,8 @@ def get_new_token_response():
 @pytest.fixture()
 def get_prosecution_case_results():
     return ProsecutionCasesResults(total_results=1,
-                                   results=[ProsecutionCases(hearing_summaries=[HearingSummary(hearing_type="test")])])
+                                   results=[ProsecutionCases(hearing_summaries=[HearingSummary(hearing_type="test")],
+                                                             defendant_summaries=[DefendantSummary(name="test")])])
 
 
 @pytest.fixture()
@@ -36,7 +38,7 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results):
         get_route = respx_mock.post("http://test-url/oauth/token", name="token_endpoint")
         get_route.return_value = Response(200, json=get_new_token_response.dict())
 
-        failed_token_route = respx_mock.post("http://failed-test-url/oauth/token",  name="failed_token_endpoint")
+        failed_token_route = respx_mock.post("http://failed-test-url/oauth/token", name="failed_token_endpoint")
         failed_token_route.return_value = Response(500)
 
         pass_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
@@ -53,4 +55,47 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results):
                                          params={"filter[prosecution_case_reference]": "exception"},
                                          name="exception_route")
         exception_route.return_value = Response(500)
+
+        # /defendants by name and date of birth
+        pass_name_dob_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
+                                             params={"filter[name]": "pass", "filter[date_of_birth]": "pass"},
+                                             name="pass_name_dob_route")
+        pass_name_dob_route.return_value = Response(200, json=get_prosecution_case_results.dict())
+        fail_name_dob_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
+                                             params={"filter[name]": "fail", "filter[date_of_birth]": "fail"},
+                                             name="fail_name_dob_route")
+        fail_name_dob_route.return_value = Response(400)
+        notfound_name_dob_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
+                                                 params={"filter[name]": "notfound",
+                                                         "filter[date_of_birth]": "notfound"},
+                                                 name="notfound_name_dob_route")
+        notfound_name_dob_route.return_value = Response(404)
+        exception_name_dob_route = respx_mock.get("http://test-url/api/internal/v2/prosecution_cases",
+                                                  params={"filter[name]": "exception",
+                                                          "filter[date_of_birth]": "exception"},
+                                                  name="exception_name_dob_route")
+        exception_name_dob_route.return_value = Response(500)
+
+        # /defendants by urn and uuid
+        pass_urn_uuid_route = respx_mock.get(
+            "http://test-url/api/internal/v2/prosecution_cases/pass/defendants/22d2222c-22ff-22ec-b222-2222ac222222",
+            name="pass_urn_uuid_route")
+        pass_urn_uuid_route.return_value = Response(200, json=get_prosecution_case_results.dict())
+
+        fail_urn_uuid_route = respx_mock.get(
+            "http://test-url/api/internal/v2/prosecution_cases/fail/defendants/22d2222c-22ff-22ec-b222-2222ac222222",
+            name="fail_urn_uuid_route")
+        fail_urn_uuid_route.return_value = Response(400)
+
+        notfound_urn_uuid_route = respx_mock.get(
+            "http://test-url/api/internal/v2/prosecution_cases/404/defendants/22d2222c-22ff-22ec-b222-2222ac222222",
+            name="notfound_urn_uuid_route"
+        )
+        notfound_urn_uuid_route.return_value = Response(404)
+
+        exception_urn_uuid_route = respx_mock.get(
+            "http://test-url/api/internal/v2/prosecution_cases/error/defendants/22d2222c-22ff-22ec-b222-2222ac222222",
+            name="exception_urn_uuid_route")
+        exception_urn_uuid_route.return_value = Response(500)
+
         yield respx_mock

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4a360920-4feb-48d8-abbd-a5b2492b30ab",
+		"_postman_id": "2aa70a4c-d2ca-4905-bdab-a3b09863119e",
 		"name": "Hearing Summaries",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -17,8 +17,8 @@
 							"});",
 							"",
 							"pm.test(\"Hearing Summaries Included\", function () {",
-							"    var jsonData = pm.response.json();",
-							"    pm.expect(jsonData).to.haveOwnProperty(\"hearing_summaries\")",
+							"    var json_data = pm.response.json();",
+							"    pm.expect(json_data).to.haveOwnProperty(\"hearing_summaries\")",
 							"});"
 						],
 						"type": "text/javascript"

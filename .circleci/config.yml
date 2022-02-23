@@ -62,7 +62,7 @@ executors:
     docker:
       - image: ministryofjustice/cloud-platform-tools
         environment:
-          GITHUB_TEAM_NAME_SLUG: laa-get-paid
+          GITHUB_TEAM_NAME_SLUG: laa-assess-a-claim
           REPO_NAME: laa-court-data-api
 
 commands:
@@ -193,6 +193,10 @@ jobs:
           additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
       - newman/newman-run:
           collection: ./postman/collections/hearing_summaries.postman_collection.json
+          environment: ./postman/environments/dev.postman_environment.json
+          additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
+      - newman/newman-run:
+          collection: ./postman/collections/defendants.postman_collection.json
           environment: ./postman/environments/dev.postman_environment.json
           additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
 
