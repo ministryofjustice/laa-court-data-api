@@ -20,7 +20,7 @@ async def get_defendants(urn: Optional[str] = None,
                          dob: Optional[str] = None,
                          uuid: Optional[UUID] = None):
     client = CourtDataAdaptorClient()
-    logger.info("Calling GET Endpoint")
+    logger.info("Calling_Defendants_Get_Endpoint")
 
     if name and dob:
         logging.info("Defendants_Get_Name_And_Dob_Filtered")
@@ -35,13 +35,13 @@ async def get_defendants(urn: Optional[str] = None,
                                         params={"filter[prosecution_case_reference]": urn})
     else:
         logger.error("Invalid_Defendant_Search")
-        return Response(status_code=404)
+        return Response(status_code=400)
 
     if cda_response is None:
         logging.error("Prosecution_Case_Endpoint_Did_Not_Return")
         return Response(status_code=424)
 
-    logger.info(f"Response_Returned_Status_Code_{cda_response.status_code}")
+    logger.info(f"Defendants_Response_Returned_Status_Code_{cda_response.status_code}")
 
     match cda_response.status_code:
         case 200:

@@ -13,6 +13,7 @@ router = APIRouter()
 
 @router.get("/v2/hearingsummaries/{urn}", response_model=HearingSummariesResponse, status_code=200)
 async def get_hearing_summaries(urn: str):
+    logger.info("Calling_Hearing_Summaries_Get_Endpoint")
     logging.info(f"Hearing_Summaries_Get_{urn}")
     client = CourtDataAdaptorClient()
     cda_response = await client.get("/api/internal/v2/prosecution_cases",
