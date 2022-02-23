@@ -53,7 +53,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{Username}}",
+						"value": "Basic {{Username}}",
 						"type": "text"
 					}
 				],
@@ -124,7 +124,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{Username}}",
+						"value": "Basic {{Username}}",
 						"type": "text"
 					}
 				],
@@ -199,7 +199,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "{{Username}}",
+						"value": "Basic {{Username}}",
 						"type": "text"
 					}
 				],
