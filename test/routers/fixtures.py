@@ -88,12 +88,13 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results):
         fail_urn_uuid_route.return_value = Response(400)
 
         notfound_urn_uuid_route = respx_mock.get(
-            "http://test-url/api/internal/v2/prosecution_cases/notfound/defendants/22d2222c-22ff-22ec-b222-2222ac222222",
-            name="notfound_urn_uuid_route")
+            "http://test-url/api/internal/v2/prosecution_cases/404/defendants/22d2222c-22ff-22ec-b222-2222ac222222",
+            name="notfound_urn_uuid_route"
+        )
         notfound_urn_uuid_route.return_value = Response(404)
 
         exception_urn_uuid_route = respx_mock.get(
-            "http://test-url/api/internal/v2/prosecution_cases/exception/defendants/22d2222c-22ff-22ec-b222-2222ac222222",
+            "http://test-url/api/internal/v2/prosecution_cases/error/defendants/22d2222c-22ff-22ec-b222-2222ac222222",
             name="exception_urn_uuid_route")
         exception_urn_uuid_route.return_value = Response(500)
 
