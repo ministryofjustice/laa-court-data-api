@@ -50,7 +50,13 @@
 			],
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Username}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "{{BaseUrl}}/v2/defendants?urn={{Urn}}",
 					"host": [
@@ -115,7 +121,13 @@
 			],
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Username}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "{{BaseUrl}}/v2/defendants?name={{Name}}&dob={{Dob}}",
 					"host": [
@@ -184,7 +196,13 @@
 			],
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{Username}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "{{BaseUrl}}/v2/defendants?urn={{Urn}}&$uuid={{Uuid}}",
 					"host": [
