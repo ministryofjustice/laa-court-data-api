@@ -1,5 +1,4 @@
 from unittest.mock import patch, PropertyMock
-from unittest import TestCase
 
 from fastapi.testclient import TestClient
 

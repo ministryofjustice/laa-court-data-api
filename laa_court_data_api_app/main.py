@@ -1,6 +1,8 @@
 import logging
+
 import uvicorn
 from fastapi import FastAPI
+
 from laa_court_data_api_app.config.app import get_app_settings
 from .routers import ping, hearing_summaries, defendants
 

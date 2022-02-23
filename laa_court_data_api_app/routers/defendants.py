@@ -6,9 +6,8 @@ from fastapi import APIRouter
 from fastapi.responses import Response
 
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
-from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
-from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
 from laa_court_data_api_app.models.defendants.defendants_response import DefendantsResponse
+from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +23,7 @@ async def get_defendants(urn: Optional[str] = None,
     logger.info("Calling GET Endpoint")
 
     if name and dob:
-        logging.info(f"Defendants_Get_Name_And_Dob_Filtered")
+        logging.info("Defendants_Get_Name_And_Dob_Filtered")
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[name]": name, "filter[date_of_birth]": dob})
     elif urn and uuid:
