@@ -20,7 +20,7 @@ def test_invalid_search_returns_not_found(mock_settings, mock_cda_settings,
     mock_cda_settings.return_value = override_get_cda_settings
     response = client.get("/v2/defendants?invalid_route")
 
-    assert response.status_code == 404
+    assert response.status_code == 400
     assert response.content == b''
 
 
