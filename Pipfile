@@ -6,7 +6,7 @@ name = "pypi"
 [packages]
 anyio = "==3.5.0"
 asgiref = "==3.5.0"
-click = "==8.0.3"
+click = "==8.0.4"
 fastapi = "==0.74.1"
 httptools = "==0.3.0"
 idna = "==3.3"
