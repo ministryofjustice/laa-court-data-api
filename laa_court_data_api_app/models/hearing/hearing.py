@@ -12,7 +12,7 @@ class Hearing(BaseModel):
   # defendant_judicial_results:
   has_shared_results: Optional[bool] = None
   court_applications: Optional[list[CourtApplication]] = None
-  type: Optional[Type] = None
+  type: Optional[HearingType] = None
   hearing_days: Optional[list[HearingDay]] = None
   judiciary: Optional[list[Judiciary]] = None
   prosecution_counsels: Optional[list[ProsecutionCounsel]] = None
