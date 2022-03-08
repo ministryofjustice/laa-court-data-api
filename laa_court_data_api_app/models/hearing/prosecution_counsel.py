@@ -1,5 +1,4 @@
 from typing import Optional
-from datetime import datetime
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -12,4 +11,4 @@ class ProsecutionCounsel(BaseModel):
     last_name: Optional[str] = None
     status: Optional[str] = None
     prosecution_cases: Optional[list[UUID]] = None
-    attendance_days: Optional[list[datetime]] = None
+    attendance_days: Optional[list[str]] = None

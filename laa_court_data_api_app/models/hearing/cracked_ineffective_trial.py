@@ -1,5 +1,4 @@
 from typing import Optional
-from datetime import datetime
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -10,4 +9,4 @@ class CrackedIneffectiveTrial(BaseModel):
     code: Optional[str] = None
     description: Optional[str] = None
     type: Optional[str] = None
-    date: Optional[datetime] = None
+    date: Optional[str] = None

@@ -1,5 +1,4 @@
 from typing import Optional
-from datetime import datetime
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -12,7 +11,7 @@ class JudicialResult(BaseModel):
     label: Optional[str] = None
     text: Optional[str] = None
     cjs_code: Optional[str] = None
-    ordered_date: Optional[datetime] = None
+    ordered_date: Optional[str] = None
     prompts: Optional[list[Prompt]] = None
     post_hearing_custody_status: Optional[str] = None
     wording: Optional[str] = None

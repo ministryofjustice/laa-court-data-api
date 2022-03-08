@@ -1,5 +1,4 @@
 from typing import Optional
-from datetime import datetime
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -11,5 +10,5 @@ class DefenceCounsel(BaseModel):
     middle_name: Optional[str] = None
     last_name: Optional[str] = None
     status: Optional[str] = None
-    attendance_days: Optional[list[datetime]] = None
+    attendance_days: Optional[list[str]] = None
     defendants: Optional[list[UUID]] = None
