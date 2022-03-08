@@ -16,5 +16,3 @@ class JudicialResult(BaseModel):
     prompts: Optional[list[Prompt]] = None
     post_hearing_custody_status: Optional[str] = None
     wording: Optional[str] = None
-
-

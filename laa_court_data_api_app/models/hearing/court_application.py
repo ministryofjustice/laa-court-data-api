@@ -18,4 +18,3 @@ class CourtApplication(BaseModel):
     judicial_results: Optional[list[JudicialResult]] = None
     plea: Optional[Plea] = None
     verdict: Optional[Verdict] = None
-

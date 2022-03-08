@@ -3,6 +3,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
+
 class Respondent(BaseModel):
     id: Optional[UUID] = None
     synonym: Optional[str] = None
