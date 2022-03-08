@@ -24,8 +24,8 @@ def test_hearing_events_returns_ok(mock_settings, mock_cda_settings, override_ge
     assert response.status_code == 200
     assert mock_cda_client["pass_hearing_events_route"].called
     model = HearingEventsResponse(**response.json())
-    assert model.hearing_id == None
-    assert model.has_active_hearing == True
+    assert model.hearing_id is None
+    assert model.has_active_hearing is True
     assert len(model.events) == 0
 
 

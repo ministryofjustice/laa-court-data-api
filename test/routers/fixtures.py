@@ -143,7 +143,8 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results, get_he
         hearing_events_pass.return_value = Response(200, json=get_hearing_events_results.dict())
 
         fail_hearing_events_uuid_route = respx_mock.get(
-            "http://test-url/api/internal/v2/hearings/22d2222c-22ff-22ec-b222-2222ac222222/event_log/fail", name="fail_hearing_events_route")
+            "http://test-url/api/internal/v2/hearings/22d2222c-22ff-22ec-b222-2222ac222222/event_log/fail",
+            name="fail_hearing_events_route")
         fail_hearing_events_uuid_route.return_value = Response(400)
 
         notfound_hearing_events_uuid_route = respx_mock.get(
