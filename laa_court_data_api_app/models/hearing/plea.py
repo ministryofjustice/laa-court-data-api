@@ -9,4 +9,3 @@ class Plea(BaseModel):
     date: Optional[datetime] = None
     value: Optional[str] = None
     originating_hearing_id: Optional[UUID] = None
-    # delegated_powers: Optional[DelegatedPower] = None

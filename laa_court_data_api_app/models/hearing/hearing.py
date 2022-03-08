@@ -18,8 +18,6 @@ class Hearing(BaseModel):
     jurisdiction_type: Optional[str] = None
     court_centre: Optional[CourtCentre] = None
     language: Optional[str] = None
-    # prosecution_cases:
-    # defendant_judicial_results:
     has_shared_results: Optional[bool] = None
     court_applications: Optional[list[CourtApplication]] = None
     type: Optional[HearingType] = None

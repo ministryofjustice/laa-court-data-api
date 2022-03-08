@@ -13,5 +13,3 @@ class Prompt(BaseModel):
     duration_sequence: Optional[int] = None
     prompt_sequence: Optional[int] = None
     total_penalty_points: Optional[int] = None
-    # is_financial_imposition
-    # usergroups: Optional[list[str]] = None
