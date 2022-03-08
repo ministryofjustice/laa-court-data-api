@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "a9749058-c030-47a7-bf5b-f9e2b5d27254",
-		"name": "ping",
+		"_postman_id": "1163550b-3f5d-4ec7-899a-8ab7127c214a",
+		"name": "Hearing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "ping",
+			"name": "Get Hearing",
 			"event": [
 				{
 					"listen": "test",
@@ -16,10 +16,10 @@
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Returns correct properties in body\", function () {",
+							"pm.test(\"Hearing included\", function () {",
 							"    var json_data = pm.response.json();",
-							"    var properties = ['app_branch', 'build_date', 'build_tag', 'commit_id']",
-							"    pm.expect(json_data).to.contain.keys(properties);",
+							"    pm.expect(json_data).to.haveOwnProperty(\"hearing\")",
+							"    pm.expect(json_data).to.haveOwnProperty(\"shared_time\")",
 							"});"
 						],
 						"type": "text/javascript"
@@ -36,12 +36,21 @@
 					}
 				],
 				"url": {
-					"raw": "{{BaseUrl}}/ping",
+					"raw": "{{BaseUrl}}/v2/hearing/{{HearingId}}",
 					"host": [
 						"{{BaseUrl}}"
 					],
 					"path": [
-						"ping"
+						"v2",
+						"hearing",
+						"{{HearingId}}"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"disabled": true
+						}
 					]
 				}
 			},
