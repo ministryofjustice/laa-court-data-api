@@ -4,7 +4,7 @@ import uvicorn
 from fastapi import FastAPI
 
 from laa_court_data_api_app.config.app import get_app_settings
-from .routers import ping, hearing_summaries, defendants
+from .routers import defendants, hearing, hearing_summaries, ping
 
 
 logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
@@ -21,9 +21,10 @@ app = FastAPI(
     }
 )
 
-app.include_router(ping.router)
-app.include_router(hearing_summaries.router)
 app.include_router(defendants.router)
+app.include_router(hearing.router)
+app.include_router(hearing_summaries.router)
+app.include_router(ping.router)
 
 
 if __name__ == '__main__':

@@ -98,4 +98,8 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results):
             name="exception_urn_uuid_route")
         exception_urn_uuid_route.return_value = Response(500)
 
+        # /hearing
+        pass_route = respx_mock.get("http://test-url/api/internal/v2/hearing/pass", name="pass_route")
+        pass_route.return_value = Response(200, json=get_prosecution_case_results.dict())
+
         yield respx_mock

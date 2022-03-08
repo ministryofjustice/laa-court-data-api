@@ -4,6 +4,9 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
+from laa_court_data_api_app.models.hearing.prompt import Prompt
+
+
 class JudicialResult(BaseModel):
     id: Optional[UUID] = None
     label: Optional[str] = None
