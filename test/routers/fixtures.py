@@ -5,6 +5,8 @@ import respx
 from httpx import Response
 
 from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
+from laa_court_data_api_app.models.hearing.hearing import Hearing
+from laa_court_data_api_app.models.hearing.hearing_result import HearingResult
 from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
 from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
@@ -33,7 +35,12 @@ def get_prosecution_case_results():
 
 
 @pytest.fixture()
-def mock_cda_client(get_new_token_response, get_prosecution_case_results):
+def get_hearing_results():
+    return HearingResult(hearing=Hearing(jurisdiction_type="test"))
+
+
+@pytest.fixture()
+def mock_cda_client(get_new_token_response, get_prosecution_case_results, get_hearing_results):
     with respx.mock(assert_all_called=False) as respx_mock:
         get_route = respx_mock.post("http://test-url/oauth/token", name="token_endpoint")
         get_route.return_value = Response(200, json=get_new_token_response.dict())
@@ -97,5 +104,23 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results):
             "http://test-url/api/internal/v2/prosecution_cases/error/defendants/22d2222c-22ff-22ec-b222-2222ac222222",
             name="exception_urn_uuid_route")
         exception_urn_uuid_route.return_value = Response(500)
+
+        # /hearing
+        pass_hearing_route = respx_mock.get(
+            "http://test-url/api/internal/v2/hearing_results/00d0000c-00ff-00ec-b000-0000ac000000",
+            name="pass_hearing_route")
+        pass_hearing_route.return_value = Response(200, json=get_hearing_results.dict())
+        fail_hearing_route = respx_mock.get(
+            "http://test-url/api/internal/v2/hearing_results/00d0000c-00ff-00ec-b000-0000ac000001",
+            name="fail_hearing_route")
+        fail_hearing_route.return_value = Response(400)
+        notfound_hearing_route = respx_mock.get(
+            "http://test-url/api/internal/v2/hearing_results/00d0000c-00ff-00ec-b000-0000ac000002",
+            name="notfound_hearing_route")
+        notfound_hearing_route.return_value = Response(404)
+        exception_hearing_route = respx_mock.get(
+            "http://test-url/api/internal/v2/hearing_results/00d0000c-00ff-00ec-b000-0000ac000003",
+            name="exception_hearing_route")
+        exception_hearing_route.return_value = Response(500)
 
         yield respx_mock
