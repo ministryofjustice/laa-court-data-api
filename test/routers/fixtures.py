@@ -1,3 +1,11 @@
+from laa_court_data_api_app.models.token_response import TokenResponse
+from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
+from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
+from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
+from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
+from laa_court_data_api_app.models.hearing_events.hearing_events_result import HearingEventsResult
+from laa_court_data_api_app.models.hearing.hearing_result import HearingResult
+from laa_court_data_api_app.models.hearing.hearing import Hearing
 import datetime as dt
 
 import pytest
@@ -5,17 +13,6 @@ import respx
 from httpx import Response
 
 from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
-<<<<<<< HEAD
-from laa_court_data_api_app.models.hearing.hearing import Hearing
-from laa_court_data_api_app.models.hearing.hearing_result import HearingResult
-=======
-from laa_court_data_api_app.models.hearing_events.hearing_events_result import HearingEventsResult
->>>>>>> 2f7aefc (Add tests for hearing events)
-from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
-from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
-from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
-from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
-from laa_court_data_api_app.models.token_response import TokenResponse
 
 
 @pytest.fixture()
@@ -44,16 +41,13 @@ def get_hearing_events_results():
 
 
 @pytest.fixture()
-<<<<<<< HEAD
 def get_hearing_results():
     return HearingResult(hearing=Hearing(jurisdiction_type="test"))
 
 
 @pytest.fixture()
-def mock_cda_client(get_new_token_response, get_prosecution_case_results, get_hearing_results):
-=======
-def mock_cda_client(get_new_token_response, get_prosecution_case_results, get_hearing_events_results):
->>>>>>> 2f7aefc (Add tests for hearing events)
+def mock_cda_client(get_new_token_response, get_prosecution_case_results,
+                    get_hearing_results, get_hearing_events_results):
     with respx.mock(assert_all_called=False) as respx_mock:
         get_route = respx_mock.post("http://test-url/oauth/token", name="token_endpoint")
         get_route.return_value = Response(200, json=get_new_token_response.dict())

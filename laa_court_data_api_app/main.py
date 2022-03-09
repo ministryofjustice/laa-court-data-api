@@ -21,17 +21,11 @@ app = FastAPI(
     }
 )
 
-<<<<<<< HEAD
-=======
-app.include_router(ping.router)
-app.include_router(hearing_summaries.router)
-app.include_router(hearing_events.router)
->>>>>>> fa0e5cf (Add router for hearing events)
 app.include_router(defendants.router)
 app.include_router(hearing.router)
 app.include_router(hearing_summaries.router)
+app.include_router(hearing_events.router)
 app.include_router(ping.router)
-
 
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000)
