@@ -32,11 +32,11 @@ async def get_hearing_summaries(urn: str):
             logging.info(f"Hearing_Summaries_To_Show: {summaries.count}")
             return HearingSummariesResponse(hearing_summaries=summaries)
         case 400:
-            logging.info("Prosecution_Case_Endpoint_Validation_Failed")
+            logging.error("Prosecution_Case_Endpoint_Validation_Failed")
             return Response(status_code=400)
         case 404:
-            logging.info("Prosecution_Case_Endpoint_Not_Found")
+            logging.error("Prosecution_Case_Endpoint_Not_Found")
             return Response(status_code=404)
         case _:
-            logging.info("Prosecution_Case_Endpoint_Error_Returning")
+            logging.error("Prosecution_Case_Endpoint_Error_Returning")
             return Response(status_code=424)

@@ -29,11 +29,11 @@ async def get_hearing_events(hearing_id: UUID, date: str = Query(None, example="
             hearing_events_result = HearingEventsResult(**cda_response.json())
             return HearingEventsResponse(**hearing_events_result.dict())
         case 400:
-            logging.info("Hearing_Events_Endpoint_Validation_Failed")
+            logging.error("Hearing_Events_Endpoint_Validation_Failed")
             return Response(status_code=400)
         case 404:
-            logging.info("Hearing_Events_Endpoint_Not_Found")
+            logging.error("Hearing_Events_Endpoint_Not_Found")
             return Response(status_code=404)
         case _:
-            logging.info("Hearing_Events_Endpoint_Error_Returning")
+            logging.error("Hearing_Events_Endpoint_Error_Returning")
             return Response(status_code=424)
