@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "Get Hearing Event logs on Date",
+			"name": "Get Hearing Event Logs on Date",
 			"event": [
 				{
 					"listen": "test",
