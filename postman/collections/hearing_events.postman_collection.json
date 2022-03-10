@@ -57,19 +57,19 @@
 					}
 				],
 				"url": {
-					"raw": "{{BaseUrl}}/v2/hearing_events/{{hearing_id}}?date={{hearing_date}}",
+					"raw": "{{BaseUrl}}/v2/hearing_events/{{HearingId}}?date={{HearingDate}}",
 					"host": [
 						"{{BaseUrl}}"
 					],
 					"path": [
 						"v2",
 						"hearing_events",
-						"{{hearing_id}}"
+						"{{HearingId}}"
 					],
 					"query": [
 						{
 							"key": "date",
-							"value": "{{hearing_date}}"
+							"value": "{{HearingDate}}"
 						}
 					]
 				}
