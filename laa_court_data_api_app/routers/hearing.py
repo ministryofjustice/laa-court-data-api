@@ -11,12 +11,12 @@ logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-@router.get("/v2/hearing/{hearing_results_id}", response_model=HearingResult, status_code=200)
-async def get_hearing(hearing_results_id: UUID):
+@router.get("/v2/hearing/{hearing_id}", response_model=HearingResult, status_code=200)
+async def get_hearing(hearing_id: UUID):
     logger.info("Calling_Hearing_Get_Endpoint")
-    logging.info(f"Hearing_Get_{hearing_results_id}")
+    logging.info(f"Hearing_Get_{hearing_id}")
     client = CourtDataAdaptorClient()
-    cda_response = await client.get(f"/api/internal/v2/hearing_results/{hearing_results_id}")
+    cda_response = await client.get(f"/api/internal/v2/hearing_results/{hearing_id}")
 
     if cda_response is None:
         logging.error("Hearing_Results_Endpoint_Did_Not_Return")
