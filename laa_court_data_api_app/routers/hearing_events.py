@@ -1,7 +1,7 @@
 import logging
 from uuid import UUID
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from fastapi.responses import Response
 
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
@@ -13,7 +13,7 @@ router = APIRouter()
 
 
 @router.get("/v2/hearing_events/{hearing_id}", response_model=HearingEventsResponse, status_code=200)
-async def get_hearing_events(hearing_id: UUID, date: str):
+async def get_hearing_events(hearing_id: UUID, date: str = Query(None, example="2001-01-20")):
     logger.info("Calling_Hearing_Events_Get_Endpoint")
     logging.info(f"Hearing_Events_Get_{hearing_id}_{date}")
     client = CourtDataAdaptorClient()
