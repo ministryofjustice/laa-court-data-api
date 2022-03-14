@@ -1,3 +1,10 @@
+import datetime as dt
+
+import pytest
+import respx
+from httpx import Response
+
+from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
 from laa_court_data_api_app.models.token_response import TokenResponse
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
@@ -6,13 +13,6 @@ from laa_court_data_api_app.models.prosecution_cases.defendant_summary import De
 from laa_court_data_api_app.models.hearing_events.hearing_events_result import HearingEventsResult
 from laa_court_data_api_app.models.hearing.hearing_result import HearingResult
 from laa_court_data_api_app.models.hearing.hearing import Hearing
-import datetime as dt
-
-import pytest
-import respx
-from httpx import Response
-
-from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
 
 
 @pytest.fixture()
