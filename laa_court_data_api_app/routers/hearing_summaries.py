@@ -38,5 +38,5 @@ async def get_hearing_summaries(urn: str):
             logging.info("Prosecution_Case_Endpoint_Not_Found")
             return Response(status_code=404)
         case _:
-            logging.info("Prosecution_Case_Endpoint_Error_Returning")
+            logging.error("Prosecution_Case_Endpoint_Error_Returning")
             return Response(status_code=424)
