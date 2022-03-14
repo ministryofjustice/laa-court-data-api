@@ -55,10 +55,10 @@ async def get_defendants(urn: Optional[str] = None,
             logging.info(f"Defendants_To_Show: {summaries.count}")
             return DefendantsResponse(defendant_summaries=summaries)
         case 400:
-            logging.error("Prosecution_Case_Endpoint_Validation_Failed")
+            logging.info("Prosecution_Case_Endpoint_Validation_Failed")
             return Response(status_code=400)
         case 404:
-            logging.error("Prosecution_Case_Endpoint_Not_Found")
+            logging.info("Prosecution_Case_Endpoint_Not_Found")
             return Response(status_code=404)
         case _:
             logging.error("Prosecution_Case_Endpoint_Error_Returning")
