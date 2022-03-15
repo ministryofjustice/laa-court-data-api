@@ -76,9 +76,9 @@ commands:
     steps:
       - run:
           name: run pytest
-          command: pipenv run pytest --cov-report term --cov-report xml:coverage/cov.xml --cov=laa_court_data_api_app test
+          command: pipenv run pytest --cov-report term --cov-report junitxml:test-results/cov.xml --cov=laa_court_data_api_app test
       - store_test_results:
-          path: coverage
+          path: test-results
       - store_artifacts:
           path: coverage
 
