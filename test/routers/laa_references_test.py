@@ -21,7 +21,7 @@ def test_laa_references_patch_returns_accepted(mock_settings, mock_cda_settings,
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.patch("/laa_references/12345",
+    response = client.patch("/v2/laa_references/12345",
                             json=LaaReferencesPatchRequest(laa_reference=LaaReferencesPatch()).dict())
 
     assert response.status_code == 202
@@ -38,7 +38,7 @@ def test_laa_references_patch_returns_bad_request(mock_settings, mock_cda_settin
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.patch("/laa_references/12346",
+    response = client.patch("/v2/laa_references/12346",
                             json=LaaReferencesPatchRequest(laa_reference=LaaReferencesPatch()).dict())
 
     assert response.status_code == 400
@@ -56,7 +56,7 @@ def test_laa_references_patch_returns_not_found(mock_settings, mock_cda_settings
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.patch("/laa_references/12347",
+    response = client.patch("/v2/laa_references/12347",
                             json=LaaReferencesPatchRequest(laa_reference=LaaReferencesPatch()).dict())
 
     assert response.status_code == 404
@@ -73,7 +73,7 @@ def test_laa_references_patch_returns_unprocessable_entity(mock_settings, mock_c
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.patch("/laa_references/12348",
+    response = client.patch("/v2/laa_references/12348",
                             json=LaaReferencesPatchRequest(laa_reference=LaaReferencesPatch()).dict())
 
     assert response.status_code == 422
@@ -91,7 +91,7 @@ def test_laa_references_patch_returns_server_error(mock_settings, mock_cda_setti
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.patch("/laa_references/12349",
+    response = client.patch("/v2/laa_references/12349",
                             json=LaaReferencesPatchRequest(laa_reference=LaaReferencesPatch()).dict())
 
     assert response.status_code == 424
@@ -109,7 +109,7 @@ def test_hearing_summaries_returns_none(mock_settings, mock_cda_settings, overri
                                                  cda_uid="12345")
     mock_settings.return_value = override_get_cda_settings
 
-    response = client.patch("/laa_references/12349",
+    response = client.patch("/v2/laa_references/12349",
                             json=LaaReferencesPatchRequest(laa_reference=LaaReferencesPatch()).dict())
 
     assert response.status_code == 424
