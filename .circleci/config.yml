@@ -207,6 +207,10 @@ jobs:
           collection: ./postman/collections/hearing_events.postman_collection.json
           environment: ./postman/environments/dev.postman_environment.json
           additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
+      - newman/newman-run:
+          collection: ./postman/collections/laa_references.postman_collection.json
+          environment: ./postman/environments/dev.postman_environment.json
+          additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
 
 workflows:
   version: 2
