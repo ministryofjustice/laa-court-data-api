@@ -10,7 +10,7 @@ class OffenceSummary(BaseModel):
     code: str | None = None
     order_index: int | None = None
     title: str | None = None
-    legislation: str | None= None
+    legislation: str | None = None
     wording: str | None = None
     arrest_date: str | None = None
     charge_date: str | None = None
