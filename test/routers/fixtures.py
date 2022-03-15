@@ -172,7 +172,8 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
         laa_references_patch_not_found_route.return_value = Response(404)
 
         laa_references_patch_unprocessable_entity_route = respx_mock.patch(
-            "http://test-url/api/internal/v2/laa_references/12348", name="laa_references_patch_unprocessable_entity_route")
+            "http://test-url/api/internal/v2/laa_references/12348",
+            name="laa_references_patch_unprocessable_entity_route")
         laa_references_patch_unprocessable_entity_route.return_value = Response(422,
                                                                                 json=get_laa_references_error.dict())
 
