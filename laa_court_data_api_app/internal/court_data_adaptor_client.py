@@ -22,15 +22,21 @@ class CourtDataAdaptorClient:
     async def post(self, endpoint: str, params: Optional[dict[str, str]] = None,
                    headers: Optional[dict[str, any]] = None,
                    body: Optional[any] = None):
+        if headers is None:
+            headers = {}
+        headers.update({"Content-Type": "application/json"})
         response = await self.__send_request(method='POST', endpoint=endpoint, params=params, headers=headers,
-                                             body=body)
+                                             body=body.json())
         return response
 
     async def patch(self, endpoint: str, params: Optional[dict[str, str]] = None,
                     headers: Optional[dict[str, any]] = None,
                     body: Optional[any] = None):
+        if headers is None:
+            headers = {}
+        headers.update({"Content-Type": "application/json"})
         response = await self.__send_request(method='PATCH', endpoint=endpoint, params=params, headers=headers,
-                                             body=body)
+                                             body=body.json())
         return response
 
     async def __send_request(self, method: str, endpoint: str,
@@ -45,7 +51,8 @@ class CourtDataAdaptorClient:
                                      headers=oauth_client.generate_auth_header(token)) \
                 as client:
             try:
-                request = client.build_request(method=method, url=endpoint, params=params, headers=headers, data=body)
+                request = client.build_request(method=method, url=endpoint, params=params, headers=headers,
+                                               content=body)
                 logger.info("Request_Made")
                 response = await client.send(request)
                 logger.info("Response_Returned", extra={'url': request.url, 'status': response.status_code})
