@@ -25,8 +25,10 @@ class CourtDataAdaptorClient:
         if headers is None:
             headers = {}
         headers.update({"Content-Type": "application/json"})
+        if body is not None:
+            body = body.json()
         response = await self.__send_request(method='POST', endpoint=endpoint, params=params, headers=headers,
-                                             body=body.json())
+                                             body=body)
         return response
 
     async def patch(self, endpoint: str, params: Optional[dict[str, str]] = None,
@@ -35,8 +37,10 @@ class CourtDataAdaptorClient:
         if headers is None:
             headers = {}
         headers.update({"Content-Type": "application/json"})
+        if body is not None:
+            body = body.json()
         response = await self.__send_request(method='PATCH', endpoint=endpoint, params=params, headers=headers,
-                                             body=body.json())
+                                             body=body)
         return response
 
     async def __send_request(self, method: str, endpoint: str,
