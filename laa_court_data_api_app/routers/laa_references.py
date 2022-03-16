@@ -48,5 +48,5 @@ async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
             logging.info(f"Unable_To_Process_Unlink_For_{defendant_id}")
             return JSONResponse(status_code=422, content=LaaReferencesErrorResponse(**cda_response.json()).dict())
         case _:
-            logging.info(f"Laa_References_Endpoint_Error_Returning")
+            logging.error(f"Laa_References_Endpoint_Error_Returning")
             return Response(status_code=424)

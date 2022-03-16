@@ -6,4 +6,4 @@ from laa_court_data_api_app.models.laa_references.external.request.LaaReferences
 
 
 class LaaReferencesPatchRequest(BaseModel):
-    laa_reference: Optional[LaaReferencesPatch] = None
+    laa_reference: LaaReferencesPatch | None
