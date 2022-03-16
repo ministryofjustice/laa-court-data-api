@@ -36,7 +36,7 @@ async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
 
     match cda_response.status_code:
         case 202:
-            logging.info(f"Maat_Id_For_{defendant_id}_Successfully_Unlinked")
+            logging.info(f"Maat_Id_For_{defendant_id}_Successfully_Requested")
             return Response(status_code=202)
         case 400:
             logging.info(f"Validation_Failed_For_{defendant_id}")
