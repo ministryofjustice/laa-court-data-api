@@ -25,7 +25,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer {{Username}}",
+						"value": "Basic {{Username}}",
 						"type": "text"
 					}
 				],
