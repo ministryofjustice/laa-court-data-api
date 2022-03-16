@@ -4,11 +4,11 @@ from fastapi import APIRouter
 from fastapi.responses import Response, JSONResponse
 
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
-from laa_court_data_api_app.models.laa_references.external.request.LaaReferencesPatchRequest import \
+from laa_court_data_api_app.models.laa_references.external.request.laa_references_patch_request import \
     LaaReferencesPatchRequest as ExternalPatchRequest
-from laa_court_data_api_app.models.laa_references.external.response.LaaReferencesErrorResponse import \
+from laa_court_data_api_app.models.laa_references.external.response.laa_references_error_response import \
     LaaReferencesErrorResponse
-from laa_court_data_api_app.models.laa_references.internal.request.LaaReferencesPatchRequest import \
+from laa_court_data_api_app.models.laa_references.internal.request.laa_references_patch_request import \
     LaaReferencesPatchRequest as InternalPatchRequest
 
 logger = logging.getLogger(__name__)

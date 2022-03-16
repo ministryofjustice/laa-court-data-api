@@ -9,7 +9,7 @@ from laa_court_data_api_app.models.hearing.hearing import Hearing
 from laa_court_data_api_app.models.hearing.hearing_result import HearingResult
 from laa_court_data_api_app.models.hearing_events.hearing_events_result import HearingEventsResult
 from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
-from laa_court_data_api_app.models.laa_references.external.response.LaaReferencesErrorResponse import \
+from laa_court_data_api_app.models.laa_references.external.response.laa_references_error_response import \
     LaaReferencesErrorResponse
 from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
