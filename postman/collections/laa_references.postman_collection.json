@@ -27,6 +27,11 @@
 						"key": "Authorization",
 						"value": "Basic {{Username}}",
 						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
 					}
 				],
 				"body": {
