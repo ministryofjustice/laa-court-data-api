@@ -76,7 +76,7 @@ commands:
     steps:
       - run:
           name: run pytest
-          command: pipenv run pytest --cov-report term --cov-report xml:coverage/cov.xml --cov=laa_court_data_api_app test
+          command: pipenv run pytest --cov-report term --junitxml=test-results/junit.xml --cov=laa_court_data_api_app test
       - store_test_results:
           path: test-results
       - store_artifacts:
@@ -205,6 +205,10 @@ jobs:
           additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
       - newman/newman-run:
           collection: ./postman/collections/hearing_events.postman_collection.json
+          environment: ./postman/environments/dev.postman_environment.json
+          additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
+      - newman/newman-run:
+          collection: ./postman/collections/laa_references.postman_collection.json
           environment: ./postman/environments/dev.postman_environment.json
           additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
 

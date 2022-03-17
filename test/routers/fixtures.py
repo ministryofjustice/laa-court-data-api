@@ -5,14 +5,16 @@ import respx
 from httpx import Response
 
 from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
-from laa_court_data_api_app.models.token_response import TokenResponse
-from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
-from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
-from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
-from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
-from laa_court_data_api_app.models.hearing_events.hearing_events_result import HearingEventsResult
-from laa_court_data_api_app.models.hearing.hearing_result import HearingResult
 from laa_court_data_api_app.models.hearing.hearing import Hearing
+from laa_court_data_api_app.models.hearing.hearing_result import HearingResult
+from laa_court_data_api_app.models.hearing_events.hearing_events_result import HearingEventsResult
+from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
+from laa_court_data_api_app.models.laa_references.external.response.laa_references_error_response import \
+    LaaReferencesErrorResponse
+from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
+from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
+from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
+from laa_court_data_api_app.models.token_response import TokenResponse
 
 
 @pytest.fixture()
@@ -46,8 +48,13 @@ def get_hearing_results():
 
 
 @pytest.fixture()
+def get_laa_references_error():
+    return LaaReferencesErrorResponse(error="test")
+
+
+@pytest.fixture()
 def mock_cda_client(get_new_token_response, get_prosecution_case_results,
-                    get_hearing_results, get_hearing_events_results):
+                    get_hearing_results, get_hearing_events_results, get_laa_references_error):
     with respx.mock(assert_all_called=False) as respx_mock:
         get_route = respx_mock.post("http://test-url/oauth/token", name="token_endpoint")
         get_route.return_value = Response(200, json=get_new_token_response.dict())
@@ -151,5 +158,27 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
             "http://test-url/api/internal/v2/hearings/22d2222c-22ff-22ec-b222-2222ac222222/event_log/exception",
             name="exception_hearing_events_uuid_route")
         exception_urn_uuid_route.return_value = Response(500)
+
+        laa_references_patch_accepted_route = respx_mock.patch(
+            "http://test-url/api/internal/v2/laa_references/12345", name="laa_references_patch_accepted_route")
+        laa_references_patch_accepted_route.return_value = Response(202)
+
+        laa_references_patch_bad_request_route = respx_mock.patch(
+            "http://test-url/api/internal/v2/laa_references/12346", name="laa_references_patch_bad_request_route")
+        laa_references_patch_bad_request_route.return_value = Response(400, json=get_laa_references_error.dict())
+
+        laa_references_patch_not_found_route = respx_mock.patch(
+            "http://test-url/api/internal/v2/laa_references/12347", name="laa_references_patch_not_found_route")
+        laa_references_patch_not_found_route.return_value = Response(404)
+
+        laa_references_patch_unprocessable_entity_route = respx_mock.patch(
+            "http://test-url/api/internal/v2/laa_references/12348",
+            name="laa_references_patch_unprocessable_entity_route")
+        laa_references_patch_unprocessable_entity_route.return_value = Response(422,
+                                                                                json=get_laa_references_error.dict())
+
+        laa_references_patch_server_error_route = respx_mock.patch(
+            "http://test-url/api/internal/v2/laa_references/12349", name="laa_references_patch_server_error_route")
+        laa_references_patch_server_error_route.return_value = Response(424)
 
         yield respx_mock

@@ -22,6 +22,14 @@ class CourtDataAdaptorClient:
     async def post(self, endpoint: str, params: Optional[dict[str, str]] = None,
                    headers: Optional[dict[str, any]] = None,
                    body: Optional[any] = None):
+        if headers is None:
+            headers = {}
+
+        headers.update({"Content-Type": "application/json"})
+
+        if body is not None:
+            body = body.json()
+
         response = await self.__send_request(method='POST', endpoint=endpoint, params=params, headers=headers,
                                              body=body)
         return response
@@ -29,6 +37,14 @@ class CourtDataAdaptorClient:
     async def patch(self, endpoint: str, params: Optional[dict[str, str]] = None,
                     headers: Optional[dict[str, any]] = None,
                     body: Optional[any] = None):
+        if headers is None:
+            headers = {}
+
+        headers.update({"Content-Type": "application/json"})
+
+        if body is not None:
+            body = body.json()
+
         response = await self.__send_request(method='PATCH', endpoint=endpoint, params=params, headers=headers,
                                              body=body)
         return response
@@ -42,10 +58,10 @@ class CourtDataAdaptorClient:
             return token
 
         async with httpx.AsyncClient(base_url=self.settings.cda_endpoint,
-                                     headers=oauth_client.generate_auth_header(token)) \
-                as client:
+                                     headers=oauth_client.generate_auth_header(token)) as client:
             try:
-                request = client.build_request(method=method, url=endpoint, params=params, headers=headers, data=body)
+                request = client.build_request(method=method, url=endpoint, params=params, headers=headers,
+                                               content=body)
                 logger.info("Request_Made")
                 response = await client.send(request)
                 logger.info("Response_Returned", extra={'url': request.url, 'status': response.status_code})
