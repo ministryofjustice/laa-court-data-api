@@ -4,9 +4,6 @@ from fastapi.testclient import TestClient
 
 from laa_court_data_api_app.internal.oauth_client import OauthClient
 from laa_court_data_api_app.main import app
-from laa_court_data_api_app.models.laa_references.external.request.laa_references_post import LaaReferencesPost
-from laa_court_data_api_app.models.laa_references.external.request.laa_references_post_request import \
-    LaaReferencesPostRequest
 from laa_court_data_api_app.models.laa_references.external.response.laa_references_error_response import \
     LaaReferencesErrorResponse
 from ..fixtures import *

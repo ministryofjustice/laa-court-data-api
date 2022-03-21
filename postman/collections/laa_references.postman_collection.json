@@ -7,6 +7,19 @@
 	"item": [
 		{
 			"name": "LAA Reference Link",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 422\", function () {",
+							"    pm.response.to.have.status(422);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -45,7 +58,7 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "LAA Reference UnLink",
 			"event": [
 				{
 					"listen": "test",
