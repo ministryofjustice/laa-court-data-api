@@ -23,7 +23,7 @@ httpx = "==0.22.*"
 
 [dev-packages]
 pycodestyle = "==2.8.0"
-pytest = "==7.1.0"
+pytest = "==7.1.1"
 python-dotenv = "==0.19.2"
 requests = "==2.27.1"
 pytest-cov = "==3.0.0"
