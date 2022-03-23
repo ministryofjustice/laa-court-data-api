@@ -6,8 +6,7 @@ RUN apk --update-cache upgrade \
 && apk --no-cache add --upgrade gcc \
     musl-dev \
     build-base \
-    expat \
-    'libretls>=3.3.4-r3'
+    expat
 
 COPY ./Pipfile /code/Pipfile
 COPY ./Pipfile.lock /code/Pipfile.lock
