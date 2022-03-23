@@ -2,7 +2,8 @@ FROM python:3.10-alpine
 
 WORKDIR /code
 
-RUN apk --no-cache add --upgrade gcc \
+RUN apk --update-cache upgrade \
+&& apk --no-cache add --upgrade gcc \
     musl-dev \
     build-base \
     expat
