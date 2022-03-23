@@ -2,10 +2,12 @@ FROM python:3.10-alpine
 
 WORKDIR /code
 
-RUN apk --no-cache add --upgrade gcc \
+RUN apk --update-cache upgrade \
+&& apk --no-cache add --upgrade gcc \
     musl-dev \
     build-base \
-    expat
+    expat \
+    'libretls>=3.3.4-r3'
 
 COPY ./Pipfile /code/Pipfile
 COPY ./Pipfile.lock /code/Pipfile.lock
