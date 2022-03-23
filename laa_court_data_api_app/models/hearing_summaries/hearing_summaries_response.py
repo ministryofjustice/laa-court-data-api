@@ -6,4 +6,4 @@ from laa_court_data_api_app.models.hearing_summaries.hearing_summary import Hear
 
 
 class HearingSummariesResponse(BaseModel):
-    hearing_summaries: Optional[list[HearingSummary]] = None
+    hearing_summaries: list[HearingSummary] | None

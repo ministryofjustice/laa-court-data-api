@@ -8,3 +8,4 @@ class LaaReferencesPatch(BaseModel):
     defendant_id: UUID | None
     maat_reference: int | None
     unlink_reason_code: int | None
+    unlink_other_reason_text: str | None

@@ -1,14 +1,19 @@
 from uuid import UUID
 
 from pydantic import BaseModel
-from typing import Optional
+
+from laa_court_data_api_app.models.prosecution_cases.address import Address
 
 
 class CourtCentre(BaseModel):
-    id: Optional[UUID] = None
-    name: Optional[str] = None
-    room_id: Optional[str] = None
-    room_name: Optional[str] = None
-    short_oucode: Optional[str] = None
-    oucode_l2_code: Optional[str] = None
-    code: Optional[str] = None
+    id: UUID | None
+    name: str | None
+    welsh_name: str | None
+    room_id: str | None
+    room_name: str | None
+    welsh_room_name: str | None
+    welsh_court_name: str | None
+    short_oucode: str | None
+    oucode_l2_code: str | None
+    code: str | None
+    address: Address | None
