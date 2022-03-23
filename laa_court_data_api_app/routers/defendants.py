@@ -1,5 +1,4 @@
 import logging
-from typing import Optional
 from uuid import UUID
 
 from fastapi import APIRouter
@@ -15,10 +14,12 @@ router = APIRouter()
 
 
 @router.get('/v2/defendants', response_model=DefendantsResponse, status_code=200)
-async def get_defendants(urn: Optional[str] = None,
-                         name: Optional[str] = None,
-                         dob: Optional[str] = None,
-                         uuid: Optional[UUID] = None):
+async def get_defendants(urn: str | None = None,
+                         name: str | None = None,
+                         dob: str | None = None,
+                         uuid: UUID | None = None,
+                         asn: str | None = None,
+                         nino: str | None = None):
     client = CourtDataAdaptorClient()
     logger.info("Calling_Defendants_Get_Endpoint")
 
@@ -33,6 +34,14 @@ async def get_defendants(urn: Optional[str] = None,
         logging.info(f"Defendants_Get_Urn_{urn}")
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[prosecution_case_reference]": urn})
+    elif asn:
+        logging.info(f"Defendants_Get_Urn_{asn}")
+        cda_response = await client.get("/api/internal/v2/prosecution_cases",
+                                        params={"filter[arrest_summons_number]": asn})
+    elif nino:
+        logging.info(f"Defendants_Get_Urn_{nino}")
+        cda_response = await client.get("/api/internal/v2/prosecution_cases",
+                                        params={"filter[national_insurance_number]": nino})
     else:
         logger.error("Invalid_Defendant_Search")
         return Response(status_code=400)
