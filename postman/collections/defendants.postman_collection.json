@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "cda7fa59-9b38-4238-bfad-05bab5ce12f9",
+		"_postman_id": "53327275-5679-45a8-bbfb-cf5ee7a39ced",
 		"name": "Defendants",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -220,6 +220,116 @@
 						{
 							"key": "$uuid",
 							"value": "{{Uuid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Defendants by National Insurance Number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Defendants Included\", function () {",
+							"    var json_data = pm.response.json();",
+							"    pm.expect(json_data).to.haveOwnProperty('defendant_summaries');",
+							"});",
+							"",
+							"pm.test(\"Defendants is Array\", function () {",
+							"    var json_data = pm.response.json();",
+							"    var defendants = json_data.defendant_summaries;",
+							"    pm.expect(defendants).to.be.a('array');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{Username}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseUrl}}/v2/defendants?urn={{Nino}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"v2",
+						"defendants"
+					],
+					"query": [
+						{
+							"key": "urn",
+							"value": "{{Nino}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Defendants by Arrest Summons Number",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Defendants Included\", function () {",
+							"    var json_data = pm.response.json();",
+							"    pm.expect(json_data).to.haveOwnProperty('defendant_summaries');",
+							"});",
+							"",
+							"pm.test(\"Defendants is Array\", function () {",
+							"    var json_data = pm.response.json();",
+							"    var defendants = json_data.defendant_summaries;",
+							"    pm.expect(defendants).to.be.a('array');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{Username}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{BaseUrl}}/v2/defendants?urn={{ASN}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"v2",
+						"defendants"
+					],
+					"query": [
+						{
+							"key": "urn",
+							"value": "{{ASN}}"
 						}
 					]
 				}
