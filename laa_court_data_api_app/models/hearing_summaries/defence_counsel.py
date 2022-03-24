@@ -6,10 +6,10 @@ from pydantic import BaseModel
 
 
 class DefenceCounsel(BaseModel):
-    title: Optional[str] = None
-    first_name: Optional[str] = None
-    middle_name: Optional[str] = None
-    last_name: Optional[str] = None
-    status: Optional[str] = None
-    attendance_days: list[datetime]
-    defendants: list[UUID]
+    title: str | None
+    first_name: str | None
+    middle_name: str | None
+    last_name: str | None
+    status: str | None
+    attendance_days: list[datetime] | None
+    defendants: list[UUID] | None

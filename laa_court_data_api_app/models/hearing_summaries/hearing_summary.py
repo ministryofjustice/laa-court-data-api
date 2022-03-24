@@ -1,4 +1,3 @@
-from typing import Optional
 from uuid import UUID
 
 from pydantic import BaseModel
@@ -9,9 +8,9 @@ from laa_court_data_api_app.models.hearing_summaries.hearing_day import HearingD
 
 
 class HearingSummary(BaseModel):
-    id: Optional[UUID] = None
-    hearing_type: Optional[str] = None
-    estimated_duration: Optional[str] = None
-    court_centre: Optional[CourtCentre] = None
-    hearing_days: Optional[list[HearingDay]] = None
-    defence_counsels: Optional[list[DefenceCounsel]] = None
+    id: UUID | None
+    hearing_type: str | None
+    estimated_duration: str | None
+    court_centre: CourtCentre | None
+    hearing_days: list[HearingDay] | None
+    defence_counsels: list[DefenceCounsel] | None
