@@ -263,7 +263,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{BaseUrl}}/v2/defendants?urn={{Nino}}",
+					"raw": "{{BaseUrl}}/v2/defendants?nino={{Nino}}",
 					"host": [
 						"{{BaseUrl}}"
 					],
@@ -273,7 +273,7 @@
 					],
 					"query": [
 						{
-							"key": "urn",
+							"key": "nino",
 							"value": "{{Nino}}"
 						}
 					]
@@ -318,7 +318,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{BaseUrl}}/v2/defendants?urn={{ASN}}",
+					"raw": "{{BaseUrl}}/v2/defendants?asn={{ASN}}",
 					"host": [
 						"{{BaseUrl}}"
 					],
@@ -328,7 +328,7 @@
 					],
 					"query": [
 						{
-							"key": "urn",
+							"key": "asn",
 							"value": "{{ASN}}"
 						}
 					]
