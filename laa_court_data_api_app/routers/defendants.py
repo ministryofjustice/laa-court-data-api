@@ -35,11 +35,11 @@ async def get_defendants(urn: str | None = None,
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[prosecution_case_reference]": urn})
     elif asn:
-        logging.info(f"Defendants_Get_asn_{asn}")
+        logging.info(f"Defendants_Get_Asn_{asn}")
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[arrest_summons_number]": asn})
     elif nino:
-        logging.info(f"Defendants_Get_nino_{nino}")
+        logging.info(f"Defendants_Get_Nino_{nino}")
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[national_insurance_number]": nino})
     else:
