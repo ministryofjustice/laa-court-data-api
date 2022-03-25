@@ -118,6 +118,56 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
             name="exception_urn_uuid_route")
         exception_urn_uuid_route.return_value = Response(500)
 
+        pass_asn_route = respx_mock.get(
+            "http://test-url/api/internal/v2/prosecution_cases",
+            params={"filter[arrest_summons_number]": "pass"},
+            name="pass_asn_route")
+        pass_asn_route.return_value = Response(200, json=get_prosecution_case_results.dict())
+
+        fail_asn_route = respx_mock.get(
+            "http://test-url/api/internal/v2/prosecution_cases",
+            params={"filter[arrest_summons_number]": "fail"},
+            name="fail_asn_route")
+        fail_asn_route.return_value = Response(400)
+
+        notfound_asn_route = respx_mock.get(
+            "http://test-url/api/internal/v2/prosecution_cases",
+            params={"filter[arrest_summons_number]": "notfound"},
+            name="notfound_asn_route"
+        )
+        notfound_asn_route.return_value = Response(404)
+
+        exception_asn_route = respx_mock.get(
+            "http://test-url/api/internal/v2/prosecution_cases",
+            params={"filter[arrest_summons_number]": "exception"},
+            name="exception_asn_route")
+        exception_asn_route.return_value = Response(500)
+
+        pass_nino_route = respx_mock.get(
+            "http://test-url/api/internal/v2/prosecution_cases",
+            params={"filter[national_insurance_number]": "pass"},
+            name="pass_nino_route")
+        pass_nino_route.return_value = Response(200, json=get_prosecution_case_results.dict())
+
+        fail_nino_route = respx_mock.get(
+            "http://test-url/api/internal/v2/prosecution_cases",
+            params={"filter[national_insurance_number]": "fail"},
+            name="fail_nino_route")
+        fail_nino_route.return_value = Response(400)
+
+        notfound_nino_route = respx_mock.get(
+            "http://test-url/api/internal/v2/prosecution_cases",
+            params={"filter[national_insurance_number]": "notfound"},
+            name="notfound_nino_route"
+        )
+        notfound_nino_route.return_value = Response(404)
+
+        exception_nino_route = respx_mock.get(
+            "http://test-url/api/internal/v2/prosecution_cases",
+            params={"filter[national_insurance_number]": "exception"},
+            name="exception_nino_route")
+        exception_nino_route.return_value = Response(500)
+
         # /hearing
         pass_hearing_route = respx_mock.get(
             "http://test-url/api/internal/v2/hearing_results/00d0000c-00ff-00ec-b000-0000ac000000",
