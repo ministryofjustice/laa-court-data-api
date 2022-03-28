@@ -65,7 +65,7 @@ def formulated_response(cda_response, defendant_id, request_type):
             logging.info(f"Validation_Failed_For_{defendant_id}")
             return JSONResponse(status_code=400,
                                 content=LaaReferencesErrorResponse(
-                                    error=parse_error_response(cda_response.json())).dict())
+                                    error=cda_response.json()).dict())
         case 404:
             logging.info(f"Laa_References_Endpoint_Not_Found")
             return Response(status_code=404)
@@ -73,14 +73,13 @@ def formulated_response(cda_response, defendant_id, request_type):
             logging.info(f"Unable_To_Process_{request_type}_For_{defendant_id}")
             return JSONResponse(status_code=422,
                                 content=LaaReferencesErrorResponse(
-                                    error=parse_error_response(cda_response.json())).dict())
+                                    error=parse_error_response(cda_response.json()["error"])).dict())
         case _:
             logging.error(f"Laa_References_Endpoint_Error_Returning")
             return Response(status_code=424)
 
 
 def parse_error_response(response):
-    errors = response["error"]
-    error_string = re.findall(r"{.*?}", errors)
+    error_string = re.findall(r"{.*?}", response)
     error_dict = re.findall(r":(.*?)=>\[\"(.*?)\"\]", error_string[0])
     return dict((x, [y]) for x, y in error_dict)

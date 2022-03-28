@@ -214,9 +214,7 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
         fail_patch_maat = respx_mock.patch(
             "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222223",
             name="laa_references_patch_fail_route")
-        fail_patch_maat.return_value = \
-            Response(400, json={"error": "Contract failed with: {:maat_reference=>[\"3141592 has no common platform "
-                                         "data created against Maat application.\"]}"})
+        fail_patch_maat.return_value = Response(400, json={"unlink_other_reason_text": ["must be absent"]})
 
         not_found_patch_maat = respx_mock.patch(
             "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222224",
@@ -248,7 +246,7 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
             "http://test-url/api/internal/v2/laa_references/",
             name="laa_references_post_fail_route",
             json__laa_reference__user_name="fail-u")
-        fail_post_maat.return_value = Response(400, json={"error": "Contract failed with: {:maat_reference=>[\"3141592 has no common platform data created against Maat application.\"]}"})
+        fail_post_maat.return_value = Response(400, json={"unlink_other_reason_text": ["must be absent"]})
 
         not_found_post_maat = respx_mock.post(
             "http://test-url/api/internal/v2/laa_references/",
@@ -260,7 +258,10 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
             "http://test-url/api/internal/v2/laa_references/",
             name="laa_references_post_unprocessable_entity_route",
             json__laa_reference__user_name="unprocessable-u")
-        unprocessable_entity_post_maat.return_value = Response(422, json={"error": "Contract failed with: {:maat_reference=>[\"3141592 has no common platform data created against Maat application.\"]}"})
+        unprocessable_entity_post_maat.return_value = Response(422, json={"error": "Contract failed with: {"
+                                                                                   ":maat_reference=>[\"3141592 has "
+                                                                                   "no common platform data created "
+                                                                                   "against Maat application.\"]}"})
 
         server_error_post_maat = respx_mock.post(
             "http://test-url/api/internal/v2/laa_references/",
