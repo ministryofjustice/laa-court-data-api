@@ -1,7 +1,18 @@
-from pydantic import BaseModel
+from uuid import UUID
 
-from laa_court_data_api_app.models.laa_references.external.request.laa_references_post import LaaReferencesPost
+from pydantic import BaseModel
 
 
 class LaaReferencesPostRequest(BaseModel):
-    laa_reference: LaaReferencesPost | None
+    user_name: str | None
+    defendant_id: UUID | None
+    maat_reference: int | None
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "user_name": "jon-5",
+                "defendant_id": "d7f509e8-309c-4262-a41d-ebbb44deab9e",
+                "maat_reference": 1234567,
+            }
+        }

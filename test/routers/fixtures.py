@@ -12,11 +12,6 @@ from laa_court_data_api_app.models.hearing_summaries.hearing_summary import Hear
 from laa_court_data_api_app.models.laa_references.external.request.laa_references_patch import LaaReferencesPatch
 from laa_court_data_api_app.models.laa_references.external.request.laa_references_patch_request import \
     LaaReferencesPatchRequest
-from laa_court_data_api_app.models.laa_references.external.request.laa_references_post import LaaReferencesPost
-from laa_court_data_api_app.models.laa_references.external.request.laa_references_post_request import \
-    LaaReferencesPostRequest
-from laa_court_data_api_app.models.laa_references.external.response.laa_references_error_response import \
-    LaaReferencesErrorResponse
 from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
