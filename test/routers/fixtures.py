@@ -15,6 +15,8 @@ from laa_court_data_api_app.models.laa_references.external.request.laa_reference
 from laa_court_data_api_app.models.laa_references.external.request.laa_references_post import LaaReferencesPost
 from laa_court_data_api_app.models.laa_references.external.request.laa_references_post_request import \
     LaaReferencesPostRequest
+from laa_court_data_api_app.models.laa_references.external.response.laa_references_error_response import \
+    LaaReferencesErrorResponse
 from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
@@ -216,9 +218,34 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
 
         # post /laa_references
 
-        respx_mock.post(
-            "http://test-url/api/internal/v2/laa_references/", name="laa_references_post_route",
-            json=LaaReferencesPostRequest(laa_reference=LaaReferencesPost()).dict()
-        )
+        pass_post_maat = respx_mock.post(
+            "http://test-url/api/internal/v2/laa_references/",
+            name="laa_references_post_pass_route",
+            data=b'{"laa_reference": {"user_name": "pass-u", "defendant_id": null, "maat_reference": 1234567}}')
+        pass_post_maat.return_value = Response(202)
+
+        fail_post_maat = respx_mock.post(
+            "http://test-url/api/internal/v2/laa_references/",
+            name="laa_references_post_fail_route",
+            json__laa_reference__user_name="fail-u")
+        fail_post_maat.return_value = Response(400, json={"error": "Contract failed with: {:maat_reference=>[\"3141592 has no common platform data created against Maat application.\"]}"})
+
+        not_found_post_maat = respx_mock.post(
+            "http://test-url/api/internal/v2/laa_references/",
+            name="laa_references_post_not_found_route",
+            json__laa_reference__user_name="notfound-u")
+        not_found_post_maat.return_value = Response(404)
+
+        unprocessable_entity_post_maat = respx_mock.post(
+            "http://test-url/api/internal/v2/laa_references/",
+            name="laa_references_post_unprocessable_entity_route",
+            json__laa_reference__user_name="unprocessable-u")
+        unprocessable_entity_post_maat.return_value = Response(422, json={"error": "Contract failed with: {:maat_reference=>[\"3141592 has no common platform data created against Maat application.\"]}"})
+
+        server_error_post_maat = respx_mock.post(
+            "http://test-url/api/internal/v2/laa_references/",
+            name="laa_references_post_server_error_route",
+            json__laa_reference__user_name="servererror-u")
+        server_error_post_maat.return_value = Response(424)
 
         yield respx_mock

@@ -1,11 +1,11 @@
+import uuid
 from unittest.mock import patch, PropertyMock
 
 from fastapi.testclient import TestClient
 
 from laa_court_data_api_app.internal.oauth_client import OauthClient
 from laa_court_data_api_app.main import app
-from laa_court_data_api_app.models.laa_references.external.response.laa_references_error_response import \
-    LaaReferencesErrorResponse
+
 from ..fixtures import *
 
 client = TestClient(app)
@@ -20,14 +20,12 @@ def test_laa_references_post_returns_accepted(mock_settings, mock_cda_settings, 
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    mock_cda_client["laa_references_post_route"].return_value = Response(202)
-
-    response = client.post("/v2/laa_references/",
-                           json=LaaReferencesPostRequest(laa_reference=LaaReferencesPost()).dict())
+    response = client.post("/v2/laa_references",
+                           data=LaaReferencesPost(user_name="pass-u", maat_reference=1234567).json())
 
     assert response.status_code == 202
     assert response.content == b''
-    assert mock_cda_client["laa_references_post_route"].called
+    assert mock_cda_client["laa_references_post_pass_route"].called
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
@@ -39,15 +37,12 @@ def test_laa_references_post_returns_bad_request(mock_settings, mock_cda_setting
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    mock_cda_client["laa_references_post_route"].return_value = Response(
-        400, json=LaaReferencesErrorResponse(error="test").dict())
-
-    response = client.post("/v2/laa_references/",
-                           json=LaaReferencesPostRequest(laa_reference=LaaReferencesPost()).dict())
+    response = client.post("/v2/laa_references",
+                           data=LaaReferencesPost(user_name="fail-u", maat_reference=1234567).json())
 
     assert response.status_code == 400
-    assert mock_cda_client["laa_references_post_route"].called
-    assert response.content == b'{"error":"test"}'
+    assert mock_cda_client["laa_references_post_fail_route"].called
+    assert response.content == b'{"errors":{"maat_reference":["3141592 has no common platform data created against Maat application."]}}'
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
@@ -59,14 +54,12 @@ def test_laa_references_post_returns_not_found(mock_settings, mock_cda_settings,
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    mock_cda_client["laa_references_post_route"].return_value = Response(404)
-
-    response = client.post("/v2/laa_references/",
-                           json=LaaReferencesPostRequest(laa_reference=LaaReferencesPost()).dict())
+    response = client.post("/v2/laa_references",
+                           data=LaaReferencesPost(user_name="notfound-u", maat_reference=1234567).json())
 
     assert response.status_code == 404
     assert response.content == b''
-    assert mock_cda_client["laa_references_post_route"].called
+    assert mock_cda_client["laa_references_post_not_found_route"].called
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
@@ -78,15 +71,12 @@ def test_laa_references_post_returns_unprocessable_entity(mock_settings, mock_cd
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    mock_cda_client["laa_references_post_route"].return_value = Response(
-        422, json=LaaReferencesErrorResponse(error="test").dict())
-
-    response = client.post("/v2/laa_references/",
-                           json=LaaReferencesPostRequest(laa_reference=LaaReferencesPost()).dict())
+    response = client.post("/v2/laa_references",
+                           data=LaaReferencesPost(user_name="unprocessable-u", maat_reference=1234567).json())
 
     assert response.status_code == 422
-    assert mock_cda_client["laa_references_post_route"].called
-    assert response.content == b'{"error":"test"}'
+    assert mock_cda_client["laa_references_post_unprocessable_entity_route"].called
+    assert response.content == b'{"errors":{"maat_reference":["3141592 has no common platform data created against Maat application."]}}'
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
@@ -98,14 +88,12 @@ def test_laa_references_post_returns_server_error(mock_settings, mock_cda_settin
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    mock_cda_client["laa_references_post_route"].return_value = Response(424)
-
-    response = client.post("/v2/laa_references/",
-                           json=LaaReferencesPostRequest(laa_reference=LaaReferencesPost()).dict())
+    response = client.post("/v2/laa_references",
+                           data=LaaReferencesPost(user_name="servererror-u", maat_reference=1234567).json())
 
     assert response.status_code == 424
     assert response.content == b''
-    assert mock_cda_client["laa_references_post_route"].called
+    assert mock_cda_client["laa_references_post_server_error_route"].called
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
@@ -118,8 +106,8 @@ def test_laa_references_post_returns_none(mock_settings, mock_cda_settings, over
                                                  cda_uid="12345")
     mock_settings.return_value = override_get_cda_settings
 
-    response = client.post("/v2/laa_references/",
-                           json=LaaReferencesPostRequest(laa_reference=LaaReferencesPost()).dict())
+    response = client.post("/v2/laa_references",
+                           data=LaaReferencesPost(user_name="test-u", maat_reference=1234567).json())
 
     assert response.status_code == 424
     assert response.content == b''

@@ -1,4 +1,5 @@
 import logging
+import re
 
 from fastapi import APIRouter
 from fastapi.responses import Response, JSONResponse
@@ -7,17 +8,18 @@ from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataA
 from laa_court_data_api_app.models.laa_references.external.request.laa_references_patch_request import \
     LaaReferencesPatchRequest as ExternalPatchRequest
 from laa_court_data_api_app.models.laa_references.external.request.laa_references_post_request import \
-    LaaReferencesPostRequest as ExternalPostRequest
+    LaaReferencesPost as ExternalPostRequest
 from laa_court_data_api_app.models.laa_references.external.response.laa_references_error_response import \
     LaaReferencesErrorResponse
 from laa_court_data_api_app.models.laa_references.internal.request.laa_references_patch_request import \
     LaaReferencesPatchRequest as InternalPatchRequest
 from laa_court_data_api_app.models.laa_references.internal.request.laa_references_post_request import \
+    LaaReferencesPost as InternalPost
+from laa_court_data_api_app.models.laa_references.internal.request.laa_references_post_request import \
     LaaReferencesPostRequest as InternalPostRequest
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
-
 
 responses = {
     202: {"description": "Request has been accepted"},
@@ -37,15 +39,15 @@ async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
     return formulated_response(cda_response, defendant_id, "Unlinking")
 
 
-@router.post("/v2/laa_references/", status_code=202, responses=responses)
+@router.post("/v2/laa_references", status_code=202, responses=responses)
 async def post_maat_link(request: ExternalPostRequest):
-    laa_reference_details = request.laa_reference
-    logger.info("Calling_Maat_Post_{laa_reference_details.defendant_id}")
+    logger.info("Calling_Maat_Post_{request.defendant_id}")
     client = CourtDataAdaptorClient()
 
-    cda_response = await client.post(f"/api/internal/v2/laa_references/", body=InternalPostRequest(**request.dict()))
+    cda_response = await client.post(f"/api/internal/v2/laa_references/",
+                                     body=InternalPostRequest(laa_reference=InternalPost(**request.dict())))
 
-    return formulated_response(cda_response, laa_reference_details.defendant_id, "Linking")
+    return formulated_response(cda_response, request.defendant_id, "Linking")
 
 
 def formulated_response(cda_response, defendant_id, request_type):
@@ -59,13 +61,24 @@ def formulated_response(cda_response, defendant_id, request_type):
             return Response(status_code=202)
         case 400:
             logging.info(f"Validation_Failed_For_{defendant_id}")
-            return JSONResponse(status_code=400, content=LaaReferencesErrorResponse(**cda_response.json()).dict())
+            return JSONResponse(status_code=400,
+                                content=LaaReferencesErrorResponse(
+                                    error=parse_error_response(cda_response.json())).dict())
         case 404:
             logging.info(f"Laa_References_Endpoint_Not_Found")
             return Response(status_code=404)
         case 422:
             logging.info(f"Unable_To_Process_{request_type}_For_{defendant_id}")
-            return JSONResponse(status_code=422, content=LaaReferencesErrorResponse(**cda_response.json()).dict())
+            return JSONResponse(status_code=422,
+                                content=LaaReferencesErrorResponse(
+                                    error=parse_error_response(cda_response.json())).dict())
         case _:
             logging.error(f"Laa_References_Endpoint_Error_Returning")
             return Response(status_code=424)
+
+
+def parse_error_response(response):
+    errors = response["error"]
+    error_string = re.findall(r"{.*?}", errors)
+    error_dict = re.findall(r":(.*?)=>\[\"(.*?)\"\]", error_string[0])
+    return dict((x, [y]) for x, y in error_dict)
