@@ -13,6 +13,8 @@ from laa_court_data_api_app.models.laa_references.external.response.laa_referenc
     LaaReferencesErrorResponse
 from laa_court_data_api_app.models.laa_references.internal.request.laa_references_patch_request import \
     LaaReferencesPatchRequest as InternalPatchRequest
+from laa_court_data_api_app.models.laa_references.internal.request.laa_references_patch_request import \
+    LaaReferencesPatch as InternalPatch
 from laa_court_data_api_app.models.laa_references.internal.request.laa_references_post_request import \
     LaaReferencesPost as InternalPost
 from laa_court_data_api_app.models.laa_references.internal.request.laa_references_post_request import \
@@ -34,7 +36,7 @@ async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
     logger.info(f"Calling_Maat_Patch_{defendant_id}")
     client = CourtDataAdaptorClient()
     cda_response = await client.patch(f'/api/internal/v2/laa_references/{defendant_id}',
-                                      body=InternalPatchRequest(**request.dict()))
+                                      body=InternalPatchRequest(laa_reference=InternalPatch(**request.dict())))
 
     return formulated_response(cda_response, defendant_id, "Unlinking")
 

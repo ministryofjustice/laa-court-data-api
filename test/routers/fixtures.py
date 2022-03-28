@@ -9,9 +9,9 @@ from laa_court_data_api_app.models.hearing.hearing import Hearing
 from laa_court_data_api_app.models.hearing.hearing_result import HearingResult
 from laa_court_data_api_app.models.hearing_events.hearing_events_result import HearingEventsResult
 from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
-from laa_court_data_api_app.models.laa_references.external.request.laa_references_patch import LaaReferencesPatch
 from laa_court_data_api_app.models.laa_references.external.request.laa_references_patch_request import \
     LaaReferencesPatchRequest
+from laa_court_data_api_app.models.laa_references.internal.request.laa_references_patch import LaaReferencesPatch
 from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
@@ -206,10 +206,35 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
         exception_urn_uuid_route.return_value = Response(500)
 
         # patch /laa_references
-        respx_mock.patch(
+        pass_patch_maat = respx_mock.patch(
             "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222222",
-            name="laa_references_patch_route",
-            json=LaaReferencesPatchRequest(laa_reference=LaaReferencesPatch()).dict())
+            name="laa_references_patch_pass_route")
+        pass_patch_maat.return_value = Response(202)
+
+        fail_patch_maat = respx_mock.patch(
+            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222223",
+            name="laa_references_patch_fail_route")
+        fail_patch_maat.return_value = \
+            Response(400, json={"error": "Contract failed with: {:maat_reference=>[\"3141592 has no common platform "
+                                         "data created against Maat application.\"]}"})
+
+        not_found_patch_maat = respx_mock.patch(
+            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222224",
+            name="laa_references_patch_not_found_route")
+        not_found_patch_maat.return_value = Response(404)
+
+        unprocessable_entity_patch_maat = respx_mock.patch(
+            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222225",
+            name="laa_references_patch_unprocessable_entity_route")
+        unprocessable_entity_patch_maat.return_value = Response(422, json={"error": "Contract failed with: {"
+                                                                                    ":maat_reference=>[\"3141592 has "
+                                                                                    "no common platform data created "
+                                                                                    "against Maat application.\"]}"})
+
+        server_error_patch_maat = respx_mock.patch(
+            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222226",
+            name="laa_references_patch_server_error_route")
+        server_error_patch_maat.return_value = Response(424)
 
         # post /laa_references
 

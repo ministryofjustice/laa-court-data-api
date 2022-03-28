@@ -1,4 +1,3 @@
-import uuid
 from unittest.mock import patch, PropertyMock
 
 from fastapi.testclient import TestClient
@@ -7,7 +6,6 @@ from laa_court_data_api_app.internal.oauth_client import OauthClient
 from laa_court_data_api_app.main import app
 from laa_court_data_api_app.models.laa_references.external.request.laa_references_post_request import \
     LaaReferencesPostRequest
-
 from ..fixtures import *
 
 client = TestClient(app)
@@ -44,7 +42,8 @@ def test_laa_references_post_returns_bad_request(mock_settings, mock_cda_setting
 
     assert response.status_code == 400
     assert mock_cda_client["laa_references_post_fail_route"].called
-    assert response.content == b'{"errors":{"maat_reference":["3141592 has no common platform data created against Maat application."]}}'
+    assert response.content == \
+           b'{"errors":{"maat_reference":["3141592 has no common platform data created against Maat application."]}}'
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
@@ -78,7 +77,8 @@ def test_laa_references_post_returns_unprocessable_entity(mock_settings, mock_cd
 
     assert response.status_code == 422
     assert mock_cda_client["laa_references_post_unprocessable_entity_route"].called
-    assert response.content == b'{"errors":{"maat_reference":["3141592 has no common platform data created against Maat application."]}}'
+    assert response.content == \
+           b'{"errors":{"maat_reference":["3141592 has no common platform data created against Maat application."]}}'
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
