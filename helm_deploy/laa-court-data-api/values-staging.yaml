@@ -29,6 +29,8 @@ ingress:
       SecAction "id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET HEAD POST OPTIONS PUT PATCH DELETE"
     external-dns.alpha.kubernetes.io/set-identifier: laa-court-data-api-app-laa-court-data-api-staging-green
     external-dns.alpha.kubernetes.io/aws-weight: "100"
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: basic-auth
   hosts:
     - host: laa-court-data-api-staging.apps.live.cloud-platform.service.justice.gov.uk
       paths:
