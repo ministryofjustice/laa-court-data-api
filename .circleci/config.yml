@@ -195,7 +195,7 @@ jobs:
       - deploy_to_environment:
           environment: staging
 
-  postman-test-dev:
+  postman-test:
     executor: newman/postman-newman-docker
     steps:
       - checkout
@@ -260,7 +260,7 @@ workflows:
           context: laa-court-data-api-live-dev
           requires:
             - hold-dev
-      - postman-test-dev:
+      - postman-test:
           context: laa-court-data-api-live-dev
           requires:
             - deploy-dev
@@ -272,7 +272,7 @@ workflows:
           context: laa-court-data-api-live-uat
           requires:
             - hold-uat
-      - postman-test-uat:
+      - postman-test:
           context: laa-court-data-api-live-uat
           requires:
             - deploy-uat
@@ -284,7 +284,7 @@ workflows:
           context: laa-court-data-api-live-staging
           requires:
             - hold-staging
-      - postman-test-staging:
+      - postman-test:
           context: laa-court-data-api-live-staging
           requires:
             - deploy-staging
@@ -313,7 +313,7 @@ workflows:
           context: laa-court-data-api-live-dev
           requires:
             - hold-dev
-      - postman-test-dev:
+      - postman-test:
           context: laa-court-data-api-live-dev
           requires:
             - deploy-dev
