@@ -1,5 +1,5 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class LaaReferencesErrorResponse(BaseModel):
-    error: str | None
+    errors: dict[str, object] | None = Field(None, alias="error")
