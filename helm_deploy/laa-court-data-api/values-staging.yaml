@@ -32,7 +32,7 @@ ingress:
     nginx.ingress.kubernetes.io/auth-type: basic
     nginx.ingress.kubernetes.io/auth-secret: basic-auth
   hosts:
-    - host: laa-court-data-api-staging.court-data-api.service.justice.gov.uk
+    - host: laa-court-data-api-staging.apps.live.cloud-platform.service.justice.gov.uk
       paths:
         - path: /
           pathType: Prefix
