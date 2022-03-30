@@ -183,34 +183,46 @@ jobs:
       - deploy_to_environment:
           environment: dev
 
-  postman-test-dev:
+  deploy-uat:
+    executor: cloud-platform-executor
+    steps:
+      - deploy_to_environment:
+          environment: uat
+
+  deploy-staging:
+    executor: cloud-platform-executor
+    steps:
+      - deploy_to_environment:
+          environment: staging
+
+  postman-test:
     executor: newman/postman-newman-docker
     steps:
       - checkout
       - newman/newman-run:
           collection: ./postman/collections/ping.postman_collection.json
-          environment: ./postman/environments/dev.postman_environment.json
-          additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
+          environment: ./postman/environments/${K8S_ENV}.postman_environment.json
+          additional-options: --env-var="Username=${BASIC_AUTH}"
       - newman/newman-run:
           collection: ./postman/collections/hearing_summaries.postman_collection.json
-          environment: ./postman/environments/dev.postman_environment.json
-          additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
+          environment: ./postman/environments/${K8S_ENV}.postman_environment.json
+          additional-options: --env-var="Username=${BASIC_AUTH}"
       - newman/newman-run:
           collection: ./postman/collections/defendants.postman_collection.json
-          environment: ./postman/environments/dev.postman_environment.json
-          additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
+          environment: ./postman/environments/${K8S_ENV}.postman_environment.json
+          additional-options: --env-var="Username=${BASIC_AUTH}"
       - newman/newman-run:
           collection: ./postman/collections/hearing.postman_collection.json
-          environment: ./postman/environments/dev.postman_environment.json
-          additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
+          environment: ./postman/environments/${K8S_ENV}.postman_environment.json
+          additional-options: --env-var="Username=${BASIC_AUTH}"
       - newman/newman-run:
           collection: ./postman/collections/hearing_events.postman_collection.json
-          environment: ./postman/environments/dev.postman_environment.json
-          additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
+          environment: ./postman/environments/${K8S_ENV}.postman_environment.json
+          additional-options: --env-var="Username=${BASIC_AUTH}"
       - newman/newman-run:
           collection: ./postman/collections/laa_references.postman_collection.json
-          environment: ./postman/environments/dev.postman_environment.json
-          additional-options: --env-var="Username=${DEV_BASIC_AUTH}"
+          environment: ./postman/environments/${K8S_ENV}.postman_environment.json
+          additional-options: --env-var="Username=${BASIC_AUTH}"
 
 workflows:
   version: 2
@@ -248,9 +260,37 @@ workflows:
           context: laa-court-data-api-live-dev
           requires:
             - hold-dev
-      - postman-test-dev:
+      - postman-test:
+          name: dev postman tests
+          context: laa-court-data-api-live-dev
           requires:
             - deploy-dev
+      - hold-uat:
+          type: approval
+          requires:
+            - build-and-push
+      - deploy-uat:
+          context: laa-court-data-api-live-uat
+          requires:
+            - hold-uat
+      - postman-test:
+          name: uat postman tests
+          context: laa-court-data-api-live-uat
+          requires:
+            - deploy-uat
+      - hold-staging:
+          type: approval
+          requires:
+            - build-and-push
+      - deploy-staging:
+          context: laa-court-data-api-live-staging
+          requires:
+            - hold-staging
+      - postman-test:
+          name: staging postman tests
+          context: laa-court-data-api-live-staging
+          requires:
+            - deploy-staging
 
   main-deploy:
     jobs:
@@ -276,6 +316,34 @@ workflows:
           context: laa-court-data-api-live-dev
           requires:
             - hold-dev
-      - postman-test-dev:
+      - postman-test:
+          name: dev postman tests
+          context: laa-court-data-api-live-dev
           requires:
             - deploy-dev
+      - hold-uat:
+          type: approval
+          requires:
+            - build-and-push
+      - deploy-uat:
+          context: laa-court-data-api-live-uat
+          requires:
+            - hold-uat
+      - postman-test:
+          name: uat postman tests
+          context: laa-court-data-api-live-uat
+          requires:
+            - deploy-uat
+      - hold-staging:
+          type: approval
+          requires:
+            - build-and-push
+      - deploy-staging:
+          context: laa-court-data-api-live-staging
+          requires:
+            - hold-staging
+      - postman-test:
+          name: staging postman tests
+          context: laa-court-data-api-live-staging
+          requires:
+            - deploy-staging
