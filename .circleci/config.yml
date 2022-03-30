@@ -261,6 +261,7 @@ workflows:
           requires:
             - hold-dev
       - postman-test:
+          name: dev postman tests
           context: laa-court-data-api-live-dev
           requires:
             - deploy-dev
@@ -273,6 +274,7 @@ workflows:
           requires:
             - hold-uat
       - postman-test:
+          name: uat postman tests
           context: laa-court-data-api-live-uat
           requires:
             - deploy-uat
@@ -285,6 +287,7 @@ workflows:
           requires:
             - hold-staging
       - postman-test:
+          name: staging postman tests
           context: laa-court-data-api-live-staging
           requires:
             - deploy-staging
@@ -314,6 +317,33 @@ workflows:
           requires:
             - hold-dev
       - postman-test:
+          name: dev postman tests
           context: laa-court-data-api-live-dev
           requires:
             - deploy-dev
+      - hold-uat:
+          type: approval
+          requires:
+            - build-and-push
+      - deploy-uat:
+          context: laa-court-data-api-live-uat
+          requires:
+            - hold-uat
+      - postman-test:
+          name: uat postman tests
+          context: laa-court-data-api-live-uat
+          requires:
+            - deploy-uat
+      - hold-staging:
+          type: approval
+          requires:
+            - build-and-push
+      - deploy-staging:
+          context: laa-court-data-api-live-staging
+          requires:
+            - hold-staging
+      - postman-test:
+          name: staging postman tests
+          context: laa-court-data-api-live-staging
+          requires:
+            - deploy-staging
