@@ -5,6 +5,7 @@ from fastapi import APIRouter
 from fastapi.responses import Response
 
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
+from laa_court_data_api_app.models.defendants.defendant_summary import DefendantSummary
 from laa_court_data_api_app.models.defendants.defendants_response import DefendantsResponse
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
 
@@ -58,10 +59,8 @@ async def get_defendants(urn: str | None = None,
                 summaries = [cda_response.json()]
                 logging.info(f"Defendants_To_Show: {summaries.count}")
                 return DefendantsResponse(defendant_summaries=summaries)
-            prosecution_case_results = ProsecutionCasesResults(**cda_response.json())
-            defendant_summaries = [x.defendant_summaries for x in prosecution_case_results.results]
-            summaries = [item for sublist in defendant_summaries for item in sublist]
-            logging.info(f"Defendants_To_Show: {summaries.count}")
+            summaries = map_defendants(ProsecutionCasesResults(**cda_response.json()))
+            logging.info(f"Defendants_To_Show: {len(summaries)}")
             return DefendantsResponse(defendant_summaries=summaries)
         case 400:
             logging.info("Prosecution_Case_Endpoint_Validation_Failed")
@@ -72,3 +71,16 @@ async def get_defendants(urn: str | None = None,
         case _:
             logging.error("Prosecution_Case_Endpoint_Error_Returning")
             return Response(status_code=424)
+
+
+def map_defendants(prosecution_case_results: ProsecutionCasesResults) -> list[DefendantSummary]:
+    response_list = []
+    for results in prosecution_case_results.results:
+        for summary in results.defendant_summaries:
+            mapped_model = DefendantSummary(prosecution_case_reference=results.prosecution_case_reference,
+                                            **summary.dict())
+            full_name = f'{summary.first_name} {summary.middle_name} {summary.last_name}'
+            mapped_model.name = full_name
+            response_list.append(mapped_model)
+
+    return response_list
