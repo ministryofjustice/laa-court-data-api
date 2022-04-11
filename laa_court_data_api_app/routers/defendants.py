@@ -75,9 +75,9 @@ async def get_defendants(urn: str | None = None,
 
 def map_defendants(prosecution_case_results: ProsecutionCasesResults) -> list[DefendantSummary]:
     response_list = []
-    for results in prosecution_case_results.results:
-        for summary in results.defendant_summaries:
-            mapped_model = DefendantSummary(prosecution_case_reference=results.prosecution_case_reference,
+    for result in prosecution_case_results.results:
+        for summary in result.defendant_summaries:
+            mapped_model = DefendantSummary(prosecution_case_reference=result.prosecution_case_reference,
                                             **summary.dict())
             full_name = f'{summary.first_name} {summary.middle_name} {summary.last_name}'
             mapped_model.name = full_name
