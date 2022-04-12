@@ -207,22 +207,22 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
 
         # patch /laa_references
         pass_patch_maat = respx_mock.patch(
-            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222222",
+            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222222/",
             name="laa_references_patch_pass_route")
         pass_patch_maat.return_value = Response(202)
 
         fail_patch_maat = respx_mock.patch(
-            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222223",
+            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222223/",
             name="laa_references_patch_fail_route")
         fail_patch_maat.return_value = Response(400, json={"unlink_other_reason_text": ["must be absent"]})
 
         not_found_patch_maat = respx_mock.patch(
-            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222224",
+            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222224/",
             name="laa_references_patch_not_found_route")
         not_found_patch_maat.return_value = Response(404)
 
         unprocessable_entity_patch_maat = respx_mock.patch(
-            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222225",
+            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222225/",
             name="laa_references_patch_unprocessable_entity_route")
         unprocessable_entity_patch_maat.return_value = Response(422, json={"error": "Contract failed with: {"
                                                                                     ":maat_reference=>[\"3141592 has "
@@ -230,7 +230,7 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
                                                                                     "against Maat application.\"]}"})
 
         server_error_patch_maat = respx_mock.patch(
-            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222226",
+            "http://test-url/api/internal/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222226/",
             name="laa_references_patch_server_error_route")
         server_error_patch_maat.return_value = Response(424)
 
