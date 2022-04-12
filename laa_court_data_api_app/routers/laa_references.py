@@ -31,7 +31,7 @@ responses = {
 }
 
 
-@router.patch("/v2/laa_references/{defendant_id}", status_code=202, responses=responses)
+@router.patch("/v2/laa_references/{defendant_id}/", status_code=202, responses=responses)
 async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
     logger.info(f"Calling_Maat_Patch_{defendant_id}")
     client = CourtDataAdaptorClient()
