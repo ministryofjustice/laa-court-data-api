@@ -43,7 +43,7 @@ async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
 
 @router.post("/v2/laa_references", status_code=202, responses=responses)
 async def post_maat_link(request: ExternalPostRequest):
-    logger.info("Calling_Maat_Post_{request.defendant_id}")
+    logger.info(f"Calling_Maat_Post_{request.defendant_id}")
     client = CourtDataAdaptorClient()
 
     cda_response = await client.post(f"/api/internal/v2/laa_references/",
