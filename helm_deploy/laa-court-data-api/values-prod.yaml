@@ -31,7 +31,17 @@ ingress:
     external-dns.alpha.kubernetes.io/aws-weight: "100"
     nginx.ingress.kubernetes.io/auth-type: basic
     nginx.ingress.kubernetes.io/auth-secret: basic-auth
+  tls:
+    - hosts:
+      - laa-court-data-api-production.apps.live.cloud-platform.service.justice.gov.uk
+    - hosts:
+      - court-data-api.service.justice.gov.uk
+      secretName: laa-court-data-api-production-cert
   hosts:
+    - host: laa-court-data-api-production.apps.live.cloud-platform.service.justice.gov.uk
+      paths:
+        - path: /
+          pathType: Prefix    
     - host: court-data-api.service.justice.gov.uk
       paths:
         - path: /
