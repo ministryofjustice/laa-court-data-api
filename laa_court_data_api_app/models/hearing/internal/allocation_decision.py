@@ -1,7 +1,7 @@
 from uuid import UUID
 from pydantic import BaseModel
 
-from laa_court_data_api_app.models.hearing.external.court_indicated_sentence import CourtIndicatedSentence
+from laa_court_data_api_app.models.hearing.internal.court_indicated_sentence import CourtIndicatedSentence
 
 
 class AllocationDecision(BaseModel):

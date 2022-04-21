@@ -11,4 +11,3 @@ class ProsecutionCases(BaseModel):
     statement_of_facts: str | None
     statement_of_facts_welsh: str | None
     defendants: list[Defendants] | None
-    

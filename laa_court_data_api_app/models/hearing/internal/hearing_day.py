@@ -1,8 +1,6 @@
-from typing import Optional
-
 from pydantic import BaseModel
 
 
 class HearingDay(BaseModel):
-    sitting_day: Optional[str] = None
-    has_shared_results: Optional[bool] = None
+    sitting_day: str | None
+    has_shared_results: bool | None

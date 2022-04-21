@@ -1,6 +1,6 @@
 from uuid import UUID
 from pydantic import BaseModel
-from laa_court_data_api_app.models.hearing.internal.allication_decision import AllocationDecision
+from laa_court_data_api_app.models.hearing.internal.allocation_decision import AllocationDecision
 from laa_court_data_api_app.models.hearing.internal.judicial_result import JudicialResult
 from laa_court_data_api_app.models.hearing.internal.laa_application import LaaApplication
 
