@@ -5,8 +5,8 @@ import respx
 from httpx import Response
 
 from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
-from laa_court_data_api_app.models.hearing.hearing import Hearing
-from laa_court_data_api_app.models.hearing.hearing_result import HearingResult
+from laa_court_data_api_app.models.hearing.external.hearing import Hearing
+from laa_court_data_api_app.models.hearing.external.hearing_result import HearingResult
 from laa_court_data_api_app.models.hearing_events.hearing_events_result import HearingEventsResult
 from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
 from laa_court_data_api_app.models.laa_references.external.request.laa_references_patch_request import \
