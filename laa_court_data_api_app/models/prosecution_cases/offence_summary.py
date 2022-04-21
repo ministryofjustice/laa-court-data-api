@@ -2,8 +2,8 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from laa_court_data_api_app.models.hearing.plea import Plea
-from laa_court_data_api_app.models.hearing.verdict import Verdict
+from laa_court_data_api_app.models.prosecution_cases.plea import Plea
+from laa_court_data_api_app.models.prosecution_cases.verdict import Verdict
 from laa_court_data_api_app.models.prosecution_cases.laa_application import LaaApplication
 
 
