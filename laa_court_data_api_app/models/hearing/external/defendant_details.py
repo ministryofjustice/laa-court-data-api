@@ -8,4 +8,3 @@ class DefendantDetails(BaseModel):
     arrest_summons_number: str | None
     bail_conditions: str | None
     bail_status: BailStatus | None
-    required: str | None
