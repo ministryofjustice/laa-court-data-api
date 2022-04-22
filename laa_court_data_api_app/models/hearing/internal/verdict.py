@@ -2,7 +2,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from laa_court_data_api_app.models.prosecution_cases.verdict_type import VerdictType
+from laa_court_data_api_app.models.hearing.internal.verdict_type import VerdictType
 
 
 class Verdict(BaseModel):

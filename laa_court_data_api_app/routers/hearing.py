@@ -5,13 +5,14 @@ from fastapi import APIRouter
 from fastapi.responses import Response
 
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
-from laa_court_data_api_app.models.hearing.hearing_result import HearingResult
+from laa_court_data_api_app.models.hearing.internal.hearing_result import HearingResult as InternalHearingResult
+from laa_court_data_api_app.models.hearing.external.hearing_result import HearingResult as ExternalHearingResult
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
-@router.get("/v2/hearing/{hearing_id}", response_model=HearingResult, status_code=200)
+@router.get("/v2/hearing/{hearing_id}", response_model=ExternalHearingResult, status_code=200)
 async def get_hearing(hearing_id: UUID):
     logger.info("Calling_Hearing_Get_Endpoint")
     logging.info(f"Hearing_Get_{hearing_id}")
@@ -25,7 +26,8 @@ async def get_hearing(hearing_id: UUID):
     match cda_response.status_code:
         case 200:
             logging.info("Hearing_Results_Endpoint_Returned_Success")
-            return HearingResult(**cda_response.json())
+            internal_result = InternalHearingResult(**cda_response.json())
+            return ExternalHearingResult(**internal_result.dict())
         case 400:
             logging.info("Hearing_Results_Endpoint_Validation_Failed")
             return Response(status_code=400)
