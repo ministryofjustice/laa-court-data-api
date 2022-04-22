@@ -1,4 +1,5 @@
 from unittest.mock import patch, PropertyMock
+import uuid
 
 from fastapi.testclient import TestClient
 
@@ -111,3 +112,16 @@ def test_laa_references_patch_returns_none(mock_settings, mock_cda_settings, ove
     assert response.status_code == 424
     assert response.content == b''
     assert mock_cda_client["failed_token_endpoint"].called
+
+
+def test_laa_references_patch_mismatch_defendantid_returns_bad_request():
+    response = client.patch(
+        "/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222222/",
+        headers={"Content-Type": "application/json"},
+        data=LaaReferencesPatchRequest(
+            defendant_id=uuid.UUID("12d2222c-22ff-22ec-b222-2222ac222222")
+        ).json(),
+    )
+
+    assert response.status_code == 400
+    assert response.content == b'{"errors":{"defendant_id":["mismatch in ids given"]}}'
