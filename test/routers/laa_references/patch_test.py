@@ -1,4 +1,5 @@
 from unittest.mock import patch, PropertyMock
+import uuid
 
 from fastapi.testclient import TestClient
 
@@ -19,7 +20,10 @@ def test_laa_references_patch_returns_accepted(mock_settings, mock_cda_settings,
     mock_cda_settings.return_value = override_get_cda_settings
 
     response = client.patch("/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222222/",
-                            json=LaaReferencesPatchRequest().dict())
+                            headers={"Content-Type": "application/json"},
+                            data=LaaReferencesPatchRequest(
+                                defendant_id=uuid.UUID("22d2222c-22ff-22ec-b222-2222ac222222")
+                            ).json())
 
     assert response.status_code == 202
     assert response.content == b''
@@ -36,7 +40,10 @@ def test_laa_references_patch_returns_bad_request(mock_settings, mock_cda_settin
     mock_cda_settings.return_value = override_get_cda_settings
 
     response = client.patch("/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222223/",
-                            json=LaaReferencesPatchRequest().dict())
+                            headers={"Content-Type": "application/json"},
+                            data=LaaReferencesPatchRequest(
+                                defendant_id=uuid.UUID("22d2222c-22ff-22ec-b222-2222ac222223")
+                            ).json())
 
     assert response.status_code == 400
     assert mock_cda_client["laa_references_patch_fail_route"].called
@@ -53,7 +60,10 @@ def test_laa_references_patch_returns_not_found(mock_settings, mock_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
     response = client.patch("/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222224/",
-                            json=LaaReferencesPatchRequest().dict())
+                            headers={"Content-Type": "application/json"},
+                            data=LaaReferencesPatchRequest(
+                                defendant_id=uuid.UUID("22d2222c-22ff-22ec-b222-2222ac222224")
+                            ).json())
 
     assert response.status_code == 404
     assert response.content == b''
@@ -70,7 +80,10 @@ def test_laa_references_patch_returns_unprocessable_entity(mock_settings, mock_c
     mock_cda_settings.return_value = override_get_cda_settings
 
     response = client.patch("/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222225/",
-                            json=LaaReferencesPatchRequest().dict())
+                            headers={"Content-Type": "application/json"},
+                            data=LaaReferencesPatchRequest(
+                                defendant_id=uuid.UUID("22d2222c-22ff-22ec-b222-2222ac222225")
+                            ).json())
 
     assert response.status_code == 422
     assert mock_cda_client["laa_references_patch_unprocessable_entity_route"].called
@@ -88,7 +101,10 @@ def test_laa_references_patch_returns_server_error(mock_settings, mock_cda_setti
     mock_cda_settings.return_value = override_get_cda_settings
 
     response = client.patch("/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222226/",
-                            json=LaaReferencesPatchRequest().dict())
+                            headers={"Content-Type": "application/json"},
+                            data=LaaReferencesPatchRequest(
+                                defendant_id=uuid.UUID("22d2222c-22ff-22ec-b222-2222ac222226")
+                            ).json())
 
     assert response.status_code == 424
     assert response.content == b''
@@ -106,8 +122,24 @@ def test_laa_references_patch_returns_none(mock_settings, mock_cda_settings, ove
     mock_settings.return_value = override_get_cda_settings
 
     response = client.patch("/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222222/",
-                            json=LaaReferencesPatchRequest().dict())
+                            headers={"Content-Type": "application/json"},
+                            data=LaaReferencesPatchRequest(
+                                defendant_id=uuid.UUID("22d2222c-22ff-22ec-b222-2222ac222222")
+                            ).json())
 
     assert response.status_code == 424
     assert response.content == b''
     assert mock_cda_client["failed_token_endpoint"].called
+
+
+def test_laa_references_patch_mismatch_defendantid_returns_bad_request():
+    response = client.patch(
+        "/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222222/",
+        headers={"Content-Type": "application/json"},
+        data=LaaReferencesPatchRequest(
+            defendant_id=uuid.UUID("12d2222c-22ff-22ec-b222-2222ac222222")
+        ).json()
+    )
+
+    assert response.status_code == 400
+    assert response.content == b'{"errors":{"defendant_id":["mismatch in ids given"]}}'

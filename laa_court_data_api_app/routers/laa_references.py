@@ -33,6 +33,11 @@ responses = {
 
 @router.patch("/v2/laa_references/{defendant_id}/", status_code=202, responses=responses)
 async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
+    if (defendant_id != str(request.defendant_id)):
+        logger.info("Mismatched_DefendantId_In_Patch_Request")
+        return JSONResponse(status_code=400, content=LaaReferencesErrorResponse(
+            error={'defendant_id': ['mismatch in ids given']}).dict())
+
     logger.info(f"Calling_Maat_Patch_{defendant_id}")
     client = CourtDataAdaptorClient()
     cda_response = await client.patch(f'/api/internal/v2/laa_references/{defendant_id}',

@@ -30,4 +30,4 @@ class Hearing(BaseModel):
     cracked_ineffective_trial: CrackedIneffectiveTrial | None
     prosecution_cases: list[ProsecutionCases] | None
     defendant_judicial_results: list[DefendantJudicialResults] | None
-    defendant_attendance: DefendantAttendance | None
+    defendant_attendance: list[DefendantAttendance] | None
