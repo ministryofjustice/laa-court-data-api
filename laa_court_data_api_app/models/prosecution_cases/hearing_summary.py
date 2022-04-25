@@ -11,6 +11,8 @@ class HearingSummary(BaseModel):
     id: UUID | None
     hearing_type: str | None
     estimated_duration: str | None
+    defendant_ids: list[str] | None
+    jurisdiction_type: str | None
     court_centre: CourtCentre | None
     hearing_days: list[HearingDay] | None
     defence_counsels: list[DefenceCounsel] | None

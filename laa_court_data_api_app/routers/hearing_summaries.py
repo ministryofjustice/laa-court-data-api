@@ -4,7 +4,10 @@ from fastapi import APIRouter
 from fastapi.responses import Response
 
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
+from laa_court_data_api_app.models.hearing_summaries.defendants import Defendants
 from laa_court_data_api_app.models.hearing_summaries.hearing_summaries_response import HearingSummariesResponse
+from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
+from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
 
 logger = logging.getLogger(__name__)
@@ -27,8 +30,7 @@ async def get_hearing_summaries(urn: str):
         case 200:
             logging.info("Prosecution_Case_Endpoint_Returned_Success")
             prosecution_case_results = ProsecutionCasesResults(**cda_response.json())
-            hearing_summaries = [x.hearing_summaries for x in prosecution_case_results.results]
-            summaries = [item for sublist in hearing_summaries for item in sublist]
+            summaries = map_hearing_summaries(prosecution_case_results.results)
             logging.info(f"Hearing_Summaries_To_Show: {summaries.count}")
             return HearingSummariesResponse(hearing_summaries=summaries)
         case 400:
@@ -40,3 +42,19 @@ async def get_hearing_summaries(urn: str):
         case _:
             logging.error("Prosecution_Case_Endpoint_Error_Returning")
             return Response(status_code=424)
+
+def map_hearing_summaries(prosecution_case_results: list[ProsecutionCases]):
+    hearing_summaries = []
+    for result in prosecution_case_results:
+        for summary in result.hearing_summaries:
+            return_summary = HearingSummary(**summary.dict())
+            for defendant in summary.defendant_ids:
+                defendant_result = filter(lambda defendants: str(defendants.id) == defendant, result.defendant_summaries)
+                for defendant_obj in list(defendant_result):
+                    if defendant_obj is not None:
+                        new_def = Defendants(**defendant_obj.dict())
+                        return_summary.defendants.append(new_def)
+
+            hearing_summaries.append(return_summary)
+
+    return hearing_summaries
