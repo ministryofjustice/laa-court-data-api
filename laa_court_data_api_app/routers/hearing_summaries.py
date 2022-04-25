@@ -43,13 +43,15 @@ async def get_hearing_summaries(urn: str):
             logging.error("Prosecution_Case_Endpoint_Error_Returning")
             return Response(status_code=424)
 
+
 def map_hearing_summaries(prosecution_case_results: list[ProsecutionCases]):
     hearing_summaries = []
     for result in prosecution_case_results:
         for summary in result.hearing_summaries:
             return_summary = HearingSummary(**summary.dict())
             for defendant in summary.defendant_ids:
-                defendant_result = filter(lambda defendants: str(defendants.id) == defendant, result.defendant_summaries)
+                defendant_result = filter(lambda defendants: str(defendants.id) == defendant,
+                                          result.defendant_summaries)
                 for defendant_obj in list(defendant_result):
                     if defendant_obj is not None:
                         new_def = Defendants(**defendant_obj.dict())
