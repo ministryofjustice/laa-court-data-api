@@ -49,10 +49,10 @@ def map_hearing_summaries(prosecution_case_results: list[ProsecutionCases]):
     for result in prosecution_case_results:
         for summary in result.hearing_summaries:
             return_summary = HearingSummary(**summary.dict())
-            for defendant in summary.defendant_ids:
-                defendant_result = filter(lambda defendants: str(defendants.id) == defendant,
-                                          result.defendant_summaries)
-                for defendant_obj in list(defendant_result):
+            for defendant_id in summary.defendant_ids:
+                filtered_defendant_summaries = filter(lambda defendants: str(defendants.id) == defendant_id,
+                                                      result.defendant_summaries)
+                for defendant_obj in list(filtered_defendant_summaries):
                     if defendant_obj is not None:
                         new_def = Defendants(**defendant_obj.dict())
                         return_summary.defendants.append(new_def)
