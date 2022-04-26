@@ -7,6 +7,7 @@ from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataA
 from laa_court_data_api_app.models.hearing_summaries.defendants import Defendants
 from laa_court_data_api_app.models.hearing_summaries.hearing_summaries_response import HearingSummariesResponse
 from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
+from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
 
@@ -49,16 +50,23 @@ def map_hearing_summaries(prosecution_case_results: list[ProsecutionCases]):
     for result in prosecution_case_results:
         for summary in result.hearing_summaries:
             return_summary = HearingSummary(**summary.dict())
-            for defendant_id in summary.defendant_ids:
-                filtered_defendant_summaries = filter(lambda defendants: str(defendants.id) == defendant_id,
-                                                      result.defendant_summaries)
-                for defendant_obj in list(filtered_defendant_summaries):
-                    if defendant_obj is not None:
-                        new_def = Defendants(**defendant_obj.dict())
-                        return_summary.defendants.append(new_def)
-                        if len(defendant_obj.offence_summaries) > 0:
-                            new_def.maat_reference = defendant_obj.offence_summaries[0].laa_application.reference
+            return_summary.defendants = map_defendants_from_guids(summary.defendant_ids, result.defendant_summaries)
 
             hearing_summaries.append(return_summary)
 
     return hearing_summaries
+
+
+def map_defendants_from_guids(defendant_ids: list[str], defendant_summaries: list[DefendantSummary]):
+    defendant_list = []
+    for defendant_id in defendant_ids:
+        filtered_defendant_summaries = filter(lambda defendants: str(defendants.id) == defendant_id,
+                                              defendant_summaries)
+        for defendant_obj in list(filtered_defendant_summaries):
+            if defendant_obj is not None:
+                new_def = Defendants(**defendant_obj.dict())
+                defendant_list.append(new_def)
+                if len(defendant_obj.offence_summaries) > 0:
+                    new_def.maat_reference = defendant_obj.offence_summaries[0].laa_application.reference
+
+    return defendant_list
