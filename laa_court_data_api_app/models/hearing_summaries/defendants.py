@@ -10,3 +10,4 @@ class Defendants(BaseModel):
     arrest_summons_number: str | None
     date_of_birth: str | None
     national_insurance_number: str | None
+    maat_reference: str | None

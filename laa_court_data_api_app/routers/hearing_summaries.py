@@ -56,6 +56,8 @@ def map_hearing_summaries(prosecution_case_results: list[ProsecutionCases]):
                     if defendant_obj is not None:
                         new_def = Defendants(**defendant_obj.dict())
                         return_summary.defendants.append(new_def)
+                        if len(defendant_obj.offence_summaries) > 0:
+                            new_def.maat_reference = defendant_obj.offence_summaries[0].laa_application.reference
 
             hearing_summaries.append(return_summary)
 
