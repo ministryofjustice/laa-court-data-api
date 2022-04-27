@@ -4,7 +4,11 @@ from fastapi import APIRouter
 from fastapi.responses import Response
 
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
+from laa_court_data_api_app.models.hearing_summaries.defendants import Defendants
 from laa_court_data_api_app.models.hearing_summaries.hearing_summaries_response import HearingSummariesResponse
+from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
+from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
+from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
 
 logger = logging.getLogger(__name__)
@@ -27,8 +31,7 @@ async def get_hearing_summaries(urn: str):
         case 200:
             logging.info("Prosecution_Case_Endpoint_Returned_Success")
             prosecution_case_results = ProsecutionCasesResults(**cda_response.json())
-            hearing_summaries = [x.hearing_summaries for x in prosecution_case_results.results]
-            summaries = [item for sublist in hearing_summaries for item in sublist]
+            summaries = map_hearing_summaries(prosecution_case_results.results)
             logging.info(f"Hearing_Summaries_To_Show: {summaries.count}")
             return HearingSummariesResponse(hearing_summaries=summaries)
         case 400:
@@ -40,3 +43,30 @@ async def get_hearing_summaries(urn: str):
         case _:
             logging.error("Prosecution_Case_Endpoint_Error_Returning")
             return Response(status_code=424)
+
+
+def map_hearing_summaries(prosecution_case_results: list[ProsecutionCases]):
+    hearing_summaries = []
+    for result in prosecution_case_results:
+        for summary in result.hearing_summaries:
+            return_summary = HearingSummary(**summary.dict())
+            return_summary.defendants = map_defendants_from_guids(summary.defendant_ids, result.defendant_summaries)
+
+            hearing_summaries.append(return_summary)
+
+    return hearing_summaries
+
+
+def map_defendants_from_guids(defendant_ids: list[str], defendant_summaries: list[DefendantSummary]):
+    defendant_list = []
+    for defendant_id in defendant_ids:
+        filtered_defendant_summaries = filter(lambda defendants: str(defendants.id) == defendant_id,
+                                              defendant_summaries)
+        for defendant_obj in list(filtered_defendant_summaries):
+            if defendant_obj is not None:
+                new_def = Defendants(**defendant_obj.dict())
+                defendant_list.append(new_def)
+                if len(defendant_obj.offence_summaries) > 0:
+                    new_def.maat_reference = defendant_obj.offence_summaries[0].laa_application.reference
+
+    return defendant_list
