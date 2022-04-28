@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c03404ffb5d4082e2381499c945aca9883f4ecf417a3e0e5d4af1b34f3567e18"
+            "sha256": "846cb4a77b619737a8f7b0fa5a008128a47e04582adeb508d7276675f1a37d3f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -23,6 +23,14 @@
             ],
             "index": "pypi",
             "version": "==3.5.0"
+        },
+        "asgi-correlation-id": {
+            "hashes": [
+                "sha256:d32a2b12f7a1b2e81c0e990c8383d9ae23cc3b98b794c16ab9445a9cf5767c68",
+                "sha256:ece7835fcb86beff343ab74a504690b35e55cfec57bd9abec02b9e89ffd222c6"
+            ],
+            "index": "pypi",
+            "version": "==1.1.4"
         },
         "asgiref": {
             "hashes": [

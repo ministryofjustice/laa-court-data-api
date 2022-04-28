@@ -3,6 +3,7 @@ from typing import Optional
 
 import httpx
 
+from asgi_correlation_id.context import correlation_id
 from laa_court_data_api_app.config.court_data_adaptor import get_cda_settings, CdaSettings
 from ..internal.oauth_client import OauthClient
 
@@ -26,6 +27,7 @@ class CourtDataAdaptorClient:
             headers = {}
 
         headers.update({"Content-Type": "application/json"})
+        headers.update({"Laa-Transaction-Id": correlation_id.get()})
 
         if body is not None:
             body = body.json()
