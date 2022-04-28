@@ -27,7 +27,7 @@ class CourtDataAdaptorClient:
             headers = {}
 
         headers.update({"Content-Type": "application/json"})
-        headers.update({"Laa-Transaction-Id": correlation_id.get()})
+        headers.update({"Laa-Transaction-Id": correlation_id.get() or ''})
 
         if body is not None:
             body = body.json()

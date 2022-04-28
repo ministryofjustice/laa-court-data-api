@@ -9,7 +9,8 @@ config = {
     'formatters': {
         'basicFormatter': {
             'class': 'logging.Formatter',
-            'format': '%(asctime)s [%(correlation_id)s] loglevel=%(levelname)-6s logger=%(name)s %(funcName)s() %(message)s'
+            'format': '%(asctime)s [%(correlation_id)s] loglevel=%(levelname)-6s logger=%(name)s %(funcName)s() %('
+                      'message)s '
         }
     },
     'handlers': {
