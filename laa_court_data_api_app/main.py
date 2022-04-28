@@ -6,6 +6,8 @@ from asgi_correlation_id import CorrelationIdMiddleware
 from fastapi import FastAPI
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from sentry_sdk.integrations.httpx import HttpxIntegration
+from starlette.responses import RedirectResponse
+from starlette_prometheus import PrometheusMiddleware, metrics
 
 from laa_court_data_api_app.config import logging_config
 from laa_court_data_api_app.config.app import get_app_settings
@@ -41,6 +43,14 @@ app.include_router(ping.router)
 
 app.add_middleware(CorrelationIdMiddleware, header_name='Laa-Transaction-Id')
 app.add_middleware(SentryAsgiMiddleware)
+app.add_middleware(PrometheusMiddleware)
+
+app.add_route('/metrics', metrics)
+
+
+@app.get('/')
+async def get_index():
+    return RedirectResponse(url='/docs')
 
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000)
