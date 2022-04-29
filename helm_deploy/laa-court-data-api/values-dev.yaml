@@ -20,7 +20,8 @@ securityContext:
      - ALL
    readOnlyRootFilesystem: true
    runAsNonRoot: true
-   runAsUser: 1000
+   runAsUser: 10000
+   allowPrivilegeEscalation: false
 
 resources:
   limits:
