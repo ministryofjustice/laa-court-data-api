@@ -195,6 +195,11 @@ jobs:
       - deploy_to_environment:
           environment: staging
 
+  deploy-production:
+    executor: cloud-platform-executor
+    steps:
+      - deploy_to_environment:
+          environment: production
   postman-test:
     executor: newman/postman-newman-docker
     steps:
@@ -347,3 +352,11 @@ workflows:
           context: laa-court-data-api-live-staging
           requires:
             - deploy-staging
+      - hold-production:
+          type: approval
+          requires:
+            - build-and-push
+      - deploy-production:
+          context: laa-court-data-api-live-production
+          requires:
+            - hold-production
