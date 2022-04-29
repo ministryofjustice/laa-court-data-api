@@ -33,7 +33,8 @@ async def get_hearing_summaries(urn: str):
             prosecution_case_results = ProsecutionCasesResults(**cda_response.json())
             summaries = map_hearing_summaries(prosecution_case_results.results)
             logging.info(f"Hearing_Summaries_To_Show: {summaries.count}")
-            return HearingSummariesResponse(hearing_summaries=summaries)
+            return HearingSummariesResponse(hearing_summaries=summaries,
+                                            overall_defendants=map_defendant_list(prosecution_case_results.results))
         case 400:
             logging.info("Prosecution_Case_Endpoint_Validation_Failed")
             return Response(status_code=400)
@@ -43,6 +44,15 @@ async def get_hearing_summaries(urn: str):
         case _:
             logging.error("Prosecution_Case_Endpoint_Error_Returning")
             return Response(status_code=424)
+
+
+def map_defendant_list(prosecution_case_results: list[ProsecutionCases]):
+    defendant_list = []
+    for result in prosecution_case_results:
+        for defendant in result.defendant_summaries:
+            defendant_list.extend(map_defendants_from_guids([str(defendant.id)], result.defendant_summaries))
+
+    return defendant_list
 
 
 def map_hearing_summaries(prosecution_case_results: list[ProsecutionCases]):
@@ -66,7 +76,7 @@ def map_defendants_from_guids(defendant_ids: list[str], defendant_summaries: lis
             if defendant_obj is not None:
                 new_def = Defendants(**defendant_obj.dict())
                 defendant_list.append(new_def)
-                if len(defendant_obj.offence_summaries) > 0:
+                if defendant_obj.offence_summaries is not None and len(defendant_obj.offence_summaries) > 0:
                     new_def.maat_reference = defendant_obj.offence_summaries[0].laa_application.reference
 
     return defendant_list
