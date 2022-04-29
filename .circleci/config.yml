@@ -127,7 +127,7 @@ jobs:
       - run:
           command: |
             pushd ./helm_deploy/laa-court-data-api
-            helm lint --values ./values-dev.yaml --values ./values-uat.yaml --values ./values-staging.yaml --values ./values-prod.yaml
+            helm lint --values ./values-dev.yaml --values ./values-uat.yaml --values ./values-staging.yaml --values ./values-production.yaml
           name: Lint charts for errors
   
   lint-python:
