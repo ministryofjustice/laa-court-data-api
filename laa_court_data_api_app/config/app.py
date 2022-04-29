@@ -1,6 +1,5 @@
 from pydantic import BaseSettings
 from functools import lru_cache
-from typing import Optional
 
 
 class AppSettings(BaseSettings):
@@ -8,10 +7,11 @@ class AppSettings(BaseSettings):
     app_repo: str = "https://www.github.com/ministryofjustice/laa-court-data-api"
     contact_email: str = "assessaclaim@digital.justice.gov.uk"
     contact_team: str = "Assess a Claim"
-    commit_id: Optional[str] = None
-    build_date: Optional[str] = None
-    build_tag: Optional[str] = None
-    app_branch: Optional[str] = None
+    commit_id: str | None
+    build_date: str | None
+    build_tag: str | None
+    app_branch: str | None
+    sentry_dsn: str | None
 
     class Config:
         env_file = ".env"

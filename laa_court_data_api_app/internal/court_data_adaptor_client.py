@@ -3,6 +3,7 @@ from typing import Optional
 
 import httpx
 
+from asgi_correlation_id.context import correlation_id
 from laa_court_data_api_app.config.court_data_adaptor import get_cda_settings, CdaSettings
 from ..internal.oauth_client import OauthClient
 
@@ -16,16 +17,16 @@ class CourtDataAdaptorClient:
 
     async def get(self, endpoint: str, params: Optional[dict[str, str]] = None,
                   headers: Optional[dict[str, any]] = None):
+        headers = self.__setup_default_headers(headers, {"Laa-Transaction-Id": correlation_id.get() or ''})
+
         response = await self.__send_request(method='GET', endpoint=endpoint, params=params, headers=headers)
         return response
 
     async def post(self, endpoint: str, params: Optional[dict[str, str]] = None,
                    headers: Optional[dict[str, any]] = None,
                    body: Optional[any] = None):
-        if headers is None:
-            headers = {}
-
-        headers.update({"Content-Type": "application/json"})
+        headers = self.__setup_default_headers(headers, {"Content-Type": "application/json",
+                                                         "Laa-Transaction-Id": correlation_id.get() or ''})
 
         if body is not None:
             body = body.json()
@@ -37,10 +38,8 @@ class CourtDataAdaptorClient:
     async def patch(self, endpoint: str, params: Optional[dict[str, str]] = None,
                     headers: Optional[dict[str, any]] = None,
                     body: Optional[any] = None):
-        if headers is None:
-            headers = {}
-
-        headers.update({"Content-Type": "application/json"})
+        headers = self.__setup_default_headers(headers, {"Content-Type": "application/json",
+                                                         "Laa-Transaction-Id": correlation_id.get() or ''})
 
         if body is not None:
             body = body.json()
@@ -70,3 +69,12 @@ class CourtDataAdaptorClient:
                 logger.error("Get_Endpoint_Error", extra={'url': request.url})
                 logger.error(e)
                 return None
+
+    @staticmethod
+    def __setup_default_headers(headers: dict, default_headers: dict):
+        if headers is None:
+            headers = {}
+
+        headers.update(default_headers)
+
+        return headers
