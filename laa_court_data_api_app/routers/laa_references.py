@@ -1,4 +1,4 @@
-import logging
+import structlog
 import re
 
 from fastapi import APIRouter
@@ -20,7 +20,7 @@ from laa_court_data_api_app.models.laa_references.internal.request.laa_reference
 from laa_court_data_api_app.models.laa_references.internal.request.laa_references_post_request import \
     LaaReferencesPostRequest as InternalPostRequest
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(__name__)
 router = APIRouter()
 
 responses = {
@@ -59,28 +59,28 @@ async def post_maat_link(request: ExternalPostRequest):
 
 def formulated_response(cda_response, defendant_id, request_type):
     if cda_response is None:
-        logging.error("Laa_References_Endpoint_Did_Not_Return")
+        logger.error("Laa_References_Endpoint_Did_Not_Return")
         return Response(status_code=424)
 
     match cda_response.status_code:
         case 202:
-            logging.info(f"Maat_Id_For_{defendant_id}_{request_type}_Successfully_Requested")
+            logger.info(f"Maat_Id_For_{defendant_id}_{request_type}_Successfully_Requested")
             return Response(status_code=202)
         case 400:
-            logging.info(f"Validation_Failed_For_{defendant_id}")
+            logger.info(f"Validation_Failed_For_{defendant_id}")
             return JSONResponse(status_code=400,
                                 content=LaaReferencesErrorResponse(
                                     error=cda_response.json()).dict())
         case 404:
-            logging.info(f"Laa_References_Endpoint_Not_Found")
+            logger.info(f"Laa_References_Endpoint_Not_Found")
             return Response(status_code=404)
         case 422:
-            logging.info(f"Unable_To_Process_{request_type}_For_{defendant_id}")
+            logger.info(f"Unable_To_Process_{request_type}_For_{defendant_id}")
             return JSONResponse(status_code=422,
                                 content=LaaReferencesErrorResponse(
                                     error=parse_error_response(cda_response.json()["error"])).dict())
         case _:
-            logging.error(f"Laa_References_Endpoint_Error_Returning")
+            logger.error(f"Laa_References_Endpoint_Error_Returning")
             return Response(status_code=424)
 
 

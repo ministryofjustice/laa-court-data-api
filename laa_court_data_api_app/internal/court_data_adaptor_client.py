@@ -1,4 +1,4 @@
-import logging
+import structlog
 from typing import Optional
 
 import httpx
@@ -7,7 +7,7 @@ from asgi_correlation_id.context import correlation_id
 from laa_court_data_api_app.config.court_data_adaptor import get_cda_settings, CdaSettings
 from ..internal.oauth_client import OauthClient
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(__name__)
 
 
 class CourtDataAdaptorClient:

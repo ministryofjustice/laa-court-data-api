@@ -1,13 +1,12 @@
 import datetime as dt
-import logging
+import structlog
 
 import httpx
 
 from ..config.court_data_adaptor import CdaSettings, get_cda_settings
 from ..models.token_response import TokenResponse
 
-logger = logging.getLogger(__name__)
-
+logger = structlog.get_logger(__name__)
 
 class OauthClient:
     __instance = None

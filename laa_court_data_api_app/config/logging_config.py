@@ -1,25 +1,17 @@
 config = {
     'version': 1,
     'disable_existing_loggers': False,
-    'filters': {
-        'correlation_id': {
-            '()': 'asgi_correlation_id.CorrelationIdFilter',
-            'uuid_length': 32
-            }
-    },
     'formatters': {
-        'basicFormatter': {
+        'structFormatter': {
             'class': 'logging.Formatter',
-            'format': '%(asctime)s [%(correlation_id)s] loglevel=%(levelname)-6s logger=%(name)s %(funcName)s() %('
-                      'message)s '
+            'format': '%(message)s'
         }
     },
     'handlers': {
         'consoleHandler': {
             'class': 'logging.StreamHandler',
             'level': 'DEBUG',
-            'formatter': 'basicFormatter',
-            'filters': ['correlation_id']
+            'formatter': 'structFormatter'
         }
     },
     'loggers': {
