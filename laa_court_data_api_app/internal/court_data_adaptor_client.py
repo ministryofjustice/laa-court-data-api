@@ -61,13 +61,12 @@ class CourtDataAdaptorClient:
             try:
                 request = client.build_request(method=method, url=endpoint, params=params, headers=headers,
                                                content=body)
-                logger.info("Request_Made")
+                logger.info('CDA_Request_Made', endpoint=request.url)
                 response = await client.send(request)
-                logger.info("Response_Returned", extra={'url': request.url, 'status': response.status_code})
+                logger.info('CDA_Response_Returned', endpoint=request.url, status_code=response.status_code)
                 return response
             except(Exception) as e:
-                logger.error("Get_Endpoint_Error", extra={'url': request.url})
-                logger.error(e)
+                logger.error('CDA_Endpoint_Error', endpoint=request.url, exception=e)
                 return None
 
     @staticmethod
