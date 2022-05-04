@@ -32,15 +32,15 @@ async def get_defendants(urn: str | None = None,
         logger.info("Defendants_Get_Urn_And_Uuid", urn=urn, uuid=uuid)
         cda_response = await client.get(f"/api/internal/v2/prosecution_cases/{urn}/defendants/{uuid}")
     elif urn:
-        logger.info(f"Defendants_Get_Urn", urn=urn)
+        logger.info("Defendants_Get_Urn", urn=urn)
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[prosecution_case_reference]": urn})
     elif asn:
-        logger.info(f"Defendants_Get_Asn", asn=asn)
+        logger.info("Defendants_Get_Asn", asn=asn)
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[arrest_summons_number]": asn})
     elif nino:
-        logger.info(f"Defendants_Get_Nino", nino=nino)
+        logger.info("Defendants_Get_Nino", nino=nino)
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[national_insurance_number]": nino})
     else:
@@ -51,7 +51,7 @@ async def get_defendants(urn: str | None = None,
         logger.error("Prosecution_Case_Endpoint_Did_Not_Return")
         return Response(status_code=424)
 
-    logger.info(f"Defendants_Response_Returned_Status_Code", status_code=cda_response.status_code)
+    logger.info("Defendants_Response_Returned_Status_Code", status_code=cda_response.status_code)
 
     match cda_response.status_code:
         case 200:

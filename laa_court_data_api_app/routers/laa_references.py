@@ -51,7 +51,7 @@ async def post_maat_link(request: ExternalPostRequest):
     logger.info("Calling_Maat_Post", defendant_id=request.defendant_id)
     client = CourtDataAdaptorClient()
 
-    cda_response = await client.post(f"/api/internal/v2/laa_references/",
+    cda_response = await client.post("/api/internal/v2/laa_references/",
                                      body=InternalPostRequest(laa_reference=InternalPost(**request.dict())))
 
     return formulated_response(cda_response, request.defendant_id, "Linking")
@@ -72,7 +72,7 @@ def formulated_response(cda_response, defendant_id, request_type):
                                 content=LaaReferencesErrorResponse(
                                     error=cda_response.json()).dict())
         case 404:
-            logger.info(f"Laa_References_Endpoint_Not_Found")
+            logger.info("Laa_References_Endpoint_Not_Found")
             return Response(status_code=404)
         case 422:
             logger.info(f"Unable_To_Process_{request_type}", defendant_id=defendant_id)
@@ -80,7 +80,7 @@ def formulated_response(cda_response, defendant_id, request_type):
                                 content=LaaReferencesErrorResponse(
                                     error=parse_error_response(cda_response.json()["error"])).dict())
         case _:
-            logger.error(f"Laa_References_Endpoint_Error_Returning")
+            logger.error("Laa_References_Endpoint_Error_Returning")
             return Response(status_code=424)
 
 
