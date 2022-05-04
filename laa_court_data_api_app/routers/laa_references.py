@@ -38,7 +38,7 @@ async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
         return JSONResponse(status_code=400, content=LaaReferencesErrorResponse(
             error={'defendant_id': ['mismatch in ids given']}).dict())
 
-    logger.info(f"Calling_Maat_Patch_{defendant_id}")
+    logger.info("Calling_Maat_Patch", defendant_id=defendant_id)
     client = CourtDataAdaptorClient()
     cda_response = await client.patch(f'/api/internal/v2/laa_references/{defendant_id}',
                                       body=InternalPatchRequest(laa_reference=InternalPatch(**request.dict())))
@@ -48,7 +48,7 @@ async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
 
 @router.post("/v2/laa_references", status_code=202, responses=responses)
 async def post_maat_link(request: ExternalPostRequest):
-    logger.info(f"Calling_Maat_Post_{request.defendant_id}")
+    logger.info("Calling_Maat_Post", defendant_id=request.defendant_id)
     client = CourtDataAdaptorClient()
 
     cda_response = await client.post(f"/api/internal/v2/laa_references/",
@@ -64,10 +64,10 @@ def formulated_response(cda_response, defendant_id, request_type):
 
     match cda_response.status_code:
         case 202:
-            logger.info(f"Maat_Id_For_{defendant_id}_{request_type}_Successfully_Requested")
+            logger.info(f"Maat_Id_For_{request_type}_Successfully_Requested", defendant_id=defendant_id)
             return Response(status_code=202)
         case 400:
-            logger.info(f"Validation_Failed_For_{defendant_id}")
+            logger.info(f"Validation_Failed_For_{request_type}", defendant_id=defendant_id)
             return JSONResponse(status_code=400,
                                 content=LaaReferencesErrorResponse(
                                     error=cda_response.json()).dict())
@@ -75,7 +75,7 @@ def formulated_response(cda_response, defendant_id, request_type):
             logger.info(f"Laa_References_Endpoint_Not_Found")
             return Response(status_code=404)
         case 422:
-            logger.info(f"Unable_To_Process_{request_type}_For_{defendant_id}")
+            logger.info(f"Unable_To_Process_{request_type}", defendant_id=defendant_id)
             return JSONResponse(status_code=422,
                                 content=LaaReferencesErrorResponse(
                                     error=parse_error_response(cda_response.json()["error"])).dict())

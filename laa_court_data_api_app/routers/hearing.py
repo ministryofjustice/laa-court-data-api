@@ -15,7 +15,7 @@ router = APIRouter()
 @router.get("/v2/hearing/{hearing_id}", response_model=ExternalHearingResult, status_code=200)
 async def get_hearing(hearing_id: UUID):
     logger.info("Calling_Hearing_Get_Endpoint")
-    logger.info(f"Hearing_Get_{hearing_id}")
+    logger.info(f"Hearing_Get", hearing_id=hearing_id)
     client = CourtDataAdaptorClient()
     cda_response = await client.get(f"/api/internal/v2/hearing_results/{hearing_id}")
 
