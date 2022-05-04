@@ -1,10 +1,11 @@
-from asgi_correlation_id import correlation_id_filter
-
 config = {
     'version': 1,
     'disable_existing_loggers': False,
     'filters': {
-        'correlation_id': {'()': correlation_id_filter(uuid_length=32)}
+        'correlation_id': {
+            '()': 'asgi_correlation_id.CorrelationIdFilter',
+            'uuid_length': 32
+            }
     },
     'formatters': {
         'basicFormatter': {
