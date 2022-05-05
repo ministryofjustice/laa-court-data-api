@@ -59,7 +59,7 @@ async def post_maat_link(request: ExternalPostRequest):
 
 def formulated_response(cda_response, defendant_id, request_type):
     if cda_response is None:
-        logger.error("Laa_References_Endpoint_Did_Not_Return")
+        logger.error("Laa_References_Endpoint_Did_Not_Return", request_type=request_type, defendant_id=defendant_id)
         return Response(status_code=424)
 
     match cda_response.status_code:
