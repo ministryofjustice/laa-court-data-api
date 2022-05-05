@@ -8,6 +8,7 @@ from ..models.token_response import TokenResponse
 
 logger = structlog.get_logger(__name__)
 
+
 class OauthClient:
     __instance = None
     __token = None
