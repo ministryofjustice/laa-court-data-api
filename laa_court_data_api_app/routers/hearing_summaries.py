@@ -23,7 +23,7 @@ async def get_hearing_summaries(urn: str):
                                     params={"filter[prosecution_case_reference]": urn})
 
     if cda_response is None:
-        logger.error("Prosecution_Case_Endpoint_Did_Not_Return")
+        logger.error("Prosecution_Case_Endpoint_Did_Not_Return", urn=urn)
         return Response(status_code=424)
 
     match cda_response.status_code:

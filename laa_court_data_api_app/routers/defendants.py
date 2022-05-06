@@ -48,7 +48,8 @@ async def get_defendants(urn: str | None = None,
         return Response(status_code=400)
 
     if cda_response is None:
-        logger.error("Prosecution_Case_Endpoint_Did_Not_Return")
+        logger.error("Prosecution_Case_Endpoint_Did_Not_Return",
+                     urn=urn, name=name, dob=dob, uuid=uuid, asn=asn, nino=nino)
         return Response(status_code=424)
 
     logger.info("Defendants_Response_Returned_Status_Code", status_code=cda_response.status_code)

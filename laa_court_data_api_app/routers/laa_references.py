@@ -72,7 +72,7 @@ def formulated_response(cda_response, defendant_id, request_type):
                                 content=LaaReferencesErrorResponse(
                                     error=cda_response.json()).dict())
         case 404:
-            logger.info("Laa_References_Endpoint_Not_Found")
+            logger.info(f"Laa_References_Not_Found_For_{request_type}", defendant_id=defendant_id)
             return Response(status_code=404)
         case 422:
             logger.info(f"Unable_To_Process_{request_type}", defendant_id=defendant_id)

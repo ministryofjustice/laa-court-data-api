@@ -19,7 +19,7 @@ async def get_hearing(hearing_id: UUID):
     cda_response = await client.get(f"/api/internal/v2/hearing_results/{hearing_id}")
 
     if cda_response is None:
-        logger.error("Hearing_Results_Endpoint_Did_Not_Return")
+        logger.error("Hearing_Results_Endpoint_Did_Not_Return", hearing_id=hearing_id)
         return Response(status_code=424)
 
     match cda_response.status_code:
@@ -34,5 +34,5 @@ async def get_hearing(hearing_id: UUID):
             logger.info("Hearing_Results_Endpoint_Not_Found")
             return Response(status_code=404)
         case _:
-            logger.info("Hearing_Results_Endpoint_Error_Returning", status_code=cda_response.status_code)
+            logger.error("Hearing_Results_Endpoint_Error_Returning", status_code=cda_response.status_code)
             return Response(status_code=424)

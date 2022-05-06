@@ -19,7 +19,7 @@ async def get_hearing_events(hearing_id: UUID, date: str = Query(None, example="
     cda_response = await client.get(f'/api/internal/v2/hearings/{hearing_id}/event_log/{date}')
 
     if cda_response is None:
-        logger.error("Hearing_Events_Endpoint_Did_Not_Return")
+        logger.error("Hearing_Events_Endpoint_Did_Not_Return", hearing_id=hearing_id)
         return Response(status_code=424)
 
     match cda_response.status_code:
