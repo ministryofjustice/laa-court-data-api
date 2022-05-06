@@ -67,7 +67,7 @@ def formulated_response(cda_response, defendant_id, request_type):
             logger.info(f"MAAT_Id_For_{request_type}_Successfully_Requested", defendant_id=defendant_id)
             return Response(status_code=202)
         case 400:
-            logger.info(f"Validation_Failed_For_{request_type}", defendant_id=defendant_id)
+            logger.warn(f"Validation_Failed_For_{request_type}", defendant_id=defendant_id)
             return JSONResponse(status_code=400,
                                 content=LaaReferencesErrorResponse(
                                     error=cda_response.json()).dict())
