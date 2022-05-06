@@ -17,7 +17,6 @@ router = APIRouter()
 
 @router.get("/v2/hearingsummaries/{urn}", response_model=HearingSummariesResponse, status_code=200)
 async def get_hearing_summaries(urn: str):
-    logger.info("Calling_Hearing_Summaries_Get_Endpoint")
     logger.info("Hearing_Summaries_Get", urn=urn)
     client = CourtDataAdaptorClient()
     cda_response = await client.get("/api/internal/v2/prosecution_cases",
@@ -36,13 +35,13 @@ async def get_hearing_summaries(urn: str):
             return HearingSummariesResponse(hearing_summaries=summaries,
                                             overall_defendants=map_defendant_list(prosecution_case_results.results))
         case 400:
-            logger.info("Prosecution_Case_Endpoint_Validation_Failed")
+            logger.warn("Prosecution_Case_Endpoint_Validation_Failed")
             return Response(status_code=400)
         case 404:
             logger.info("Prosecution_Case_Endpoint_Not_Found")
             return Response(status_code=404)
         case _:
-            logger.error("Prosecution_Case_Endpoint_Error_Returning")
+            logger.error("Prosecution_Case_Endpoint_Error_Returning", status_code=cda_response.status_code)
             return Response(status_code=424)
 
 

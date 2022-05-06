@@ -14,7 +14,6 @@ router = APIRouter()
 
 @router.get("/v2/hearing/{hearing_id}", response_model=ExternalHearingResult, status_code=200)
 async def get_hearing(hearing_id: UUID):
-    logger.info("Calling_Hearing_Get_Endpoint")
     logger.info("Hearing_Get", hearing_id=hearing_id)
     client = CourtDataAdaptorClient()
     cda_response = await client.get(f"/api/internal/v2/hearing_results/{hearing_id}")
@@ -29,11 +28,11 @@ async def get_hearing(hearing_id: UUID):
             internal_result = InternalHearingResult(**cda_response.json())
             return ExternalHearingResult(**internal_result.dict())
         case 400:
-            logger.info("Hearing_Results_Endpoint_Validation_Failed")
+            logger.warn("Hearing_Results_Endpoint_Validation_Failed")
             return Response(status_code=400)
         case 404:
             logger.info("Hearing_Results_Endpoint_Not_Found")
             return Response(status_code=404)
         case _:
-            logger.info("Hearing_Results_Endpoint_Error_Returning")
+            logger.info("Hearing_Results_Endpoint_Error_Returning", status_code=cda_response.status_code)
             return Response(status_code=424)

@@ -38,7 +38,7 @@ async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
         return JSONResponse(status_code=400, content=LaaReferencesErrorResponse(
             error={'defendant_id': ['mismatch in ids given']}).dict())
 
-    logger.info("Calling_Maat_Patch", defendant_id=defendant_id)
+    logger.info("Calling_MAAT_Patch", defendant_id=defendant_id)
     client = CourtDataAdaptorClient()
     cda_response = await client.patch(f'/api/internal/v2/laa_references/{defendant_id}',
                                       body=InternalPatchRequest(laa_reference=InternalPatch(**request.dict())))
@@ -48,7 +48,7 @@ async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
 
 @router.post("/v2/laa_references", status_code=202, responses=responses)
 async def post_maat_link(request: ExternalPostRequest):
-    logger.info("Calling_Maat_Post", defendant_id=request.defendant_id)
+    logger.info("Calling_MAAT_Post", defendant_id=request.defendant_id)
     client = CourtDataAdaptorClient()
 
     cda_response = await client.post("/api/internal/v2/laa_references/",
@@ -64,7 +64,7 @@ def formulated_response(cda_response, defendant_id, request_type):
 
     match cda_response.status_code:
         case 202:
-            logger.info(f"Maat_Id_For_{request_type}_Successfully_Requested", defendant_id=defendant_id)
+            logger.info(f"MAAT_Id_For_{request_type}_Successfully_Requested", defendant_id=defendant_id)
             return Response(status_code=202)
         case 400:
             logger.info(f"Validation_Failed_For_{request_type}", defendant_id=defendant_id)
@@ -80,7 +80,7 @@ def formulated_response(cda_response, defendant_id, request_type):
                                 content=LaaReferencesErrorResponse(
                                     error=parse_error_response(cda_response.json()["error"])).dict())
         case _:
-            logger.error("Laa_References_Endpoint_Error_Returning")
+            logger.error("Laa_References_Endpoint_Error_Returning", status_code=cda_response.status_code)
             return Response(status_code=424)
 
 

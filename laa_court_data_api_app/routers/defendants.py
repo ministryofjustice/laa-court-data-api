@@ -63,13 +63,13 @@ async def get_defendants(urn: str | None = None,
             logger.info("Defendants_To_Show", entries=len(summaries))
             return DefendantsResponse(defendant_summaries=summaries)
         case 400:
-            logger.info("Prosecution_Case_Endpoint_Validation_Failed")
+            logger.warn("Prosecution_Case_Endpoint_Validation_Failed")
             return Response(status_code=400)
         case 404:
             logger.info("Prosecution_Case_Endpoint_Not_Found")
             return Response(status_code=404)
         case _:
-            logger.error("Prosecution_Case_Endpoint_Error_Returning")
+            logger.error("Prosecution_Case_Endpoint_Error_Returning", status_code=cda_response.status_code)
             return Response(status_code=424)
 
 
