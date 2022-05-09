@@ -25,22 +25,17 @@ async def get_defendants(urn: str | None = None,
     logger.info("Calling_Defendants_Get_Endpoint")
 
     if name and dob:
-        logger.info("Defendants_Get_Name_And_Dob_Filtered")
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[name]": name, "filter[date_of_birth]": dob})
     elif urn and uuid:
-        logger.info("Defendants_Get_Urn_And_Uuid", urn=urn, uuid=uuid)
         cda_response = await client.get(f"/api/internal/v2/prosecution_cases/{urn}/defendants/{uuid}")
     elif urn:
-        logger.info("Defendants_Get_Urn", urn=urn)
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[prosecution_case_reference]": urn})
     elif asn:
-        logger.info("Defendants_Get_Asn", asn=asn)
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[arrest_summons_number]": asn})
     elif nino:
-        logger.info("Defendants_Get_Nino", nino=nino)
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[national_insurance_number]": nino})
     else:
@@ -48,8 +43,9 @@ async def get_defendants(urn: str | None = None,
         return Response(status_code=400)
 
     if cda_response is None:
+        # Log will only output one of the parameters based on the call made
         logger.error("Prosecution_Case_Endpoint_Did_Not_Return",
-                     urn=urn, name=name, dob=dob, uuid=uuid, asn=asn, nino=nino)
+                     urn=urn, name=name, uuid=uuid, asn=asn, nino=nino)
         return Response(status_code=424)
 
     logger.info("Defendants_Response_Returned_Status_Code", status_code=cda_response.status_code)
