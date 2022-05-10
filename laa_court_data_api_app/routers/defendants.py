@@ -53,7 +53,8 @@ async def get_defendants(urn: str | None = None,
     match cda_response.status_code:
         case 200:
             if urn and uuid:
-                summaries = [cda_response.json()]
+                defendant_summary = map_defendant_summary(DefendantSummary(**cda_response.json()), urn)
+                summaries = [defendant_summary]
                 logger.info("Defendants_To_Show", entries=len(summaries))
                 return DefendantsResponse(defendant_summaries=summaries)
             summaries = map_defendants(ProsecutionCasesResults(**cda_response.json()))
@@ -74,10 +75,16 @@ def map_defendants(prosecution_case_results: ProsecutionCasesResults) -> list[De
     response_list = []
     for result in prosecution_case_results.results:
         for summary in result.defendant_summaries:
-            mapped_model = DefendantSummary(prosecution_case_reference=result.prosecution_case_reference,
-                                            **summary.dict())
-            full_name = f'{summary.first_name} {summary.middle_name} {summary.last_name}'
-            mapped_model.name = full_name
+            mapped_model = map_defendant_summary(summary, result.prosecution_case_reference)
             response_list.append(mapped_model)
 
     return response_list
+
+
+def map_defendant_summary(defendant_summary: DefendantSummary, prosecution_case_reference: str):
+    mapped_model = DefendantSummary(**defendant_summary.dict())
+    full_name = f'{defendant_summary.first_name} {defendant_summary.middle_name} {defendant_summary.last_name}'
+    mapped_model.name = full_name
+    mapped_model.prosecution_case_reference = prosecution_case_reference
+
+    return mapped_model
