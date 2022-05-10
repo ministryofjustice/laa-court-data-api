@@ -1,12 +1,12 @@
 import datetime as dt
-import logging
+import structlog
 
 import httpx
 
 from ..config.court_data_adaptor import CdaSettings, get_cda_settings
 from ..models.token_response import TokenResponse
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(__name__)
 
 
 class OauthClient:
@@ -57,7 +57,7 @@ class OauthClient:
                 'client_secret': settings.cda_secret
             }
         except AttributeError as e:
-            logger.error("Error_Generating_OAuth_Parameters")
+            logger.error("Error_Generating_OAuth_Parameters", exception=e)
             raise e
 
     @staticmethod
@@ -69,5 +69,5 @@ class OauthClient:
                 "Authorization": f"{token.token_type} {token.access_token}"
             }
         except AttributeError as e:
-            logger.error("Error_Generating_Header")
+            logger.error("Error_Generating_Header", exception=e)
             raise e

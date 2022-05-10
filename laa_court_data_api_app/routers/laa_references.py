@@ -1,4 +1,4 @@
-import logging
+import structlog
 import re
 
 from fastapi import APIRouter
@@ -20,7 +20,7 @@ from laa_court_data_api_app.models.laa_references.internal.request.laa_reference
 from laa_court_data_api_app.models.laa_references.internal.request.laa_references_post_request import \
     LaaReferencesPostRequest as InternalPostRequest
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(__name__)
 router = APIRouter()
 
 responses = {
@@ -38,7 +38,7 @@ async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
         return JSONResponse(status_code=400, content=LaaReferencesErrorResponse(
             error={'defendant_id': ['mismatch in ids given']}).dict())
 
-    logger.info(f"Calling_Maat_Patch_{defendant_id}")
+    logger.info("Calling_MAAT_Patch", defendant_id=defendant_id)
     client = CourtDataAdaptorClient()
     cda_response = await client.patch(f'/api/internal/v2/laa_references/{defendant_id}',
                                       body=InternalPatchRequest(laa_reference=InternalPatch(**request.dict())))
@@ -48,10 +48,10 @@ async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
 
 @router.post("/v2/laa_references", status_code=202, responses=responses)
 async def post_maat_link(request: ExternalPostRequest):
-    logger.info(f"Calling_Maat_Post_{request.defendant_id}")
+    logger.info("Calling_MAAT_Post", defendant_id=request.defendant_id)
     client = CourtDataAdaptorClient()
 
-    cda_response = await client.post(f"/api/internal/v2/laa_references/",
+    cda_response = await client.post("/api/internal/v2/laa_references/",
                                      body=InternalPostRequest(laa_reference=InternalPost(**request.dict())))
 
     return formulated_response(cda_response, request.defendant_id, "Linking")
@@ -59,28 +59,28 @@ async def post_maat_link(request: ExternalPostRequest):
 
 def formulated_response(cda_response, defendant_id, request_type):
     if cda_response is None:
-        logging.error("Laa_References_Endpoint_Did_Not_Return")
+        logger.error("Laa_References_Endpoint_Did_Not_Return", request_type=request_type, defendant_id=defendant_id)
         return Response(status_code=424)
 
     match cda_response.status_code:
         case 202:
-            logging.info(f"Maat_Id_For_{defendant_id}_{request_type}_Successfully_Requested")
+            logger.info(f"MAAT_Id_For_{request_type}_Successfully_Requested", defendant_id=defendant_id)
             return Response(status_code=202)
         case 400:
-            logging.info(f"Validation_Failed_For_{defendant_id}")
+            logger.warn(f"Validation_Failed_For_{request_type}", defendant_id=defendant_id)
             return JSONResponse(status_code=400,
                                 content=LaaReferencesErrorResponse(
                                     error=cda_response.json()).dict())
         case 404:
-            logging.info(f"Laa_References_Endpoint_Not_Found")
+            logger.info(f"Laa_References_Not_Found_For_{request_type}", defendant_id=defendant_id)
             return Response(status_code=404)
         case 422:
-            logging.info(f"Unable_To_Process_{request_type}_For_{defendant_id}")
+            logger.info(f"Unable_To_Process_{request_type}", defendant_id=defendant_id)
             return JSONResponse(status_code=422,
                                 content=LaaReferencesErrorResponse(
                                     error=parse_error_response(cda_response.json()["error"])).dict())
         case _:
-            logging.error(f"Laa_References_Endpoint_Error_Returning")
+            logger.error("Laa_References_Endpoint_Error_Returning", status_code=cda_response.status_code)
             return Response(status_code=424)
 
 
