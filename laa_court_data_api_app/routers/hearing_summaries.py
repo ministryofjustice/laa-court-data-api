@@ -32,7 +32,8 @@ async def get_hearing_summaries(urn: str):
             prosecution_case_results = ProsecutionCasesResults(**cda_response.json())
             summaries = map_hearing_summaries(prosecution_case_results.results)
             logger.info("Hearing_Summaries_To_Show", count=len(summaries))
-            return HearingSummariesResponse(hearing_summaries=summaries,
+            return HearingSummariesResponse(prosecution_case_reference=urn,
+                                            hearing_summaries=summaries,
                                             overall_defendants=map_defendant_list(prosecution_case_results.results))
         case 400:
             logger.warn("Prosecution_Case_Endpoint_Validation_Failed")
