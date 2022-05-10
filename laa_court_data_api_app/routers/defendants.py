@@ -1,4 +1,4 @@
-import logging
+import structlog
 from uuid import UUID
 
 from fastapi import APIRouter
@@ -9,7 +9,7 @@ from laa_court_data_api_app.models.defendants.defendant_summary import Defendant
 from laa_court_data_api_app.models.defendants.defendants_response import DefendantsResponse
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
 
-logger = logging.getLogger(__name__)
+logger = structlog.get_logger(__name__)
 
 router = APIRouter()
 
@@ -25,22 +25,17 @@ async def get_defendants(urn: str | None = None,
     logger.info("Calling_Defendants_Get_Endpoint")
 
     if name and dob:
-        logging.info("Defendants_Get_Name_And_Dob_Filtered")
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[name]": name, "filter[date_of_birth]": dob})
     elif urn and uuid:
-        logging.info(f"Defendants_Get_Urn_And_Uuid_{urn}_{uuid}")
         cda_response = await client.get(f"/api/internal/v2/prosecution_cases/{urn}/defendants/{uuid}")
     elif urn:
-        logging.info(f"Defendants_Get_Urn_{urn}")
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[prosecution_case_reference]": urn})
     elif asn:
-        logging.info(f"Defendants_Get_Asn_{asn}")
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[arrest_summons_number]": asn})
     elif nino:
-        logging.info(f"Defendants_Get_Nino_{nino}")
         cda_response = await client.get("/api/internal/v2/prosecution_cases",
                                         params={"filter[national_insurance_number]": nino})
     else:
@@ -48,28 +43,30 @@ async def get_defendants(urn: str | None = None,
         return Response(status_code=400)
 
     if cda_response is None:
-        logging.error("Prosecution_Case_Endpoint_Did_Not_Return")
+        # Log will only output one of the parameters based on the call made
+        logger.error("Prosecution_Case_Endpoint_Did_Not_Return",
+                     urn=urn, name=name, uuid=uuid, asn=asn, nino=nino)
         return Response(status_code=424)
 
-    logger.info(f"Defendants_Response_Returned_Status_Code_{cda_response.status_code}")
+    logger.info("Defendants_Response_Returned_Status_Code", status_code=cda_response.status_code)
 
     match cda_response.status_code:
         case 200:
             if urn and uuid:
                 summaries = [cda_response.json()]
-                logging.info(f"Defendants_To_Show: {summaries.count}")
+                logger.info("Defendants_To_Show", entries=len(summaries))
                 return DefendantsResponse(defendant_summaries=summaries)
             summaries = map_defendants(ProsecutionCasesResults(**cda_response.json()))
-            logging.info(f"Defendants_To_Show: {len(summaries)}")
+            logger.info("Defendants_To_Show", entries=len(summaries))
             return DefendantsResponse(defendant_summaries=summaries)
         case 400:
-            logging.info("Prosecution_Case_Endpoint_Validation_Failed")
+            logger.warn("Prosecution_Case_Endpoint_Validation_Failed")
             return Response(status_code=400)
         case 404:
-            logging.info("Prosecution_Case_Endpoint_Not_Found")
+            logger.info("Prosecution_Case_Endpoint_Not_Found")
             return Response(status_code=404)
         case _:
-            logging.error("Prosecution_Case_Endpoint_Error_Returning")
+            logger.error("Prosecution_Case_Endpoint_Error_Returning", status_code=cda_response.status_code)
             return Response(status_code=424)
 
 
