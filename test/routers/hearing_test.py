@@ -17,7 +17,7 @@ def test_hearing_returns_ok(mock_settings, mock_cda_settings, override_get_cda_s
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/hearing/00d0000c-00ff-00ec-b000-0000ac000000")
+    response = client.get("/v2/hearing/00d0000c-00ff-00ec-b000-0000ac000000?date=01-04-2021")
 
     assert response.status_code == 200
     assert mock_cda_client["pass_hearing_route"].called
@@ -33,7 +33,7 @@ def test_hearing_returns_bad_request(mock_settings, mock_cda_settings, override_
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/hearing/00d0000c-00ff-00ec-b000-0000ac000001")
+    response = client.get("/v2/hearing/00d0000c-00ff-00ec-b000-0000ac000001?date=01-04-2021")
 
     assert response.status_code == 400
     assert mock_cda_client["fail_hearing_route"].called
@@ -48,7 +48,7 @@ def test_hearing_returns_not_found(mock_settings, mock_cda_settings, override_ge
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/hearing/00d0000c-00ff-00ec-b000-0000ac000002")
+    response = client.get("/v2/hearing/00d0000c-00ff-00ec-b000-0000ac000002?date=01-04-2021")
 
     assert response.status_code == 404
     assert mock_cda_client["notfound_hearing_route"].called
@@ -63,7 +63,7 @@ def test_hearing_returns_server_error(mock_settings, mock_cda_settings, override
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/hearing/00d0000c-00ff-00ec-b000-0000ac000003")
+    response = client.get("/v2/hearing/00d0000c-00ff-00ec-b000-0000ac000003?date=01-04-2021")
 
     assert response.status_code == 424
     assert mock_cda_client["exception_hearing_route"].called
@@ -79,7 +79,7 @@ def test_hearing_returns_none(mock_settings, mock_cda_settings, override_get_cda
     mock_cda_settings.return_value = CdaSettings(cda_endpoint="http://failed-test-url/", cda_secret="12345",
                                                  cda_uid="12345")
     mock_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/hearing/00d0000c-00ff-00ec-b000-0000ac000003")
+    response = client.get("/v2/hearing/00d0000c-00ff-00ec-b000-0000ac000003?date=01-04-2021")
 
     assert response.status_code == 424
     assert response.content == b''
