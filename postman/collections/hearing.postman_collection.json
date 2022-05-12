@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1163550b-3f5d-4ec7-899a-8ab7127c214a",
+		"_postman_id": "be19168d-ffc7-4cb7-94e7-dca3cd36bef5",
 		"name": "Hearing",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -36,7 +36,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{BaseUrl}}/v2/hearing/{{HearingId}}",
+					"raw": "{{BaseUrl}}/v2/hearing/{{HearingId}}?date={{HearingDate}}",
 					"host": [
 						"{{BaseUrl}}"
 					],
@@ -47,9 +47,8 @@
 					],
 					"query": [
 						{
-							"key": "",
-							"value": null,
-							"disabled": true
+							"key": "date",
+							"value": "{{HearingDate}}"
 						}
 					]
 				}
