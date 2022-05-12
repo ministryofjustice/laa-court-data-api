@@ -16,7 +16,7 @@ router = APIRouter()
 async def get_hearing(hearing_id: UUID, date: str):
     logger.info("Hearing_Get", hearing_id=hearing_id, date=date)
     client = CourtDataAdaptorClient()
-    cda_response = await client.get(f"/api/internal/v2/hearing_results/{hearing_id}", params={'date': date})
+    cda_response = await client.get(f"/api/internal/v2/hearing_results/{hearing_id}", params={'sitting_day': date})
 
     if cda_response is None:
         logger.error("Hearing_Results_Endpoint_Did_Not_Return", hearing_id=hearing_id)

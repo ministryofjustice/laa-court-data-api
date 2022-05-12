@@ -168,22 +168,22 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
         # /hearing
         pass_hearing_route = respx_mock.get(
             "http://test-url/api/internal/v2/hearing_results/00d0000c-00ff-00ec-b000-0000ac000000",
-            params={'date': '01-04-2021'},
+            params={'sitting_day': '01-04-2021'},
             name="pass_hearing_route")
         pass_hearing_route.return_value = Response(200, json=get_hearing_results.dict())
         fail_hearing_route = respx_mock.get(
             "http://test-url/api/internal/v2/hearing_results/00d0000c-00ff-00ec-b000-0000ac000001",
-            params={'date': '01-04-2021'},
+            params={'sitting_day': '01-04-2021'},
             name="fail_hearing_route")
         fail_hearing_route.return_value = Response(400)
         notfound_hearing_route = respx_mock.get(
             "http://test-url/api/internal/v2/hearing_results/00d0000c-00ff-00ec-b000-0000ac000002",
-            params={'date': '01-04-2021'},
+            params={'sitting_day': '01-04-2021'},
             name="notfound_hearing_route")
         notfound_hearing_route.return_value = Response(404)
         exception_hearing_route = respx_mock.get(
             "http://test-url/api/internal/v2/hearing_results/00d0000c-00ff-00ec-b000-0000ac000003",
-            params={'date': '01-04-2021'},
+            params={'sitting_day': '01-04-2021'},
             name="exception_hearing_route")
         exception_hearing_route.return_value = Response(500)
 
