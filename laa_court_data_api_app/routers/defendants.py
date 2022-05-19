@@ -83,8 +83,22 @@ def map_defendants(prosecution_case_results: ProsecutionCasesResults) -> list[De
 
 def map_defendant_summary(defendant_summary: DefendantSummary, prosecution_case_reference: str):
     mapped_model = DefendantSummary(**defendant_summary.dict())
-    full_name = f'{defendant_summary.first_name} {defendant_summary.middle_name} {defendant_summary.last_name}'
+    full_name = build_full_name(defendant_summary.first_name,
+                                defendant_summary.middle_name,
+                                defendant_summary.last_name)
     mapped_model.name = full_name
     mapped_model.prosecution_case_reference = prosecution_case_reference
 
     return mapped_model
+
+
+def build_full_name(first_name: str, middle_name: str, last_name: str):
+    out_str = ''
+    if first_name:
+        out_str += first_name
+    if middle_name:
+        out_str += f' {middle_name}'
+    if last_name:
+        out_str += f' {last_name}'
+
+    return out_str
