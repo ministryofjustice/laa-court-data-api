@@ -17,6 +17,9 @@ from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import Pr
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
 from laa_court_data_api_app.models.token_response import TokenResponse
 
+PROSECUTION_CASES_ENDPOINT = 'https://test-url/api/internal/v2/prosecution_cases'
+LAA_REFERENCES_ENDPOINT = 'https://test-url/api/internal/v2/laa_references/'
+
 
 @pytest.fixture()
 def override_get_cda_settings():
@@ -58,36 +61,36 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
         failed_token_route = respx_mock.post("https://failed-test-url/oauth/token", name="failed_token_endpoint")
         failed_token_route.return_value = Response(500)
 
-        pass_route = respx_mock.get("https://test-url/api/internal/v2/prosecution_cases",
+        pass_route = respx_mock.get(PROSECUTION_CASES_ENDPOINT,
                                     params={"filter[prosecution_case_reference]": "pass"}, name="pass_route")
         pass_route.return_value = Response(200, json=get_prosecution_case_results.dict())
-        fail_route = respx_mock.get("https://test-url/api/internal/v2/prosecution_cases",
+        fail_route = respx_mock.get(PROSECUTION_CASES_ENDPOINT,
                                     params={"filter[prosecution_case_reference]": "fail"}, name="fail_route")
         fail_route.return_value = Response(400)
-        notfound_route = respx_mock.get("https://test-url/api/internal/v2/prosecution_cases",
+        notfound_route = respx_mock.get(PROSECUTION_CASES_ENDPOINT,
                                         params={"filter[prosecution_case_reference]": "notfound"},
                                         name="notfound_route")
         notfound_route.return_value = Response(404)
-        exception_route = respx_mock.get("https://test-url/api/internal/v2/prosecution_cases",
+        exception_route = respx_mock.get(PROSECUTION_CASES_ENDPOINT,
                                          params={"filter[prosecution_case_reference]": "exception"},
                                          name="exception_route")
         exception_route.return_value = Response(500)
 
         # /defendants by name and date of birth
-        pass_name_dob_route = respx_mock.get("https://test-url/api/internal/v2/prosecution_cases",
+        pass_name_dob_route = respx_mock.get(PROSECUTION_CASES_ENDPOINT,
                                              params={"filter[name]": "pass", "filter[date_of_birth]": "pass"},
                                              name="pass_name_dob_route")
         pass_name_dob_route.return_value = Response(200, json=get_prosecution_case_results.dict())
-        fail_name_dob_route = respx_mock.get("https://test-url/api/internal/v2/prosecution_cases",
+        fail_name_dob_route = respx_mock.get(PROSECUTION_CASES_ENDPOINT,
                                              params={"filter[name]": "fail", "filter[date_of_birth]": "fail"},
                                              name="fail_name_dob_route")
         fail_name_dob_route.return_value = Response(400)
-        notfound_name_dob_route = respx_mock.get("https://test-url/api/internal/v2/prosecution_cases",
+        notfound_name_dob_route = respx_mock.get(PROSECUTION_CASES_ENDPOINT,
                                                  params={"filter[name]": "notfound",
                                                          "filter[date_of_birth]": "notfound"},
                                                  name="notfound_name_dob_route")
         notfound_name_dob_route.return_value = Response(404)
-        exception_name_dob_route = respx_mock.get("https://test-url/api/internal/v2/prosecution_cases",
+        exception_name_dob_route = respx_mock.get(PROSECUTION_CASES_ENDPOINT,
                                                   params={"filter[name]": "exception",
                                                           "filter[date_of_birth]": "exception"},
                                                   name="exception_name_dob_route")
@@ -116,51 +119,51 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
         exception_urn_uuid_route.return_value = Response(500)
 
         pass_asn_route = respx_mock.get(
-            "https://test-url/api/internal/v2/prosecution_cases",
+            PROSECUTION_CASES_ENDPOINT,
             params={"filter[arrest_summons_number]": "pass"},
             name="pass_asn_route")
         pass_asn_route.return_value = Response(200, json=get_prosecution_case_results.dict())
 
         fail_asn_route = respx_mock.get(
-            "https://test-url/api/internal/v2/prosecution_cases",
+            PROSECUTION_CASES_ENDPOINT,
             params={"filter[arrest_summons_number]": "fail"},
             name="fail_asn_route")
         fail_asn_route.return_value = Response(400)
 
         notfound_asn_route = respx_mock.get(
-            "https://test-url/api/internal/v2/prosecution_cases",
+            PROSECUTION_CASES_ENDPOINT,
             params={"filter[arrest_summons_number]": "notfound"},
             name="notfound_asn_route"
         )
         notfound_asn_route.return_value = Response(404)
 
         exception_asn_route = respx_mock.get(
-            "https://test-url/api/internal/v2/prosecution_cases",
+            PROSECUTION_CASES_ENDPOINT,
             params={"filter[arrest_summons_number]": "exception"},
             name="exception_asn_route")
         exception_asn_route.return_value = Response(500)
 
         pass_nino_route = respx_mock.get(
-            "https://test-url/api/internal/v2/prosecution_cases",
+            PROSECUTION_CASES_ENDPOINT,
             params={"filter[national_insurance_number]": "pass"},
             name="pass_nino_route")
         pass_nino_route.return_value = Response(200, json=get_prosecution_case_results.dict())
 
         fail_nino_route = respx_mock.get(
-            "https://test-url/api/internal/v2/prosecution_cases",
+            PROSECUTION_CASES_ENDPOINT,
             params={"filter[national_insurance_number]": "fail"},
             name="fail_nino_route")
         fail_nino_route.return_value = Response(400)
 
         notfound_nino_route = respx_mock.get(
-            "https://test-url/api/internal/v2/prosecution_cases",
+            PROSECUTION_CASES_ENDPOINT,
             params={"filter[national_insurance_number]": "notfound"},
             name="notfound_nino_route"
         )
         notfound_nino_route.return_value = Response(404)
 
         exception_nino_route = respx_mock.get(
-            "https://test-url/api/internal/v2/prosecution_cases",
+            PROSECUTION_CASES_ENDPOINT,
             params={"filter[national_insurance_number]": "exception"},
             name="exception_nino_route")
         exception_nino_route.return_value = Response(500)
@@ -241,25 +244,25 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
         # post /laa_references
 
         pass_post_maat = respx_mock.post(
-            "https://test-url/api/internal/v2/laa_references/",
+            LAA_REFERENCES_ENDPOINT,
             name="laa_references_post_pass_route",
             data=b'{"laa_reference": {"user_name": "pass-u", "defendant_id": null, "maat_reference": 1234567}}')
         pass_post_maat.return_value = Response(202)
 
         fail_post_maat = respx_mock.post(
-            "https://test-url/api/internal/v2/laa_references/",
+            LAA_REFERENCES_ENDPOINT,
             name="laa_references_post_fail_route",
             json__laa_reference__user_name="fail-u")
         fail_post_maat.return_value = Response(400, json={"unlink_other_reason_text": ["must be absent"]})
 
         not_found_post_maat = respx_mock.post(
-            "https://test-url/api/internal/v2/laa_references/",
+            LAA_REFERENCES_ENDPOINT,
             name="laa_references_post_not_found_route",
             json__laa_reference__user_name="notfound-u")
         not_found_post_maat.return_value = Response(404)
 
         unprocessable_entity_post_maat = respx_mock.post(
-            "https://test-url/api/internal/v2/laa_references/",
+            LAA_REFERENCES_ENDPOINT,
             name="laa_references_post_unprocessable_entity_route",
             json__laa_reference__user_name="unprocessable-u")
         unprocessable_entity_post_maat.return_value = Response(422, json={"error": "Contract failed with: {"
@@ -268,7 +271,7 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
                                                                                    "against Maat application.\"]}"})
 
         server_error_post_maat = respx_mock.post(
-            "https://test-url/api/internal/v2/laa_references/",
+            LAA_REFERENCES_ENDPOINT,
             name="laa_references_post_server_error_route",
             json__laa_reference__user_name="servererror-u")
         server_error_post_maat.return_value = Response(424)
