@@ -11,7 +11,7 @@ from laa_court_data_api_app.models.token_response import TokenResponse
 
 @pytest.fixture(scope="module")
 def get_cda_env_vars():
-    return CdaSettings(cda_endpoint="http://test-url/", cda_uid="12345", cda_secret="123454321")
+    return CdaSettings(cda_endpoint="https://test-url/", cda_uid="12345", cda_secret="123454321")
 
 
 @pytest.fixture(scope="module")
@@ -29,7 +29,7 @@ def get_new_token_response():
 
 @pytest.fixture(scope="function")
 def mock_cda_client(get_new_token_response, response_code):
-    with respx.mock(base_url="http://test-url/", assert_all_called=False) as respx_mock:
+    with respx.mock(base_url="https://test-url/", assert_all_called=False) as respx_mock:
         get_route = respx_mock.get("/get/", name="get_endpoint")
         get_route.return_value = Response(response_code, json=[])
         get_exception = respx_mock.get("/get/exception", name="get_exception_endpoint")

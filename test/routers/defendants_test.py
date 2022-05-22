@@ -94,7 +94,7 @@ def test_defendants_by_name_dob_returns_none(mock_settings, mock_cda_settings, o
                                              mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
-    mock_cda_settings.return_value = CdaSettings(cda_endpoint="http://failed-test-url/", cda_secret="12345",
+    mock_cda_settings.return_value = CdaSettings(cda_endpoint="https://failed-test-url/", cda_secret="12345",
                                                  cda_uid="12345")
     response = client.get("/v2/defendants?name=exception&dob=exception")
 
@@ -173,7 +173,7 @@ def test_defendants_by_urn_uuid_returns_none(mock_settings, mock_cda_settings, o
                                              mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
-    mock_cda_settings.return_value = CdaSettings(cda_endpoint="http://failed-test-url/", cda_secret="12345",
+    mock_cda_settings.return_value = CdaSettings(cda_endpoint="https://failed-test-url/", cda_secret="12345",
                                                  cda_uid="12345")
     response = client.get("/v2/defendants?urn=exception&uuid=22d2222c-22ff-22ec-b222-2222ac222222")
 
@@ -266,7 +266,7 @@ def test_defendants_by_urn_returns_none(mock_settings, mock_cda_settings, overri
                                         mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
-    mock_cda_settings.return_value = CdaSettings(cda_endpoint="http://failed-test-url/", cda_secret="12345",
+    mock_cda_settings.return_value = CdaSettings(cda_endpoint="https://failed-test-url/", cda_secret="12345",
                                                  cda_uid="12345")
     response = client.get("/v2/defendants?urn=exception")
 
@@ -345,7 +345,7 @@ def test_defendants_by_asn_returns_none(mock_settings, mock_cda_settings, overri
                                         mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
-    mock_cda_settings.return_value = CdaSettings(cda_endpoint="http://failed-test-url/", cda_secret="12345",
+    mock_cda_settings.return_value = CdaSettings(cda_endpoint="https://failed-test-url/", cda_secret="12345",
                                                  cda_uid="12345")
     response = client.get("/v2/defendants?asn=exception")
 
@@ -424,7 +424,7 @@ def test_defendants_by_nino_returns_none(mock_settings, mock_cda_settings, overr
                                          mock_cda_client):
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
-    mock_cda_settings.return_value = CdaSettings(cda_endpoint="http://failed-test-url/", cda_secret="12345",
+    mock_cda_settings.return_value = CdaSettings(cda_endpoint="https://failed-test-url/", cda_secret="12345",
                                                  cda_uid="12345")
     response = client.get("/v2/defendants?nino=exception")
 

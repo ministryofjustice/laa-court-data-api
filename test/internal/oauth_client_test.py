@@ -6,7 +6,7 @@ from test.internal.internal_fixtures import *
 
 class TestOAuthClient:
     @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-    @pytest.mark.respx(base_url="http://test-url/")
+    @pytest.mark.respx(base_url="https://test-url/")
     async def test_retrieve_token_returns_correct_value(self, mock_settings, respx_mock, get_cda_env_vars):
         mock_settings.return_value = get_cda_env_vars
         respx_mock.post("/oauth/token").mock(return_value=httpx.Response(status_code=200,
@@ -23,7 +23,7 @@ class TestOAuthClient:
         assert response.created_at == 1643981187
 
     @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-    @pytest.mark.respx(base_url="http://test-url/")
+    @pytest.mark.respx(base_url="https://test-url/")
     async def test_retrieve_token_stores_token(self, mock_settings, respx_mock, get_cda_env_vars):
         mock_settings.return_value = get_cda_env_vars
         respx_mock.post("/oauth/token").mock(return_value=httpx.Response(status_code=200,
@@ -40,7 +40,7 @@ class TestOAuthClient:
         assert OauthClient().token.created_at == 1643981187
 
     @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-    @pytest.mark.respx(base_url="http://test-url/")
+    @pytest.mark.respx(base_url="https://test-url/")
     async def test_retrieve_token_calls_endpoint(self, mock_settings, respx_mock, get_cda_env_vars):
         mock_settings.return_value = get_cda_env_vars
         route = respx_mock.post("/oauth/token").mock(return_value=httpx.Response(status_code=200,
@@ -54,7 +54,7 @@ class TestOAuthClient:
         assert route.called
 
     @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-    @pytest.mark.respx(base_url="http://test-url/")
+    @pytest.mark.respx(base_url="https://test-url/")
     async def test_retrieve_token_calls_property(self, mock_settings, respx_mock, get_cda_env_vars,
                                                  get_new_token_response):
         mock_settings.return_value = get_cda_env_vars
@@ -72,7 +72,7 @@ class TestOAuthClient:
         assert response.access_token == client.token.access_token
 
     @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-    @pytest.mark.respx(base_url="http://test-url/")
+    @pytest.mark.respx(base_url="https://test-url/")
     async def test_retrieve_token_calls_property(self, mock_settings, respx_mock, get_cda_env_vars,
                                                  get_expired_token_response):
         mock_settings.return_value = get_cda_env_vars
@@ -90,7 +90,7 @@ class TestOAuthClient:
         assert response.access_token == "123456"
 
     @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
-    @pytest.mark.respx(base_url="http://test-url/")
+    @pytest.mark.respx(base_url="https://test-url/")
     async def test_retrieve_token_calls_property(self, mock_settings, respx_mock, get_cda_env_vars):
         mock_settings.return_value = get_cda_env_vars
         respx_mock.post("/oauth/token").mock(return_value=httpx.Response(status_code=500))

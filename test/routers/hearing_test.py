@@ -76,7 +76,7 @@ def test_hearing_returns_server_error(mock_settings, mock_cda_settings, override
 def test_hearing_returns_none(mock_settings, mock_cda_settings, override_get_cda_settings,
                               mock_cda_client):
     OauthClient().token = None
-    mock_cda_settings.return_value = CdaSettings(cda_endpoint="http://failed-test-url/", cda_secret="12345",
+    mock_cda_settings.return_value = CdaSettings(cda_endpoint="https://failed-test-url/", cda_secret="12345",
                                                  cda_uid="12345")
     mock_settings.return_value = override_get_cda_settings
     response = client.get("/v2/hearing/00d0000c-00ff-00ec-b000-0000ac000003?date=01-04-2021")
