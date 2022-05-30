@@ -5,6 +5,8 @@ from fastapi.testclient import TestClient
 
 from laa_court_data_api_app.internal.oauth_client import OauthClient
 from laa_court_data_api_app.main import app
+from laa_court_data_api_app.models.laa_references.external.request.laa_references_patch_request import \
+    LaaReferencesPatchRequest
 from ..fixtures import *
 
 client = TestClient(app)

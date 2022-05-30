@@ -3,6 +3,7 @@ import structlog
 from fastapi import APIRouter
 from fastapi.responses import Response
 
+import laa_court_data_api_app.constants.endpoint_constants as endpoints
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
 from laa_court_data_api_app.models.hearing_summaries.defendants import Defendants
 from laa_court_data_api_app.models.hearing_summaries.hearing_summaries_response import HearingSummariesResponse
@@ -19,7 +20,7 @@ router = APIRouter()
 async def get_hearing_summaries(urn: str):
     logger.info("Hearing_Summaries_Get", urn=urn)
     client = CourtDataAdaptorClient()
-    cda_response = await client.get("/api/internal/v2/prosecution_cases",
+    cda_response = await client.get(endpoints.PROSECUTION_CASES_ENDPOINT,
                                     params={"filter[prosecution_case_reference]": urn})
 
     if cda_response is None:
