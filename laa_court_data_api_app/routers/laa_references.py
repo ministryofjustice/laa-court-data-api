@@ -4,6 +4,7 @@ import re
 from fastapi import APIRouter
 from fastapi.responses import Response, JSONResponse
 
+import laa_court_data_api_app.constants.endpoint_constants as endpoints
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
 from laa_court_data_api_app.models.laa_references.external.request.laa_references_patch_request import \
     LaaReferencesPatchRequest as ExternalPatchRequest
@@ -33,14 +34,14 @@ responses = {
 
 @router.patch("/v2/laa_references/{defendant_id}/", status_code=202, responses=responses)
 async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
-    if (defendant_id != str(request.defendant_id)):
+    if defendant_id != str(request.defendant_id):
         logger.info("Mismatched_DefendantId_In_Patch_Request")
         return JSONResponse(status_code=400, content=LaaReferencesErrorResponse(
             error={'defendant_id': ['mismatch in ids given']}).dict())
 
     logger.info("Calling_MAAT_Patch", defendant_id=defendant_id)
     client = CourtDataAdaptorClient()
-    cda_response = await client.patch(f'/api/internal/v2/laa_references/{defendant_id}',
+    cda_response = await client.patch(f'{endpoints.LAA_REFERENCES_ENDPOINT}/{defendant_id}',
                                       body=InternalPatchRequest(laa_reference=InternalPatch(**request.dict())))
 
     return formulated_response(cda_response, defendant_id, "Unlinking")
@@ -51,7 +52,7 @@ async def post_maat_link(request: ExternalPostRequest):
     logger.info("Calling_MAAT_Post", defendant_id=request.defendant_id)
     client = CourtDataAdaptorClient()
 
-    cda_response = await client.post("/api/internal/v2/laa_references/",
+    cda_response = await client.post(f"{endpoints.LAA_REFERENCES_ENDPOINT}/",
                                      body=InternalPostRequest(laa_reference=InternalPost(**request.dict())))
 
     return formulated_response(cda_response, request.defendant_id, "Linking")

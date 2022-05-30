@@ -4,6 +4,7 @@ from uuid import UUID
 from fastapi import APIRouter
 from fastapi.responses import Response
 
+import laa_court_data_api_app.constants.endpoint_constants as endpoints
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
 from laa_court_data_api_app.models.hearing.internal.hearing_result import HearingResult as InternalHearingResult
 from laa_court_data_api_app.models.hearing.external.hearing_result import HearingResult as ExternalHearingResult
@@ -16,7 +17,7 @@ router = APIRouter()
 async def get_hearing(hearing_id: UUID, date: str):
     logger.info("Hearing_Get", hearing_id=hearing_id, date=date)
     client = CourtDataAdaptorClient()
-    cda_response = await client.get(f"/api/internal/v2/hearing_results/{hearing_id}", params={'sitting_day': date})
+    cda_response = await client.get(f"{endpoints.HEARING_RESULTS_ENDPOINT}/{hearing_id}", params={'sitting_day': date})
 
     if cda_response is None:
         logger.error("Hearing_Results_Endpoint_Did_Not_Return", hearing_id=hearing_id)
