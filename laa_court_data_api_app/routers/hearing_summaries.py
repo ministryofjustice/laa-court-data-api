@@ -71,7 +71,7 @@ def map_hearing_summaries(prosecution_case_results: list[ProsecutionCases]):
 def map_defendants_from_guids(defendant_ids: list[str], defendant_summaries: list[DefendantSummary]):
     defendant_list = []
     for defendant_id in defendant_ids:
-        filtered_defendant_summaries = filter(lambda defendants: str(defendants.id) == defendant_id,
+        filtered_defendant_summaries = filter(lambda defendants, d_id=defendant_id: str(defendants.id) == d_id,
                                               defendant_summaries)
         for defendant_obj in list(filtered_defendant_summaries):
             if defendant_obj is not None:
