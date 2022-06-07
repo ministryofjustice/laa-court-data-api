@@ -1,0 +1,5 @@
+PROSECUTION_CASE_REFERENCE_FILTER = 'filter[prosecution_case_reference]'
+NAME_FILTER = 'filter[name]'
+DATE_OF_BIRTH_FILTER = 'filter[date_of_birth]'
+ARREST_SUMMONS_NUMBER_FILTER = 'filter[arrest_summons_number]'
+NATIONAL_INSURANCE_NUMBER_FILTER = 'filter[national_insurance_number]'
