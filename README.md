@@ -1,4 +1,6 @@
 # laa-court-data-api
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ministryofjustice_laa-court-data-api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ministryofjustice_laa-court-data-api)
+
 LAA Court Data API layer to serve data from LAA Court Data Adaptor to LAA Court Data UI
 
 Information around this service can be found within the [runbook](https://dsdmoj.atlassian.net/wiki/spaces/AAC/pages/3840311923/Court+Data+API+Runbook)

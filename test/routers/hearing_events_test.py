@@ -54,9 +54,12 @@ def test_hearing_events_returns_not_found(mock_settings, mock_cda_settings, over
     mock_cda_settings.return_value = override_get_cda_settings
     response = client.get("/v2/hearing_events/22d2222c-22ff-22ec-b222-2222ac222222?date=notfound")
 
-    assert response.status_code == 404
+    assert response.status_code == 200
     assert mock_cda_client["notfound_hearing_events_uuid_route"].called
-    assert response.content == b''
+    model = HearingEventsResponse(**response.json())
+    assert model.hearing_id is None
+    assert model.has_active_hearing is None
+    assert len(model.events) == 0
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
