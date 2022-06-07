@@ -5,6 +5,7 @@ import respx
 from httpx import Response
 
 import laa_court_data_api_app.constants.endpoint_constants as endpoints
+import laa_court_data_api_app.constants.parameter_constants as filters
 from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
 from laa_court_data_api_app.models.hearing.external.hearing import Hearing
 from laa_court_data_api_app.models.hearing.external.hearing_result import HearingResult
@@ -59,37 +60,37 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
         failed_token_route.return_value = Response(500)
 
         pass_route = respx_mock.get(f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-                                    params={"filter[prosecution_case_reference]": "pass"}, name="pass_route")
+                                    params={filters.PROSECUTION_CASE_REFERENCE_FILTER: "pass"}, name="pass_route")
         pass_route.return_value = Response(200, json=get_prosecution_case_results.dict())
         fail_route = respx_mock.get(f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-                                    params={"filter[prosecution_case_reference]": "fail"}, name="fail_route")
+                                    params={filters.PROSECUTION_CASE_REFERENCE_FILTER: "fail"}, name="fail_route")
         fail_route.return_value = Response(400)
         notfound_route = respx_mock.get(f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-                                        params={"filter[prosecution_case_reference]": "notfound"},
+                                        params={filters.PROSECUTION_CASE_REFERENCE_FILTER: "notfound"},
                                         name="notfound_route")
         notfound_route.return_value = Response(404)
         exception_route = respx_mock.get(f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-                                         params={"filter[prosecution_case_reference]": "exception"},
+                                         params={filters.PROSECUTION_CASE_REFERENCE_FILTER: "exception"},
                                          name="exception_route")
         exception_route.return_value = Response(500)
 
         # /defendants by name and date of birth
         pass_name_dob_route = respx_mock.get(f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-                                             params={"filter[name]": "pass", "filter[date_of_birth]": "pass"},
+                                             params={filters.NAME_FILTER: "pass", filters.DATE_OF_BIRTH_FILTER: "pass"},
                                              name="pass_name_dob_route")
         pass_name_dob_route.return_value = Response(200, json=get_prosecution_case_results.dict())
         fail_name_dob_route = respx_mock.get(f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-                                             params={"filter[name]": "fail", "filter[date_of_birth]": "fail"},
+                                             params={filters.NAME_FILTER: "fail", filters.DATE_OF_BIRTH_FILTER: "fail"},
                                              name="fail_name_dob_route")
         fail_name_dob_route.return_value = Response(400)
         notfound_name_dob_route = respx_mock.get(f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-                                                 params={"filter[name]": "notfound",
-                                                         "filter[date_of_birth]": "notfound"},
+                                                 params={filters.NAME_FILTER: "notfound",
+                                                         filters.DATE_OF_BIRTH_FILTER: "notfound"},
                                                  name="notfound_name_dob_route")
         notfound_name_dob_route.return_value = Response(404)
         exception_name_dob_route = respx_mock.get(f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-                                                  params={"filter[name]": "exception",
-                                                          "filter[date_of_birth]": "exception"},
+                                                  params={filters.NAME_FILTER: "exception",
+                                                          filters.DATE_OF_BIRTH_FILTER: "exception"},
                                                   name="exception_name_dob_route")
         exception_name_dob_route.return_value = Response(500)
 
@@ -121,51 +122,51 @@ def mock_cda_client(get_new_token_response, get_prosecution_case_results,
 
         pass_asn_route = respx_mock.get(
             f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-            params={"filter[arrest_summons_number]": "pass"},
+            params={filters.ARREST_SUMMONS_NUMBER_FILTER: "pass"},
             name="pass_asn_route")
         pass_asn_route.return_value = Response(200, json=get_prosecution_case_results.dict())
 
         fail_asn_route = respx_mock.get(
             f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-            params={"filter[arrest_summons_number]": "fail"},
+            params={filters.ARREST_SUMMONS_NUMBER_FILTER: "fail"},
             name="fail_asn_route")
         fail_asn_route.return_value = Response(400)
 
         notfound_asn_route = respx_mock.get(
             f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-            params={"filter[arrest_summons_number]": "notfound"},
+            params={filters.ARREST_SUMMONS_NUMBER_FILTER: "notfound"},
             name="notfound_asn_route"
         )
         notfound_asn_route.return_value = Response(404)
 
         exception_asn_route = respx_mock.get(
             f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-            params={"filter[arrest_summons_number]": "exception"},
+            params={filters.ARREST_SUMMONS_NUMBER_FILTER: "exception"},
             name="exception_asn_route")
         exception_asn_route.return_value = Response(500)
 
         pass_nino_route = respx_mock.get(
             f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-            params={"filter[national_insurance_number]": "pass"},
+            params={filters.NATIONAL_INSURANCE_NUMBER_FILTER: "pass"},
             name="pass_nino_route")
         pass_nino_route.return_value = Response(200, json=get_prosecution_case_results.dict())
 
         fail_nino_route = respx_mock.get(
             f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-            params={"filter[national_insurance_number]": "fail"},
+            params={filters.NATIONAL_INSURANCE_NUMBER_FILTER: "fail"},
             name="fail_nino_route")
         fail_nino_route.return_value = Response(400)
 
         notfound_nino_route = respx_mock.get(
             f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-            params={"filter[national_insurance_number]": "notfound"},
+            params={filters.NATIONAL_INSURANCE_NUMBER_FILTER: "notfound"},
             name="notfound_nino_route"
         )
         notfound_nino_route.return_value = Response(404)
 
         exception_nino_route = respx_mock.get(
             f"{BASE_ENDPOINT}{endpoints.PROSECUTION_CASES_ENDPOINT}",
-            params={"filter[national_insurance_number]": "exception"},
+            params={filters.NATIONAL_INSURANCE_NUMBER_FILTER: "exception"},
             name="exception_nino_route")
         exception_nino_route.return_value = Response(500)
 

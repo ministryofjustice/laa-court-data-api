@@ -3,13 +3,16 @@ import uuid
 
 from fastapi.testclient import TestClient
 
+from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
 from laa_court_data_api_app.internal.oauth_client import OauthClient
 from laa_court_data_api_app.main import app
 from laa_court_data_api_app.models.laa_references.external.request.laa_references_patch_request import \
     LaaReferencesPatchRequest
-from ..fixtures import *
 
 client = TestClient(app)
+
+LAA_REFERENCES_ENDPOINT = '/v2/laa_references'
+JSON_CONTENT_TYPE = 'application/json'
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
@@ -21,8 +24,8 @@ def test_laa_references_patch_returns_accepted(mock_settings, mock_cda_settings,
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.patch("/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222222/",
-                            headers={"Content-Type": "application/json"},
+    response = client.patch(f"{LAA_REFERENCES_ENDPOINT}/22d2222c-22ff-22ec-b222-2222ac222222/",
+                            headers={"Content-Type": JSON_CONTENT_TYPE},
                             data=LaaReferencesPatchRequest(
                                 defendant_id=uuid.UUID("22d2222c-22ff-22ec-b222-2222ac222222")
                             ).json())
@@ -41,8 +44,8 @@ def test_laa_references_patch_returns_bad_request(mock_settings, mock_cda_settin
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.patch("/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222223/",
-                            headers={"Content-Type": "application/json"},
+    response = client.patch(f"{LAA_REFERENCES_ENDPOINT}/22d2222c-22ff-22ec-b222-2222ac222223/",
+                            headers={"Content-Type": JSON_CONTENT_TYPE},
                             data=LaaReferencesPatchRequest(
                                 defendant_id=uuid.UUID("22d2222c-22ff-22ec-b222-2222ac222223")
                             ).json())
@@ -61,8 +64,8 @@ def test_laa_references_patch_returns_not_found(mock_settings, mock_cda_settings
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.patch("/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222224/",
-                            headers={"Content-Type": "application/json"},
+    response = client.patch(f"{LAA_REFERENCES_ENDPOINT}/22d2222c-22ff-22ec-b222-2222ac222224/",
+                            headers={"Content-Type": JSON_CONTENT_TYPE},
                             data=LaaReferencesPatchRequest(
                                 defendant_id=uuid.UUID("22d2222c-22ff-22ec-b222-2222ac222224")
                             ).json())
@@ -81,8 +84,8 @@ def test_laa_references_patch_returns_unprocessable_entity(mock_settings, mock_c
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.patch("/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222225/",
-                            headers={"Content-Type": "application/json"},
+    response = client.patch(f"{LAA_REFERENCES_ENDPOINT}/22d2222c-22ff-22ec-b222-2222ac222225/",
+                            headers={"Content-Type": JSON_CONTENT_TYPE},
                             data=LaaReferencesPatchRequest(
                                 defendant_id=uuid.UUID("22d2222c-22ff-22ec-b222-2222ac222225")
                             ).json())
@@ -102,8 +105,8 @@ def test_laa_references_patch_returns_server_error(mock_settings, mock_cda_setti
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.patch("/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222226/",
-                            headers={"Content-Type": "application/json"},
+    response = client.patch(f"{LAA_REFERENCES_ENDPOINT}/22d2222c-22ff-22ec-b222-2222ac222226/",
+                            headers={"Content-Type": JSON_CONTENT_TYPE},
                             data=LaaReferencesPatchRequest(
                                 defendant_id=uuid.UUID("22d2222c-22ff-22ec-b222-2222ac222226")
                             ).json())
@@ -124,7 +127,7 @@ def test_laa_references_patch_returns_none(mock_settings, mock_cda_settings, ove
     mock_settings.return_value = override_get_cda_settings
 
     response = client.patch("/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222222/",
-                            headers={"Content-Type": "application/json"},
+                            headers={"Content-Type": JSON_CONTENT_TYPE},
                             data=LaaReferencesPatchRequest(
                                 defendant_id=uuid.UUID("22d2222c-22ff-22ec-b222-2222ac222222")
                             ).json())
@@ -136,8 +139,8 @@ def test_laa_references_patch_returns_none(mock_settings, mock_cda_settings, ove
 
 def test_laa_references_patch_mismatch_defendantid_returns_bad_request():
     response = client.patch(
-        "/v2/laa_references/22d2222c-22ff-22ec-b222-2222ac222222/",
-        headers={"Content-Type": "application/json"},
+        f"{LAA_REFERENCES_ENDPOINT}/22d2222c-22ff-22ec-b222-2222ac222222/",
+        headers={"Content-Type": JSON_CONTENT_TYPE},
         data=LaaReferencesPatchRequest(
             defendant_id=uuid.UUID("12d2222c-22ff-22ec-b222-2222ac222222")
         ).json()

@@ -1,7 +1,9 @@
 from unittest.mock import PropertyMock, patch, Mock
 
+import pytest
+
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
-from test.internal.internal_fixtures import *
+from laa_court_data_api_app.models.token_response import TokenResponse
 
 
 def get_token_async():

@@ -5,6 +5,7 @@ from fastapi import APIRouter
 from fastapi.responses import Response
 
 import laa_court_data_api_app.constants.endpoint_constants as endpoints
+import laa_court_data_api_app.constants.parameter_constants as filters
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
 from laa_court_data_api_app.models.defendants.defendant_summary import DefendantSummary
 from laa_court_data_api_app.models.defendants.defendants_response import DefendantsResponse
@@ -27,18 +28,18 @@ async def get_defendants(urn: str | None = None,
 
     if name and dob:
         cda_response = await client.get(endpoints.PROSECUTION_CASES_ENDPOINT,
-                                        params={"filter[name]": name, "filter[date_of_birth]": dob})
+                                        params={filters.NAME_FILTER: name, filters.DATE_OF_BIRTH_FILTER: dob})
     elif urn and uuid:
         cda_response = await client.get(f"{endpoints.PROSECUTION_CASES_ENDPOINT}/{urn}/defendants/{uuid}")
     elif urn:
         cda_response = await client.get(endpoints.PROSECUTION_CASES_ENDPOINT,
-                                        params={"filter[prosecution_case_reference]": urn})
+                                        params={filters.PROSECUTION_CASE_REFERENCE_FILTER: urn})
     elif asn:
         cda_response = await client.get(endpoints.PROSECUTION_CASES_ENDPOINT,
-                                        params={"filter[arrest_summons_number]": asn})
+                                        params={filters.ARREST_SUMMONS_NUMBER_FILTER: asn})
     elif nino:
         cda_response = await client.get(endpoints.PROSECUTION_CASES_ENDPOINT,
-                                        params={"filter[national_insurance_number]": nino})
+                                        params={filters.NATIONAL_INSURANCE_NUMBER_FILTER: nino})
     else:
         logger.error("Invalid_Defendant_Search")
         return Response(status_code=400)

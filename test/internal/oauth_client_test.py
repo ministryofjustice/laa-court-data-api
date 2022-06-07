@@ -1,7 +1,12 @@
 from unittest.mock import PropertyMock, patch
 
+import httpx
+import pytest
+
 from laa_court_data_api_app.internal.oauth_client import OauthClient
-from test.internal.internal_fixtures import *
+from laa_court_data_api_app.models.token_response import TokenResponse
+
+OAUTH_ENDPOINT = '/oauth/token'
 
 
 class TestOAuthClient:
@@ -9,7 +14,7 @@ class TestOAuthClient:
     @pytest.mark.respx(base_url="https://test-url/")
     async def test_retrieve_token_returns_correct_value(self, mock_settings, respx_mock, get_cda_env_vars):
         mock_settings.return_value = get_cda_env_vars
-        respx_mock.post("/oauth/token").mock(return_value=httpx.Response(status_code=200,
+        respx_mock.post(OAUTH_ENDPOINT).mock(return_value=httpx.Response(status_code=200,
                                                                          json={"access_token": "12345",
                                                                                "token_type": "Bearer",
                                                                                "expires_in": "300",
@@ -26,7 +31,7 @@ class TestOAuthClient:
     @pytest.mark.respx(base_url="https://test-url/")
     async def test_retrieve_token_stores_token(self, mock_settings, respx_mock, get_cda_env_vars):
         mock_settings.return_value = get_cda_env_vars
-        respx_mock.post("/oauth/token").mock(return_value=httpx.Response(status_code=200,
+        respx_mock.post(OAUTH_ENDPOINT).mock(return_value=httpx.Response(status_code=200,
                                                                          json={"access_token": "12345",
                                                                                "token_type": "Bearer",
                                                                                "expires_in": "300",
@@ -43,7 +48,7 @@ class TestOAuthClient:
     @pytest.mark.respx(base_url="https://test-url/")
     async def test_retrieve_token_calls_endpoint(self, mock_settings, respx_mock, get_cda_env_vars):
         mock_settings.return_value = get_cda_env_vars
-        route = respx_mock.post("/oauth/token").mock(return_value=httpx.Response(status_code=200,
+        route = respx_mock.post(OAUTH_ENDPOINT).mock(return_value=httpx.Response(status_code=200,
                                                                                  json={"access_token": "12345",
                                                                                        "token_type": "Bearer",
                                                                                        "expires_in": "300",
@@ -58,7 +63,7 @@ class TestOAuthClient:
     async def test_retrieve_token_calls_property(self, mock_settings, respx_mock, get_cda_env_vars,
                                                  get_new_token_response):
         mock_settings.return_value = get_cda_env_vars
-        route = respx_mock.post("/oauth/token").mock(return_value=httpx.Response(status_code=200,
+        route = respx_mock.post(OAUTH_ENDPOINT).mock(return_value=httpx.Response(status_code=200,
                                                                                  json={"access_token": "12345",
                                                                                        "token_type": "Bearer",
                                                                                        "expires_in": "300",
@@ -76,7 +81,7 @@ class TestOAuthClient:
     async def test_retrieve_token_calls_property(self, mock_settings, respx_mock, get_cda_env_vars,
                                                  get_expired_token_response):
         mock_settings.return_value = get_cda_env_vars
-        route = respx_mock.post("/oauth/token").mock(return_value=httpx.Response(status_code=200,
+        route = respx_mock.post(OAUTH_ENDPOINT).mock(return_value=httpx.Response(status_code=200,
                                                                                  json={"access_token": "123456",
                                                                                        "token_type": "Bearer",
                                                                                        "expires_in": "300",
@@ -93,7 +98,7 @@ class TestOAuthClient:
     @pytest.mark.respx(base_url="https://test-url/")
     async def test_retrieve_token_calls_property(self, mock_settings, respx_mock, get_cda_env_vars):
         mock_settings.return_value = get_cda_env_vars
-        respx_mock.post("/oauth/token").mock(return_value=httpx.Response(status_code=500))
+        respx_mock.post(OAUTH_ENDPOINT).mock(return_value=httpx.Response(status_code=500))
 
         client = OauthClient()
         response = await client.retrieve_token()

@@ -2,10 +2,10 @@ from unittest.mock import patch, PropertyMock
 
 from fastapi.testclient import TestClient
 
+from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
 from laa_court_data_api_app.internal.oauth_client import OauthClient
 from laa_court_data_api_app.main import app
 from laa_court_data_api_app.models.defendants.defendants_response import DefendantsResponse
-from ..routers.fixtures import *
 
 FAILED_ENDPOINT = 'https://failed-test-url/'
 
