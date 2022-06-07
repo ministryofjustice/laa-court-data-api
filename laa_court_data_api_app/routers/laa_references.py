@@ -86,6 +86,6 @@ def formulated_response(cda_response, defendant_id, request_type):
 
 
 def parse_error_response(response):
-    error_string = re.findall(r"{.*?}", response)
+    error_string = re.findall(r"{[^}]*", response)
     error_dict = re.findall(r":(.*?)=>\[\"(.*?)\"\]", error_string[0])
     return dict((x, [y]) for x, y in error_dict)
