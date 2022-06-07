@@ -2,13 +2,15 @@ from unittest.mock import patch, PropertyMock
 
 from fastapi.testclient import TestClient
 
+from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
 from laa_court_data_api_app.internal.oauth_client import OauthClient
 from laa_court_data_api_app.main import app
 from laa_court_data_api_app.models.laa_references.external.request.laa_references_post_request import \
     LaaReferencesPostRequest
-from ..fixtures import *
 
 client = TestClient(app)
+
+LAA_REFERENCES_ENDPOINT = '/v2/laa_references'
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
@@ -20,7 +22,7 @@ def test_laa_references_post_returns_accepted(mock_settings, mock_cda_settings, 
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.post("/v2/laa_references",
+    response = client.post(LAA_REFERENCES_ENDPOINT,
                            data=LaaReferencesPostRequest(user_name="pass-u", maat_reference=1234567).json())
 
     assert response.status_code == 202
@@ -37,7 +39,7 @@ def test_laa_references_post_returns_bad_request(mock_settings, mock_cda_setting
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.post("/v2/laa_references",
+    response = client.post(LAA_REFERENCES_ENDPOINT,
                            data=LaaReferencesPostRequest(user_name="fail-u", maat_reference=1234567).json())
 
     assert response.status_code == 400
@@ -54,7 +56,7 @@ def test_laa_references_post_returns_not_found(mock_settings, mock_cda_settings,
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.post("/v2/laa_references",
+    response = client.post(LAA_REFERENCES_ENDPOINT,
                            data=LaaReferencesPostRequest(user_name="notfound-u", maat_reference=1234567).json())
 
     assert response.status_code == 404
@@ -71,7 +73,7 @@ def test_laa_references_post_returns_unprocessable_entity(mock_settings, mock_cd
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.post("/v2/laa_references",
+    response = client.post(LAA_REFERENCES_ENDPOINT,
                            data=LaaReferencesPostRequest(user_name="unprocessable-u", maat_reference=1234567).json())
 
     assert response.status_code == 422
@@ -89,7 +91,7 @@ def test_laa_references_post_returns_server_error(mock_settings, mock_cda_settin
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.post("/v2/laa_references",
+    response = client.post(LAA_REFERENCES_ENDPOINT,
                            data=LaaReferencesPostRequest(user_name="servererror-u", maat_reference=1234567).json())
 
     assert response.status_code == 424
@@ -107,7 +109,7 @@ def test_laa_references_post_returns_none(mock_settings, mock_cda_settings, over
                                                  cda_uid="12345")
     mock_settings.return_value = override_get_cda_settings
 
-    response = client.post("/v2/laa_references",
+    response = client.post(LAA_REFERENCES_ENDPOINT,
                            data=LaaReferencesPostRequest(user_name="test-u", maat_reference=1234567).json())
 
     assert response.status_code == 424

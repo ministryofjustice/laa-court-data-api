@@ -2,10 +2,10 @@ from unittest.mock import Mock, patch, PropertyMock
 
 from fastapi.testclient import TestClient
 
+from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
 from laa_court_data_api_app.internal.oauth_client import OauthClient
 from laa_court_data_api_app.main import app
 from laa_court_data_api_app.models.hearing_events.hearing_events_response import HearingEventsResponse
-from ..routers.fixtures import *
 
 client = TestClient(app)
 
