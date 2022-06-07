@@ -3,6 +3,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Query
 from fastapi.responses import Response
+from starlette.responses import JSONResponse
 
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
 from laa_court_data_api_app.models.hearing_events.hearing_events_response import HearingEventsResponse
@@ -32,7 +33,7 @@ async def get_hearing_events(hearing_id: UUID, date: str = Query(None, example="
             return Response(status_code=400)
         case 404:
             logger.info("Hearing_Events_Endpoint_Not_Found")
-            return Response(status_code=404)
+            return JSONResponse(status_code=200, content=HearingEventsResponse(events=[]).dict())
         case _:
             logger.error("Hearing_Events_Endpoint_Error_Returning", status_code=cda_response.status_code)
             return Response(status_code=424)
