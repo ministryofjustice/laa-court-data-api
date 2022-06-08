@@ -6,6 +6,7 @@ import httpx
 from asgi_correlation_id.context import correlation_id
 from laa_court_data_api_app.config.court_data_adaptor import get_cda_settings, CdaSettings
 from ..internal.oauth_client import OauthClient
+from circuitbreaker import circuit
 
 logger = structlog.get_logger(__name__)
 
@@ -56,8 +57,14 @@ class CourtDataAdaptorClient:
         if token is None:
             return token
 
+        return await self.__call_endpoint(oauth_client, token, method, endpoint, params, headers, body)
+
+    @circuit()
+    async def __call_endpoint(self, oauth_client: OauthClient, token, method: str, endpoint: str,
+                              params: Optional[dict[str, str]] = None,
+                              headers: Optional[dict[str, any]] = None, body: Optional[any] = None):
         async with httpx.AsyncClient(base_url=self.settings.cda_endpoint,
-                                     headers=oauth_client.generate_auth_header(token)) as client:
+                                     headers=oauth_client.generate_auth_header(token), http2=True) as client:
             try:
                 request = client.build_request(method=method, url=endpoint, params=params, headers=headers,
                                                content=body)
