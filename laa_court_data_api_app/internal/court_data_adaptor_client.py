@@ -9,6 +9,7 @@ from ..internal.oauth_client import OauthClient
 from circuitbreaker import circuit
 
 logger = structlog.get_logger(__name__)
+http_client = httpx.AsyncClient(http2=True)
 
 
 class CourtDataAdaptorClient:
@@ -63,18 +64,18 @@ class CourtDataAdaptorClient:
     async def __call_endpoint(self, oauth_client: OauthClient, token, method: str, endpoint: str,
                               params: Optional[dict[str, str]] = None,
                               headers: Optional[dict[str, any]] = None, body: Optional[any] = None):
-        async with httpx.AsyncClient(base_url=self.settings.cda_endpoint,
-                                     headers=oauth_client.generate_auth_header(token), http2=True) as client:
-            try:
-                request = client.build_request(method=method, url=endpoint, params=params, headers=headers,
-                                               content=body)
-                logger.info('CDA_Request_Made', endpoint=request.url)
-                response = await client.send(request)
-                logger.info('CDA_Response_Returned', endpoint=request.url, status_code=response.status_code)
-                return response
-            except(Exception) as e:
-                logger.error('CDA_Endpoint_Error', endpoint=request.url, exception=e)
-                return None
+        http_client.base_url = self.settings.cda_endpoint
+        http_client.headers = oauth_client.generate_auth_header(token)
+        try:
+            request = http_client.build_request(method=method, url=endpoint, params=params, headers=headers,
+                                                content=body)
+            logger.info('CDA_Request_Made', endpoint=request.url)
+            response = await http_client.send(request)
+            logger.info('CDA_Response_Returned', endpoint=request.url, status_code=response.status_code)
+            return response
+        except(Exception) as e:
+            logger.error('CDA_Endpoint_Error', endpoint=request.url, exception=e)
+            return None
 
     @staticmethod
     def __setup_default_headers(headers: dict, default_headers: dict):
