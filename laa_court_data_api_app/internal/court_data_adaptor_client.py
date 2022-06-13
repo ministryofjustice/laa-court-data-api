@@ -68,7 +68,7 @@ class CourtDataAdaptorClient:
         http_client.headers = oauth_client.generate_auth_header(token)
         try:
             request = http_client.build_request(method=method, url=endpoint, params=params, headers=headers,
-                                            content=body)
+                                                content=body)
             logger.info('CDA_Request_Made', endpoint=request.url)
             response = await http_client.send(request)
             logger.info('CDA_Response_Returned', endpoint=request.url, status_code=response.status_code)
