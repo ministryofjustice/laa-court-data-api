@@ -9,7 +9,7 @@ from ..internal.oauth_client import OauthClient
 from circuitbreaker import circuit
 
 logger = structlog.get_logger(__name__)
-http_client = httpx.AsyncClient(http2=True, timeout=15.0)
+http_client = httpx.AsyncClient(timeout=15.0)
 
 
 class CourtDataAdaptorClient:

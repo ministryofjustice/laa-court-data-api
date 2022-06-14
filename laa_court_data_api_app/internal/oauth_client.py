@@ -34,7 +34,7 @@ class OauthClient:
         logger.debug("OAuth_Retrieving_token")
         if self.token is None or self.token_has_expired():
             logger.debug("Token_expired_or_missing")
-            async with httpx.AsyncClient(base_url=self.settings.cda_endpoint, http2=True) as client:
+            async with httpx.AsyncClient(base_url=self.settings.cda_endpoint) as client:
                 response = await client.post("/oauth/token", data=self.generate_params(self.settings))
                 if response.status_code == 200:
                     logger.debug("Token_Retrieved_From_Service")
