@@ -1,3 +1,4 @@
+import json
 import logging
 import structlog
 from structlog.stdlib import LoggerFactory
@@ -27,7 +28,11 @@ def add_correlation(
     return event_dict
 
 
-def capture_event(event):
+def send_event(event, hint):
+    log_message = json.loads(event["logentry"]["message"])
+    event["logentry"]["message"] = log_message["event"]
+    event["logentry"]["params"] = log_message
+
     return event
 
 
@@ -51,7 +56,7 @@ sentry_sdk.init(dsn=get_app_settings().sentry_dsn,
                 integrations=[
                     HttpxIntegration()
                 ],
-                before_send=capture_event)
+                before_send=send_event)
 
 app = FastAPI(
     title=get_app_settings().app_name,
