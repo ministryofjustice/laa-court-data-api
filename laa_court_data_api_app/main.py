@@ -2,7 +2,6 @@ import logging
 import structlog
 from structlog.stdlib import LoggerFactory
 
-
 import sentry_sdk
 import uvicorn
 from asgi_correlation_id import CorrelationIdMiddleware
@@ -20,12 +19,16 @@ from .routers import defendants, hearing, hearing_summaries, hearing_events, laa
 
 
 def add_correlation(
-    logger: logging.Logger, method_name: str, event_dict: dict[str, Any]
+        logger: logging.Logger, method_name: str, event_dict: dict[str, Any]
 ) -> dict[str, Any]:
     """Add request id to log message."""
     if request_id := correlation_id.get():
         event_dict["request_id"] = request_id
     return event_dict
+
+
+def capture_event(event):
+    return event
 
 
 structlog.configure(logger_factory=LoggerFactory(), processors=[
@@ -38,7 +41,7 @@ structlog.configure(logger_factory=LoggerFactory(), processors=[
     structlog.processors.format_exc_info,
     structlog.processors.JSONRenderer()
 ], wrapper_class=structlog.stdlib.BoundLogger,
-    cache_logger_on_first_use=True)
+                    cache_logger_on_first_use=True)
 logging.config.dictConfig(logging_config.config)
 
 sentry_sdk.init(dsn=get_app_settings().sentry_dsn,
@@ -47,7 +50,8 @@ sentry_sdk.init(dsn=get_app_settings().sentry_dsn,
                 traces_sample_rate=0.1,
                 integrations=[
                     HttpxIntegration()
-])
+                ],
+                before_send=capture_event)
 
 app = FastAPI(
     title=get_app_settings().app_name,
@@ -76,6 +80,7 @@ app.add_route('/metrics', metrics)
 @app.get('/')
 async def get_index():
     return RedirectResponse(url='/docs')
+
 
 if __name__ == '__main__':
     uvicorn.run(app, host='0.0.0.0', port=8000)
