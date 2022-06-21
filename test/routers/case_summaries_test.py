@@ -18,7 +18,7 @@ def test_case_summaries_returns_ok(mock_settings, mock_cda_settings, override_ge
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/casesummaries/pass")
+    response = client.get("/v2/case_summaries/pass")
 
     assert response.status_code == 200
     assert mock_cda_client["pass_route"].called
@@ -34,7 +34,7 @@ def test_case_summaries_returns_bad_request(mock_settings, mock_cda_settings, ov
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/casesummaries/fail")
+    response = client.get("/v2/case_summaries/fail")
 
     assert response.status_code == 400
     assert mock_cda_client["fail_route"].called
@@ -49,7 +49,7 @@ def test_case_summaries_returns_not_found(mock_settings, mock_cda_settings, over
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/casesummaries/notfound")
+    response = client.get("/v2/case_summaries/notfound")
 
     assert response.status_code == 404
     assert mock_cda_client["notfound_route"].called
@@ -64,7 +64,7 @@ def test_case_summaries_returns_server_error(mock_settings, mock_cda_settings, o
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/casesummaries/exception")
+    response = client.get("/v2/case_summaries/exception")
 
     assert response.status_code == 424
     assert mock_cda_client["exception_route"].called
@@ -80,7 +80,7 @@ def test_case_summaries_returns_none(mock_settings, mock_cda_settings, override_
     mock_cda_settings.return_value = CdaSettings(cda_endpoint="https://failed-test-url/", cda_secret="12345",
                                                  cda_uid="12345")
     mock_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/casesummaries/exception")
+    response = client.get("/v2/case_summaries/exception")
 
     assert response.status_code == 424
     assert response.content == b''

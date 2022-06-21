@@ -16,7 +16,7 @@ logger = structlog.get_logger(__name__)
 router = APIRouter()
 
 
-@router.get("/v2/casesummaries/{urn}", response_model=CaseSummariesResponse, status_code=200)
+@router.get("/v2/case_summaries/{urn}", response_model=CaseSummariesResponse, status_code=200)
 @router.get("/v2/hearingsummaries/{urn}", response_model=CaseSummariesResponse, status_code=200)
 async def get_hearing_summaries(urn: str):
     logger.info("Hearing_Summaries_Get", urn=urn)

@@ -35,13 +35,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{BaseUrl}}/v2/casesummaries/{{Urn}}",
+					"raw": "{{BaseUrl}}/v2/case_summaries/{{Urn}}",
 					"host": [
 						"{{BaseUrl}}"
 					],
 					"path": [
 						"v2",
-						"casesummaries",
+						"case_summaries",
 						"{{Urn}}"
 					]
 				}
