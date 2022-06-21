@@ -5,7 +5,7 @@ from fastapi.testclient import TestClient
 from laa_court_data_api_app.config.court_data_adaptor import CdaSettings
 from laa_court_data_api_app.internal.oauth_client import OauthClient
 from laa_court_data_api_app.main import app
-from laa_court_data_api_app.models.hearing_summaries.hearing_summaries_response import HearingSummariesResponse
+from laa_court_data_api_app.models.case_summaries.case_summaries_response import CaseSummariesResponse
 
 client = TestClient(app)
 
@@ -22,7 +22,7 @@ def test_hearing_summaries_returns_ok(mock_settings, mock_cda_settings, override
 
     assert response.status_code == 200
     assert mock_cda_client["pass_route"].called
-    model = HearingSummariesResponse(**response.json())
+    model = CaseSummariesResponse(**response.json())
     assert len(model.hearing_summaries) == 1
 
 
