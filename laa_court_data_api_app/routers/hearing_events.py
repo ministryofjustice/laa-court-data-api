@@ -13,7 +13,6 @@ logger = structlog.get_logger(__name__)
 router = APIRouter()
 
 
-@router.get("/v2/hearing/{hearing_id}/hearing_events", response_model=HearingEventsResponse, status_code=200)
 @router.get("/v2/hearing_events/{hearing_id}", response_model=HearingEventsResponse, status_code=200)
 async def get_hearing_events(hearing_id: UUID, date: str = Query(None, example="2001-01-20")):
     logger.info("Hearing_Events_Get", hearing_id=hearing_id, hearing_date=date)
