@@ -5,9 +5,9 @@ from fastapi.responses import Response
 
 import laa_court_data_api_app.constants.endpoint_constants as endpoints
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
-from laa_court_data_api_app.models.hearing_summaries.defendants import Defendants
-from laa_court_data_api_app.models.hearing_summaries.hearing_summaries_response import HearingSummariesResponse
-from laa_court_data_api_app.models.hearing_summaries.hearing_summary import HearingSummary
+from laa_court_data_api_app.models.case_summaries.defendants import Defendants
+from laa_court_data_api_app.models.case_summaries.case_summaries_response import CaseSummariesResponse
+from laa_court_data_api_app.models.case_summaries.hearing_summary import HearingSummary
 from laa_court_data_api_app.models.prosecution_cases.defendant_summary import DefendantSummary
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases import ProsecutionCases
 from laa_court_data_api_app.models.prosecution_cases.prosecution_cases_results import ProsecutionCasesResults
@@ -16,7 +16,8 @@ logger = structlog.get_logger(__name__)
 router = APIRouter()
 
 
-@router.get("/v2/hearingsummaries/{urn}", response_model=HearingSummariesResponse, status_code=200)
+@router.get("/v2/case_summaries/{urn}", response_model=CaseSummariesResponse, status_code=200)
+@router.get("/v2/hearingsummaries/{urn}", response_model=CaseSummariesResponse, status_code=200)
 async def get_hearing_summaries(urn: str):
     logger.info("Hearing_Summaries_Get", urn=urn)
     client = CourtDataAdaptorClient()
@@ -33,9 +34,9 @@ async def get_hearing_summaries(urn: str):
             prosecution_case_results = ProsecutionCasesResults(**cda_response.json())
             summaries = map_hearing_summaries(prosecution_case_results.results)
             logger.info("Hearing_Summaries_To_Show", count=len(summaries))
-            return HearingSummariesResponse(prosecution_case_reference=urn,
-                                            hearing_summaries=summaries,
-                                            overall_defendants=map_defendant_list(prosecution_case_results.results))
+            return CaseSummariesResponse(prosecution_case_reference=urn,
+                                         hearing_summaries=summaries,
+                                         overall_defendants=map_defendant_list(prosecution_case_results.results))
         case 400:
             logger.warn("Prosecution_Case_Endpoint_Validation_Failed")
             return Response(status_code=400)

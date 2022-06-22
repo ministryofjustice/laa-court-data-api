@@ -2,7 +2,7 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from laa_court_data_api_app.models.hearing_summaries.address import Address
+from laa_court_data_api_app.models.case_summaries.address import Address
 
 
 class CourtCentre(BaseModel):
