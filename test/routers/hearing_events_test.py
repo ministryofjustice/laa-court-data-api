@@ -86,7 +86,7 @@ def test_hearing_events_returns_none(mock_settings, mock_cda_settings, override_
     mock_cda_settings.return_value = CdaSettings(cda_endpoint="https://failed-test-url/", cda_secret="12345",
                                                  cda_uid="12345")
     mock_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/hearing/22d2222c-22ff-22ec-b222-2222ac222222/hearing_events?date=pass")
+    response = client.get("/v2/hearings/22d2222c-22ff-22ec-b222-2222ac222222/hearing_events?date=pass")
 
     assert response.status_code == 424
     assert response.content == b''
