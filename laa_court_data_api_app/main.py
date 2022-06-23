@@ -16,7 +16,7 @@ from typing import Any
 
 from laa_court_data_api_app.config import logging_config
 from laa_court_data_api_app.config.app import get_app_settings
-from .routers import defendants, hearings, hearing_summaries, hearing_events, laa_references, ping
+from .routers import defendants, hearings, case_summaries, hearing_events, laa_references, ping
 
 
 def add_correlation(
@@ -70,7 +70,7 @@ app = FastAPI(
 
 app.include_router(defendants.router)
 app.include_router(hearings.router)
-app.include_router(hearing_summaries.router)
+app.include_router(case_summaries.router)
 app.include_router(hearing_events.router)
 app.include_router(laa_references.router)
 app.include_router(ping.router)

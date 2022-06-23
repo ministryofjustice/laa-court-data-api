@@ -2,10 +2,10 @@ from uuid import UUID
 
 from pydantic import BaseModel
 
-from laa_court_data_api_app.models.hearing_summaries.court_centre import CourtCentre
-from laa_court_data_api_app.models.hearing_summaries.defence_counsel import DefenceCounsel
-from laa_court_data_api_app.models.hearing_summaries.defendants import Defendants
-from laa_court_data_api_app.models.hearing_summaries.hearing_day import HearingDay
+from laa_court_data_api_app.models.case_summaries.court_centre import CourtCentre
+from laa_court_data_api_app.models.case_summaries.defence_counsel import DefenceCounsel
+from laa_court_data_api_app.models.case_summaries.defendants import Defendants
+from laa_court_data_api_app.models.case_summaries.hearing_day import HearingDay
 
 
 class HearingSummary(BaseModel):
