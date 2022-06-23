@@ -19,7 +19,7 @@ def test_hearing_events_returns_ok(mock_settings, mock_cda_settings, override_ge
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
 
-    response = client.get("/v2/hearings/22d2222c-22ff-22ec-b222-2222ac222222/hearing_events?date=pass")
+    response = client.get("/v2/hearing_events/22d2222c-22ff-22ec-b222-2222ac222222?date=pass")
 
     assert response.status_code == 200
     assert mock_cda_client["pass_hearing_events_route"].called
@@ -37,7 +37,7 @@ def test_hearing_events_returns_bad_request(mock_settings, mock_cda_settings, ov
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/hearings/22d2222c-22ff-22ec-b222-2222ac222222/hearing_events?date=fail")
+    response = client.get("/v2/hearing_events/22d2222c-22ff-22ec-b222-2222ac222222?date=fail")
 
     assert response.status_code == 400
     assert mock_cda_client["fail_hearing_events_route"].called
@@ -52,7 +52,7 @@ def test_hearing_events_returns_not_found(mock_settings, mock_cda_settings, over
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/hearings/22d2222c-22ff-22ec-b222-2222ac222222/hearing_events?date=notfound")
+    response = client.get("/v2/hearing_events/22d2222c-22ff-22ec-b222-2222ac222222?date=notfound")
 
     assert response.status_code == 200
     assert mock_cda_client["notfound_hearing_events_uuid_route"].called
@@ -70,7 +70,7 @@ def test_hearing_events_returns_server_error(mock_settings, mock_cda_settings, o
     OauthClient().token = None
     mock_settings.return_value = override_get_cda_settings
     mock_cda_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/hearings/22d2222c-22ff-22ec-b222-2222ac222222/hearing_events?date=exception")
+    response = client.get("/v2/hearing_events/22d2222c-22ff-22ec-b222-2222ac222222?date=exception")
 
     assert response.status_code == 424
     assert mock_cda_client["exception_hearing_events_uuid_route"].called
@@ -86,7 +86,7 @@ def test_hearing_events_returns_none(mock_settings, mock_cda_settings, override_
     mock_cda_settings.return_value = CdaSettings(cda_endpoint="https://failed-test-url/", cda_secret="12345",
                                                  cda_uid="12345")
     mock_settings.return_value = override_get_cda_settings
-    response = client.get("/v2/hearings/22d2222c-22ff-22ec-b222-2222ac222222/hearing_events?date=pass")
+    response = client.get("/v2/hearing_events/22d2222c-22ff-22ec-b222-2222ac222222?date=pass")
 
     assert response.status_code == 424
     assert response.content == b''

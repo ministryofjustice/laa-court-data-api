@@ -1,12 +1,12 @@
 {
 	"info": {
-		"_postman_id": "be19168d-ffc7-4cb7-94e7-dca3cd36bef5",
-		"name": "Hearing",
+		"_postman_id": "eb8fae8c-8499-40e5-99b0-5e8ecce810e1",
+		"name": "Hearing Events Old",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Get Hearing",
+			"name": "Get Hearing Event Logs on Date",
 			"event": [
 				{
 					"listen": "test",
@@ -16,11 +16,19 @@
 							"    pm.response.to.have.status(200);",
 							"});",
 							"",
-							"pm.test(\"Hearing included\", function () {",
+							"pm.test(\"Hearing Events Included\", function () {",
 							"    var json_data = pm.response.json();",
-							"    pm.expect(json_data).to.haveOwnProperty(\"hearing\")",
-							"    pm.expect(json_data).to.haveOwnProperty(\"shared_time\")",
-							"});"
+							"    pm.expect(json_data).to.haveOwnProperty(\"hearing_id\")",
+							"    pm.expect(json_data).to.haveOwnProperty(\"has_active_hearing\")",
+							"    pm.expect(json_data).to.haveOwnProperty(\"events\")",
+							"});",
+							"",
+							"pm.test(\"Hearing Events is Array\", function () {",
+							"\tvar json_data = pm.response.json();",
+							"\tvar hearing_event = json_data.events;",
+							"\tpm.expect(hearing_event).to.be.a('array');",
+							"});",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -36,13 +44,13 @@
 					}
 				],
 				"url": {
-					"raw": "{{BaseUrl}}/v2/hearings/{{HearingId}}?date={{HearingDate}}",
+					"raw": "{{BaseUrl}}/v2/hearing_events/{{HearingId}}?date={{HearingDate}}",
 					"host": [
 						"{{BaseUrl}}"
 					],
 					"path": [
 						"v2",
-						"hearings",
+						"hearing_events",
 						"{{HearingId}}"
 					],
 					"query": [

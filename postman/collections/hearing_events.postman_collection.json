@@ -44,14 +44,15 @@
 					}
 				],
 				"url": {
-					"raw": "{{BaseUrl}}/v2/hearing_events/{{HearingId}}?date={{HearingDate}}",
+					"raw": "{{BaseUrl}}/v2/hearings/{{HearingId}}/hearing_events?date={{HearingDate}}",
 					"host": [
 						"{{BaseUrl}}"
 					],
 					"path": [
 						"v2",
-						"hearing_events",
-						"{{HearingId}}"
+						"hearings",
+						"{{HearingId}}",
+						"hearing_events"
 					],
 					"query": [
 						{
