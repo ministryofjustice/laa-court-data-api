@@ -17,9 +17,8 @@ router = APIRouter()
 
 
 @router.get("/v2/case_summaries/{urn}", response_model=CaseSummariesResponse, status_code=200)
-@router.get("/v2/hearingsummaries/{urn}", response_model=CaseSummariesResponse, status_code=200)
-async def get_hearing_summaries(urn: str):
-    logger.info("Hearing_Summaries_Get", urn=urn)
+async def get_case_summaries(urn: str):
+    logger.info("Case_Summaries_Get", urn=urn)
     client = CourtDataAdaptorClient()
     cda_response = await client.get(endpoints.PROSECUTION_CASES_ENDPOINT,
                                     params={"filter[prosecution_case_reference]": urn})
@@ -33,7 +32,7 @@ async def get_hearing_summaries(urn: str):
             logger.info("Prosecution_Case_Endpoint_Returned_Success")
             prosecution_case_results = ProsecutionCasesResults(**cda_response.json())
             summaries = map_hearing_summaries(prosecution_case_results.results)
-            logger.info("Hearing_Summaries_To_Show", count=len(summaries))
+            logger.info("Case_Summaries_To_Show", count=len(summaries))
             return CaseSummariesResponse(prosecution_case_reference=urn,
                                          hearing_summaries=summaries,
                                          overall_defendants=map_defendant_list(prosecution_case_results.results))
