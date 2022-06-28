@@ -221,10 +221,6 @@ jobs:
           environment: ./postman/environments/${K8S_ENV}.postman_environment.json
           additional-options: --env-var="Username=${BASIC_AUTH}"
       - newman/newman-run:
-          collection: ./postman/collections/hearing_events_old.postman_collection.json
-          environment: ./postman/environments/${K8S_ENV}.postman_environment.json
-          additional-options: --env-var="Username=${BASIC_AUTH}"
-      - newman/newman-run:
           collection: ./postman/collections/hearing_events.postman_collection.json
           environment: ./postman/environments/${K8S_ENV}.postman_environment.json
           additional-options: --env-var="Username=${BASIC_AUTH}"
