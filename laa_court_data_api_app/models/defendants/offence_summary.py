@@ -19,6 +19,6 @@ class OffenceSummary(BaseModel):
     mode_of_trial: str | None
     start_date: str | None
     proceedings_concluded: bool | None
-    plea: Plea | None
+    pleas: list[Plea] | None
     verdict: Verdict | None
     laa_application: LaaApplication | None
