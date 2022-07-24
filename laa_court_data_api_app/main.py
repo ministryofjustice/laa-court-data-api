@@ -10,8 +10,6 @@ from asgi_correlation_id.context import correlation_id
 from fastapi import FastAPI
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from sentry_sdk.integrations.httpx import HttpxIntegration
-from sentry_sdk.integrations.starlette import StarletteIntegration
-from sentry_sdk.integrations.fastapi import FastApiIntegration
 from starlette.responses import RedirectResponse
 from starlette_prometheus import PrometheusMiddleware, metrics
 from typing import Any
@@ -56,9 +54,7 @@ sentry_sdk.init(dsn=get_app_settings().sentry_dsn,
                 sample_rate=1.0,
                 traces_sample_rate=0.1,
                 integrations=[
-                    HttpxIntegration(),
-                    StarletteIntegration(),
-                    FastApiIntegration()
+                    HttpxIntegration()
                 ],
                 before_send=send_event)
 
