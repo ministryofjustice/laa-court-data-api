@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "48cbcc1b55ba6a7bcf09d762ed0e5234645237d8ca4f8bae4a9a0bac1dcaa9e9"
+            "sha256": "d956b8695a3d9d43d049454c29e569839cc10042c05b9b1ed4e68c45e9e232b2"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -301,11 +301,11 @@
         },
         "structlog": {
             "hashes": [
-                "sha256:68c4c29c003714fe86834f347cb107452847ba52414390a7ee583472bde00fc9",
-                "sha256:fd7922e195262b337da85c2a91c84be94ccab1f8fd1957bd6986f6904e3761c8"
+                "sha256:760d37b8839bd4fe1747bed7b80f7f4de160078405f4b6a1db9270ccbfce6c30",
+                "sha256:94b29b1d62b2659db154f67a9379ec1770183933d6115d21f21aa25cfc9a7393"
             ],
             "index": "pypi",
-            "version": "==21.5.0"
+            "version": "==22.1.0"
         },
         "typing-extensions": {
             "hashes": [
@@ -317,11 +317,11 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:8298d6d56d39be0e3bc13c1c97d133f9b45d797169a0e11cdd0e0489d786f7ec",
-                "sha256:879ba4d1e89654d9769ce13121e0f94310ea32e8d2f8cf587b77c08bbcdb30d6"
+                "sha256:c33ccba33c819596124764c23a97d25f32b28433ba0dedeb77d873a38722c9bc",
+                "sha256:ea6e8fb210b19d950fab93b60c9009226c63a28808bc8386e05301e25883ac0a"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5' and python_version < '4.0'",
-            "version": "==1.26.10"
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5' and python_version < '4'",
+            "version": "==1.26.11"
         },
         "uvicorn": {
             "hashes": [
@@ -657,11 +657,11 @@
         },
         "urllib3": {
             "hashes": [
-                "sha256:8298d6d56d39be0e3bc13c1c97d133f9b45d797169a0e11cdd0e0489d786f7ec",
-                "sha256:879ba4d1e89654d9769ce13121e0f94310ea32e8d2f8cf587b77c08bbcdb30d6"
+                "sha256:c33ccba33c819596124764c23a97d25f32b28433ba0dedeb77d873a38722c9bc",
+                "sha256:ea6e8fb210b19d950fab93b60c9009226c63a28808bc8386e05301e25883ac0a"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5' and python_version < '4.0'",
-            "version": "==1.26.10"
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5' and python_version < '4'",
+            "version": "==1.26.11"
         }
     }
 }
