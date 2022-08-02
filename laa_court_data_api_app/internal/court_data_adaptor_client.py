@@ -73,7 +73,7 @@ class CourtDataAdaptorClient:
             response = await http_client.send(request)
             logger.info('CDA_Response_Returned', endpoint=request.url, status_code=response.status_code)
             return response
-        except(Exception) as e:
+        except (Exception) as e:
             logger.error('CDA_Endpoint_Error', endpoint=request.url, exception=e)
             return None
 
