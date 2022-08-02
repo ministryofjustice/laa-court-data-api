@@ -16,6 +16,7 @@ from typing import Any
 
 from laa_court_data_api_app.config import logging_config
 from laa_court_data_api_app.config.app import get_app_settings
+from laa_court_data_api_app.config.secure_headers import SecureHeadersMiddleware
 from .routers import defendants, hearings, case_summaries, hearing_events, laa_references, ping
 
 
@@ -78,6 +79,7 @@ app.include_router(ping.router)
 app.add_middleware(CorrelationIdMiddleware, header_name='Laa-Transaction-Id')
 app.add_middleware(SentryAsgiMiddleware)
 app.add_middleware(PrometheusMiddleware)
+app.add_middleware(SecureHeadersMiddleware)
 
 app.add_route('/metrics', metrics)
 
