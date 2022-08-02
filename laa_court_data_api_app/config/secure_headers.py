@@ -11,8 +11,11 @@ x_frame_options = secure.XFrameOptions().sameorigin()
 hsts = secure.StrictTransportSecurity().include_subdomains().preload().max_age(2592000)
 csp = (
     secure.ContentSecurityPolicy()
-    .default_src("'none'")
+    .default_src("'self'")
     .base_uri("'self'")
+    .img_src("'self'", "fastapi.tiangolo.com", "data:")
+    .style_src("'self'", "cdn.jsdelivr.net", "'unsafe-inline'")
+    .script_src("'self'", "cdn.jsdelivr.net", "'unsafe-inline'")
 )
 
 secure_headers = secure.Secure(
