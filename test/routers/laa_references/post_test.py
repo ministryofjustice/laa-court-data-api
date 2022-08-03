@@ -44,7 +44,7 @@ def test_laa_references_post_returns_bad_request(mock_settings, mock_cda_setting
 
     assert response.status_code == 400
     assert mock_cda_client["laa_references_post_fail_route"].called
-    assert response.content == b'{"errors":{"unlink_other_reason_text":["must be absent"]}}'
+    assert response.content == b'{"errors": {"unlink_other_reason_text": ["must be absent"]}}'
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)
@@ -79,7 +79,7 @@ def test_laa_references_post_returns_unprocessable_entity(mock_settings, mock_cd
     assert response.status_code == 422
     assert mock_cda_client["laa_references_post_unprocessable_entity_route"].called
     assert response.content == \
-           b'{"errors":{"maat_reference":["3141592 has no common platform data created against Maat application."]}}'
+           b'{"errors": {"maat_reference": ["3141592 has no common platform data created against Maat application."]}}'
 
 
 @patch('laa_court_data_api_app.internal.oauth_client.OauthClient.settings', new_callable=PropertyMock)

@@ -43,10 +43,4 @@ class SecureJsonResponse(Response):
     media_type = "application/json; charset=utf-8"
 
     def render(self, content: typing.Any) -> bytes:
-        return json.dumps(
-            content.dict(),
-            ensure_ascii=False,
-            allow_nan=False,
-            indent=None,
-            separators=(",", ":"),
-        ).encode("utf-8")
+        return content.json()
