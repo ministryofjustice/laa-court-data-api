@@ -2,7 +2,7 @@ import structlog
 import re
 
 from fastapi import APIRouter
-from fastapi.responses import Response, JSONResponse
+from fastapi.responses import Response
 from laa_court_data_api_app.config.secure_headers import SecureJsonResponse
 
 import laa_court_data_api_app.constants.endpoint_constants as endpoints
@@ -37,8 +37,8 @@ responses = {
 async def patch_maat_unlink(defendant_id: str, request: ExternalPatchRequest):
     if defendant_id != str(request.defendant_id):
         logger.info("Mismatched_DefendantId_In_Patch_Request")
-        return JSONResponse(status_code=400, content=LaaReferencesErrorResponse(
-            error={'defendant_id': ['mismatch in ids given']}).dict())
+        return SecureJsonResponse(status_code=400, content=LaaReferencesErrorResponse(
+            error={'defendant_id': ['mismatch in ids given']}))
 
     logger.info("Calling_MAAT_Patch", defendant_id=defendant_id)
     client = CourtDataAdaptorClient()
