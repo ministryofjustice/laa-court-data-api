@@ -6,17 +6,19 @@ from starlette.types import ASGIApp
 from starlette.requests import Request
 from starlette.responses import Response
 
+SELF_REFERENCE="'self'"
+
 referrer = secure.ReferrerPolicy().no_referrer()
 cache_control = secure.CacheControl().no_store()
 x_frame_options = secure.XFrameOptions().sameorigin()
 hsts = secure.StrictTransportSecurity().include_subdomains().preload().max_age(2592000)
 csp = (
     secure.ContentSecurityPolicy()
-    .default_src("'self'")
-    .base_uri("'self'")
-    .img_src("'self'", "fastapi.tiangolo.com", "data:")
-    .style_src("'self'", "cdn.jsdelivr.net", "'unsafe-inline'")
-    .script_src("'self'", "cdn.jsdelivr.net", "'unsafe-inline'")
+    .default_src(SELF_REFERENCE)
+    .base_uri(SELF_REFERENCE)
+    .img_src(SELF_REFERENCE, "fastapi.tiangolo.com", "data:")
+    .style_src(SELF_REFERENCE, "cdn.jsdelivr.net", "'unsafe-inline'")
+    .script_src(SELF_REFERENCE, "cdn.jsdelivr.net", "'unsafe-inline'")
 )
 
 secure_headers = secure.Secure(
