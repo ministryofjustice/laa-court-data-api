@@ -44,7 +44,7 @@ class SecureJsonResponse(Response):
 
     def render(self, content: typing.Any) -> bytes:
         return json.dumps(
-            content,
+            content.dict(),
             ensure_ascii=False,
             allow_nan=False,
             indent=None,

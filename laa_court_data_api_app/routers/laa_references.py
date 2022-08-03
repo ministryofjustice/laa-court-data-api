@@ -72,7 +72,7 @@ def formulated_response(cda_response, defendant_id, request_type):
             logger.warn(f"Validation_Failed_For_{request_type}", defendant_id=defendant_id)
             return SecureJsonResponse(status_code=400,
                                       content=LaaReferencesErrorResponse(
-                                          error=cda_response.json()).dict())
+                                          error=cda_response.json()))
         case 404:
             logger.info(f"Laa_References_Not_Found_For_{request_type}", defendant_id=defendant_id)
             return Response(status_code=404)
@@ -80,7 +80,7 @@ def formulated_response(cda_response, defendant_id, request_type):
             logger.info(f"Unable_To_Process_{request_type}", defendant_id=defendant_id)
             return SecureJsonResponse(status_code=422,
                                       content=LaaReferencesErrorResponse(
-                                          error=parse_error_response(cda_response.json()["error"])).dict())
+                                          error=parse_error_response(cda_response.json()["error"])))
         case _:
             logger.error("Laa_References_Endpoint_Error_Returning", status_code=cda_response.status_code)
             return Response(status_code=424)
