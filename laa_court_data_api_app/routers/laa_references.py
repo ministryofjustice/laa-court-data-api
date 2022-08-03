@@ -3,6 +3,7 @@ import re
 
 from fastapi import APIRouter
 from fastapi.responses import Response, JSONResponse
+from laa_court_data_api_app.config.secure_headers import SecureJsonResponse
 
 import laa_court_data_api_app.constants.endpoint_constants as endpoints
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
@@ -69,7 +70,7 @@ def formulated_response(cda_response, defendant_id, request_type):
             return Response(status_code=202)
         case 400:
             logger.warn(f"Validation_Failed_For_{request_type}", defendant_id=defendant_id)
-            return JSONResponse(status_code=400,
+            return SecureJsonResponse(status_code=400,
                                 content=LaaReferencesErrorResponse(
                                     error=cda_response.json()).dict())
         case 404:
@@ -77,7 +78,7 @@ def formulated_response(cda_response, defendant_id, request_type):
             return Response(status_code=404)
         case 422:
             logger.info(f"Unable_To_Process_{request_type}", defendant_id=defendant_id)
-            return JSONResponse(status_code=422,
+            return SecureJsonResponse(status_code=422,
                                 content=LaaReferencesErrorResponse(
                                     error=parse_error_response(cda_response.json()["error"])).dict())
         case _:

@@ -2,6 +2,7 @@ import structlog
 
 from fastapi import APIRouter
 from fastapi.responses import Response
+from laa_court_data_api_app.config.secure_headers import SecureJsonResponse
 
 import laa_court_data_api_app.constants.endpoint_constants as endpoints
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
@@ -33,9 +34,9 @@ async def get_case_summaries(urn: str):
             prosecution_case_results = ProsecutionCasesResults(**cda_response.json())
             summaries = map_hearing_summaries(prosecution_case_results.results)
             logger.info("Case_Summaries_To_Show", count=len(summaries))
-            return CaseSummariesResponse(prosecution_case_reference=urn,
+            return SecureJsonResponse(status_code=200, content=CaseSummariesResponse(prosecution_case_reference=urn,
                                          hearing_summaries=summaries,
-                                         overall_defendants=map_defendant_list(prosecution_case_results.results))
+                                         overall_defendants=map_defendant_list(prosecution_case_results.results)))
         case 400:
             logger.warn("Prosecution_Case_Endpoint_Validation_Failed")
             return Response(status_code=400)

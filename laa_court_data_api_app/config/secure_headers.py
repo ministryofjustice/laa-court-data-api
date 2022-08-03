@@ -1,3 +1,5 @@
+import json
+import typing
 import secure
 
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
@@ -35,3 +37,15 @@ class SecureHeadersMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
         secure_headers.framework.fastapi(response)
         return response
+
+class SecureJsonResponse(Response):
+    media_type = "application/json; charset=utf-8"
+
+    def render(self, content: typing.Any) -> bytes:
+        return json.dumps(
+            content,
+            ensure_ascii=False,
+            allow_nan=False,
+            indent=None,
+            separators=(",", ":"),
+        ).encode("utf-8")
