@@ -6,7 +6,7 @@ from starlette.types import ASGIApp
 from starlette.requests import Request
 from starlette.responses import Response
 
-SELF_REFERENCE="'self'"
+SELF_REFERENCE = "'self'"
 
 referrer = secure.ReferrerPolicy().no_referrer()
 cache_control = secure.CacheControl().no_store()
