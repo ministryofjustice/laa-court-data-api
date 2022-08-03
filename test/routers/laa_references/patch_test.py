@@ -147,4 +147,4 @@ def test_laa_references_patch_mismatch_defendantid_returns_bad_request():
     )
 
     assert response.status_code == 400
-    assert response.content == b'{"errors":{"defendant_id":["mismatch in ids given"]}}'
+    assert response.content == b'{"errors": {"defendant_id": ["mismatch in ids given"]}}'

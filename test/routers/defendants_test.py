@@ -195,7 +195,7 @@ def test_defendants_by_urn_uuid_returns_unprocessable_error(mock_settings, mock_
     response = client.get("/v2/defendants?urn=exception&uuid=invalid")
 
     assert response.status_code == 422
-    assert response.json()["detail"][0]["msg"] == "value is not a valid uuid"
+    assert response.json()[0]["msg"] == "value is not a valid uuid"
 
 
 # Search defendant by urn

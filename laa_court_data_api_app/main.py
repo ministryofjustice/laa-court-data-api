@@ -82,9 +82,10 @@ app.add_middleware(SentryAsgiMiddleware)
 app.add_middleware(PrometheusMiddleware)
 app.add_middleware(SecureHeadersMiddleware)
 
+
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
-    return SecureJsonResponse(status_code=400, content=exc)
+    return SecureJsonResponse(status_code=422, content=exc)
 
 app.add_route('/metrics', metrics)
 
