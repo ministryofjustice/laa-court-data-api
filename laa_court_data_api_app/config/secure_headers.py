@@ -38,6 +38,7 @@ class SecureHeadersMiddleware(BaseHTTPMiddleware):
         secure_headers.framework.fastapi(response)
         return response
 
+
 class SecureJsonResponse(Response):
     media_type = "application/json; charset=utf-8"
 

@@ -35,8 +35,8 @@ async def get_case_summaries(urn: str):
             summaries = map_hearing_summaries(prosecution_case_results.results)
             logger.info("Case_Summaries_To_Show", count=len(summaries))
             return SecureJsonResponse(status_code=200, content=CaseSummariesResponse(prosecution_case_reference=urn,
-                                         hearing_summaries=summaries,
-                                         overall_defendants=map_defendant_list(prosecution_case_results.results)))
+                                      hearing_summaries=summaries,
+                                      overall_defendants=map_defendant_list(prosecution_case_results.results)))
         case 400:
             logger.warn("Prosecution_Case_Endpoint_Validation_Failed")
             return Response(status_code=400)
