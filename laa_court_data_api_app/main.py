@@ -5,6 +5,7 @@ from structlog.stdlib import LoggerFactory
 
 import sentry_sdk
 import uvicorn
+from fastapi.exceptions import RequestValidationError
 from asgi_correlation_id import CorrelationIdMiddleware
 from asgi_correlation_id.context import correlation_id
 from fastapi import FastAPI
@@ -16,6 +17,7 @@ from typing import Any
 
 from laa_court_data_api_app.config import logging_config
 from laa_court_data_api_app.config.app import get_app_settings
+from laa_court_data_api_app.config.secure_headers import SecureHeadersMiddleware, SecureJsonResponse
 from .routers import defendants, hearings, case_summaries, hearing_events, laa_references, ping
 
 
@@ -78,6 +80,12 @@ app.include_router(ping.router)
 app.add_middleware(CorrelationIdMiddleware, header_name='Laa-Transaction-Id')
 app.add_middleware(SentryAsgiMiddleware)
 app.add_middleware(PrometheusMiddleware)
+app.add_middleware(SecureHeadersMiddleware)
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request, exc):
+    return SecureJsonResponse(status_code=422, content=exc)
 
 app.add_route('/metrics', metrics)
 

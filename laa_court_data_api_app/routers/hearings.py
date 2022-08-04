@@ -3,6 +3,7 @@ from uuid import UUID
 
 from fastapi import APIRouter
 from fastapi.responses import Response
+from laa_court_data_api_app.config.secure_headers import SecureJsonResponse
 
 import laa_court_data_api_app.constants.endpoint_constants as endpoints
 from laa_court_data_api_app.internal.court_data_adaptor_client import CourtDataAdaptorClient
@@ -27,7 +28,7 @@ async def get_hearing(hearing_id: UUID, date: str):
         case 200:
             logger.info("Hearing_Results_Endpoint_Returned_Success")
             internal_result = InternalHearingResult(**cda_response.json())
-            return ExternalHearingResult(**internal_result.dict())
+            return SecureJsonResponse(status_code=200, content=ExternalHearingResult(**internal_result.dict()))
         case 400:
             logger.warn("Hearing_Results_Endpoint_Validation_Failed")
             return Response(status_code=400)

@@ -3,6 +3,7 @@ from uuid import UUID
 import structlog
 from fastapi import APIRouter
 from fastapi.responses import Response
+from laa_court_data_api_app.config.secure_headers import SecureJsonResponse
 
 import laa_court_data_api_app.constants.endpoint_constants as endpoints
 import laa_court_data_api_app.constants.parameter_constants as filters
@@ -58,10 +59,10 @@ async def get_defendants(urn: str | None = None,
                 defendant_summary = map_defendant_summary(DefendantSummary(**cda_response.json()), urn)
                 summaries = [defendant_summary]
                 logger.info("Defendants_To_Show", entries=len(summaries))
-                return DefendantsResponse(defendant_summaries=summaries)
+                return SecureJsonResponse(status_code=200, content=DefendantsResponse(defendant_summaries=summaries))
             summaries = map_defendants(ProsecutionCasesResults(**cda_response.json()))
             logger.info("Defendants_To_Show", entries=len(summaries))
-            return DefendantsResponse(defendant_summaries=summaries)
+            return SecureJsonResponse(status_code=200, content=DefendantsResponse(defendant_summaries=summaries))
         case 400:
             logger.warn("Prosecution_Case_Endpoint_Validation_Failed")
             return Response(status_code=400)
