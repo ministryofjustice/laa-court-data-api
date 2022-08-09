@@ -77,8 +77,17 @@ def map_defendants_from_guids(defendant_ids: list[str], defendant_summaries: lis
         for defendant_obj in list(filtered_defendant_summaries):
             if defendant_obj is not None:
                 new_def = Defendants(**defendant_obj.dict())
-                defendant_list.append(new_def)
+                if not check_exists(defendant_list, defendant_id):
+                    defendant_list.append(new_def)
                 if defendant_obj.offence_summaries is not None and len(defendant_obj.offence_summaries) > 0:
                     new_def.maat_reference = defendant_obj.offence_summaries[0].laa_application.reference
 
     return defendant_list
+
+
+def check_exists(defendant_list: list[Defendants], id: str):
+    for defendant in defendant_list:
+        if str(defendant.id) == id:
+            return True
+
+    return False
