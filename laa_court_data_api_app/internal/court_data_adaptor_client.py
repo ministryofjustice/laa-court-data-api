@@ -19,7 +19,7 @@ class CourtDataAdaptorClient:
 
     async def get(self, endpoint: str, params: Optional[dict[str, str]] = None,
                   headers: Optional[dict[str, any]] = None):
-        headers = self.__setup_default_headers(headers, {"Laa-Transaction-Id": correlation_id.get() or ''})
+        headers = self.__setup_default_headers(headers, {"X-Request-Id": correlation_id.get() or ''})
 
         response = await self.__send_request(method='GET', endpoint=endpoint, params=params, headers=headers)
         return response
@@ -28,7 +28,7 @@ class CourtDataAdaptorClient:
                    headers: Optional[dict[str, any]] = None,
                    body: Optional[any] = None):
         headers = self.__setup_default_headers(headers, {"Content-Type": "application/json",
-                                                         "Laa-Transaction-Id": correlation_id.get() or ''})
+                                                         "X-Request-Id": correlation_id.get() or ''})
 
         if body is not None:
             body = body.json()
@@ -41,7 +41,7 @@ class CourtDataAdaptorClient:
                     headers: Optional[dict[str, any]] = None,
                     body: Optional[any] = None):
         headers = self.__setup_default_headers(headers, {"Content-Type": "application/json",
-                                                         "Laa-Transaction-Id": correlation_id.get() or ''})
+                                                         "X-Request-Id": correlation_id.get() or ''})
 
         if body is not None:
             body = body.json()
