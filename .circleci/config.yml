@@ -28,8 +28,7 @@ references:
     run:
       name: ECR Login
       command: |
-          login="$(AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} aws ecr get-login --no-include-email)"
-          ${login}
+          AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} aws ecr get-login-password | docker login --username AWS --password-stdin ${ECR_ENDPOINT}
   _authenticate-kubectl: &authenticate-kubectl
     run:
       name: Authenticate K8s
@@ -55,7 +54,7 @@ executors:
   build-image-executor:
     resource_class: small
     docker:
-      - image: cimg/python:3.10.1
+      - image: cimg/python:3.11.1
 
   cloud-platform-executor:
     resource_class: small
