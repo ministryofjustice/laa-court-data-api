@@ -55,7 +55,7 @@ executors:
   build-image-executor:
     resource_class: small
     docker:
-      - image: cimg/python:3.10.1
+      - image: cimg/python:3.11.1
 
   cloud-platform-executor:
     resource_class: small
