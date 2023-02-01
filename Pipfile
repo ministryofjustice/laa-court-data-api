@@ -30,7 +30,7 @@ secure = "==0.3.0"
 [dev-packages]
 pycodestyle = "==2.10.0"
 pytest = "==7.2.1"
-python-dotenv = "==0.21.0"
+python-dotenv = "==0.21.1"
 requests = "==2.28.2"
 pytest-cov = "==4.0.0"
 respx = "==0.20.1"
