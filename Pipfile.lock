@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "cdbf4c87d5341e2250ab2e876399f059ce2fc1f8ab76efae91ae0ca15cb1ab4d"
+            "sha256": "e8907fe30ad647c447e403dd0b40e48fbcf5600df72d59a67485f61fbb9d6151"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -348,11 +348,11 @@
         },
         "uvicorn": {
             "hashes": [
-                "sha256:a4e12017b940247f836bc90b72e725d7dfd0c8ed1c51eb365f5ba30d9f5127d8",
-                "sha256:c3ed1598a5668208723f2bb49336f4509424ad198d6ab2615b7783db58d919fd"
+                "sha256:8635a388062222082f4b06225b867b74a7e4ef942124453d4d1d1a5cb3750932",
+                "sha256:e69e955cb621ae7b75f5590a814a4fcbfb14cb8f44a36dfe3c5c75ab8aee3ad5"
             ],
             "index": "pypi",
-            "version": "==0.20.0"
+            "version": "==0.21.0"
         },
         "uvloop": {
             "hashes": [
@@ -577,7 +577,7 @@
                 "sha256:f8303414c7b03f794347ad062c0516cee0e15f7a612abd0ce1e25caf6ceb47df",
                 "sha256:fca62a8301b605b954ad2e9c3666f9d97f63872aa4efcae5492baca2056b74ab"
             ],
-            "markers": "python_full_version >= '3.7.0'",
+            "markers": "python_version >= '3.7'",
             "version": "==3.1.0"
         },
         "coverage": {
@@ -637,7 +637,7 @@
                 "sha256:f3d07edb912a978915576a776756069dede66d012baa503022d3a0adba1b6afa",
                 "sha256:fac6343bae03b176e9b58104a9810df3cdccd5cfed19f99adfa807ffbf43cf9b"
             ],
-            "markers": "python_full_version >= '3.7.0'",
+            "markers": "python_version >= '3.7'",
             "version": "==7.2.1"
         },
         "h11": {
@@ -680,7 +680,7 @@
                 "sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3",
                 "sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374"
             ],
-            "markers": "python_full_version >= '3.7.0'",
+            "markers": "python_version >= '3.7'",
             "version": "==2.0.0"
         },
         "packaging": {
@@ -688,7 +688,7 @@
                 "sha256:714ac14496c3e68c99c29b00845f7a2b85f3bb6f1078fd9f72fd20f0570002b2",
                 "sha256:b6ad297f8907de0fa2fe1ccbd26fdaf387f5f47c7275fedf8cce89f99446cf97"
             ],
-            "markers": "python_full_version >= '3.7.0'",
+            "markers": "python_version >= '3.7'",
             "version": "==23.0"
         },
         "pluggy": {
