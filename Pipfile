@@ -17,7 +17,7 @@ typing-extensions = "==4.5.0"
 uvicorn = "==0.21.1"
 uvloop = "==0.17.0"
 watchgod = "==0.8.2"
-websockets = "==11.0.2"
+websockets = "==11.0.3"
 PyYAML = "==6.0"
 httpx = {extras = ["http2"], version = "==0.24.*"}
 asgi-correlation-id = "==3.0.0"
