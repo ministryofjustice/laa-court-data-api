@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "274b0db889299d197962c671d68bd70ee2c8af504c8a52102644f5295b0663a3"
+            "sha256": "b73b4bb4631479b0622b1e4fb4d9453cffca6252bc76009427359264337b9d34"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -97,11 +97,11 @@
         },
         "httpcore": {
             "hashes": [
-                "sha256:125f8375ab60036db632f34f4b627a9ad085048eef7cb7d2616fea0f739f98af",
-                "sha256:5581b9c12379c4288fe70f43c710d16060c10080617001e6b22a3b6dbcbefd36"
+                "sha256:a6f30213335e34c1ade7be6ec7c47f19f50c56db36abef1a9dfa3815b1cb3888",
+                "sha256:c2789b767ddddfa2a5782e3199b2b7f6894540b17b16ec26b2c4d8e103510b87"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==0.17.2"
+            "version": "==0.17.3"
         },
         "httptools": {
             "hashes": [
@@ -283,11 +283,11 @@
         },
         "sentry-sdk": {
             "hashes": [
-                "sha256:79afb7c896014038e358401ad1d36889f97a129dfa8031c49b3f238cd1aa3935",
-                "sha256:aa796423eb6a2f4a8cd7a5b02ba6558cb10aab4ccdc0537f63a47b038c520c38"
+                "sha256:24308bd05a1f7d65e40acc68a768b4e5c35462039bfd6ae2ca116b92a7b53c78",
+                "sha256:53f36293a0da271a22f476259d2fda76c0b8a1cb96b16d6e6e6aca490d7f3451"
             ],
             "index": "pypi",
-            "version": "==1.25.1"
+            "version": "==1.27.1"
         },
         "sniffio": {
             "hashes": [
@@ -643,11 +643,11 @@
         },
         "httpcore": {
             "hashes": [
-                "sha256:125f8375ab60036db632f34f4b627a9ad085048eef7cb7d2616fea0f739f98af",
-                "sha256:5581b9c12379c4288fe70f43c710d16060c10080617001e6b22a3b6dbcbefd36"
+                "sha256:a6f30213335e34c1ade7be6ec7c47f19f50c56db36abef1a9dfa3815b1cb3888",
+                "sha256:c2789b767ddddfa2a5782e3199b2b7f6894540b17b16ec26b2c4d8e103510b87"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==0.17.2"
+            "version": "==0.17.3"
         },
         "httpx": {
             "extras": [
