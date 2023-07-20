@@ -29,5 +29,5 @@ ENV BUILD_DATE=${BUILD_DATE}
 ENV BUILD_TAG=${BUILD_TAG}
 ENV APP_BRANCH=${APP_BRANCH}
 
-EXPOSE 80
-CMD ["uvicorn", "laa_court_data_api_app.main:app", "--host", "0.0.0.0", "--port", "80"]
+EXPOSE 8000
+CMD ["uvicorn", "laa_court_data_api_app.main:app", "--host", "0.0.0.0", "--port", "8000"]
