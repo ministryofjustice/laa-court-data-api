@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7d95f413b3a4ca34c33cd58e9c898d5695c3a11c5bfd6346bfd790ae6c3e49bd"
+            "sha256": "a44ba1429f99e8e04649e4b0c9d4ea31809e05ed3f97457d9169b37cff8c7d71"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -287,11 +287,11 @@
         },
         "uvicorn": {
             "hashes": [
-                "sha256:79277ae03db57ce7d9aa0567830bbb51d7a612f54d6e1e3e92da3ef24c2c8ed8",
-                "sha256:e9434d3bbf05f310e762147f769c9f21235ee118ba2d2bf1155a7196448bd996"
+                "sha256:1d55d46b83ee4ce82b4e82f621f2050adb3eb7b5481c13f9af1744951cae2f1f",
+                "sha256:da9b0c8443b2d7ee9db00a345f1eee6db7317432c9d4400f5049cc8d358383be"
             ],
             "index": "pypi",
-            "version": "==0.22.0"
+            "version": "==0.23.1"
         },
         "uvloop": {
             "hashes": [
