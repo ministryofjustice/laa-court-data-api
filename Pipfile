@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 anyio = "==3.7.1"
 asgiref = "==3.7.2"
-click = "==8.1.7"
 fastapi = "==0.75.2"
 httptools = "==0.6.0"
 idna = "==3.4"
@@ -34,5 +33,6 @@ requests = "==2.31.0"
 pytest-cov = "==4.1.0"
 respx = "==0.20.2"
 pytest-asyncio = "==0.21.1"
+
 [requires]
 python_version = "3.11"
