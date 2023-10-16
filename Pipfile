@@ -27,7 +27,7 @@ circuitbreaker = "==2.0.0"
 secure = "==0.3.0"
 
 [dev-packages]
-pycodestyle = "==2.10.0"
+pycodestyle = "==2.11.1"
 pytest = "==7.4.0"
 python-dotenv = "==1.0.0"
 requests = "==2.31.0"
