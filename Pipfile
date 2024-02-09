@@ -33,6 +33,6 @@ python-dotenv = "==1.0.0"
 requests = "==2.31.0"
 pytest-cov = "==4.1.0"
 respx = "==0.20.2"
-pytest-asyncio = "==0.23.4"
+pytest-asyncio = "==0.23.5"
 [requires]
 python_version = "3.11"
