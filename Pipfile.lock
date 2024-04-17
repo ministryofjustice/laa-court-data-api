@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "384fd7bdd759fc42d3a09d4949cb1b283bee73175c51a50636b0b0aee0b3a043"
+            "sha256": "ec655b9e645c104766de74904c1cd73fd2ac4a5e8057d5e4108c3b9d598512c0"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -64,6 +64,7 @@
                 "sha256:ae74fb96c20a0277a1d615f1e4d73c8414f5a98db8b799a7931d1582f3390c28",
                 "sha256:ca9853ad459e787e2192211578cc907e7594e294c7ccc834310722b41b9ca6de"
             ],
+            "index": "pypi",
             "markers": "python_version >= '3.7'",
             "version": "==8.1.7"
         },
@@ -101,11 +102,11 @@
         },
         "httpcore": {
             "hashes": [
-                "sha256:ac418c1db41bade2ad53ae2f3834a3a0f5ae76b56cf5aa497d2d033384fc7d73",
-                "sha256:cb2839ccfcba0d2d3c1131d3c3e26dfc327326fbe7a5dc0dbfe9f6c9151bb022"
+                "sha256:34a38e2f9291467ee3b44e89dd52615370e152954ba21721378a87b2960f7a61",
+                "sha256:421f18bac248b25d310f3cacd198d55b8e6125c107797b609ff9b7a6ba7991b5"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==1.0.4"
+            "version": "==1.0.5"
         },
         "httptools": {
             "hashes": [
@@ -620,11 +621,11 @@
         },
         "httpcore": {
             "hashes": [
-                "sha256:ac418c1db41bade2ad53ae2f3834a3a0f5ae76b56cf5aa497d2d033384fc7d73",
-                "sha256:cb2839ccfcba0d2d3c1131d3c3e26dfc327326fbe7a5dc0dbfe9f6c9151bb022"
+                "sha256:34a38e2f9291467ee3b44e89dd52615370e152954ba21721378a87b2960f7a61",
+                "sha256:421f18bac248b25d310f3cacd198d55b8e6125c107797b609ff9b7a6ba7991b5"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==1.0.4"
+            "version": "==1.0.5"
         },
         "httpx": {
             "extras": [
