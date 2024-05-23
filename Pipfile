@@ -20,7 +20,7 @@ watchgod = "==0.8.2"
 websockets = "==12.0"
 httpx = {extras = ["http2"], version = "==0.27.*"}
 asgi-correlation-id = "==3.0.0"
-sentry-sdk = "==2.1.1"
+sentry-sdk = "==2.3.0"
 starlette-prometheus = "==0.9.0"
 structlog = "==24.1.0"
 circuitbreaker = "==2.0.0"
