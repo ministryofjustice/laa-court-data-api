@@ -36,7 +36,7 @@ class SecureHeadersMiddleware(BaseHTTPMiddleware):
 
     async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
         response = await call_next(request)
-        secure_headers.framework.fastapi(response)
+        await secure_headers.set_headers_async(response)
         return response
 
 
