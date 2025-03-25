@@ -32,6 +32,10 @@ config = {
             'level': 'INFO',
             'propagate': False,
             'qualname': 'laa_court_data_api_app'
-        }
+        },
+        'httpx': {
+            'handlers': ['consoleHandler'],
+            'level': 'WARNING',
+        },
     }
 }
