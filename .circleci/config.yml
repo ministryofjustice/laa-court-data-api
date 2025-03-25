@@ -302,11 +302,15 @@ workflows:
           context: laa-court-data-api-live-staging
           requires:
             - hold-staging
-      - postman-test:
-          name: staging postman tests
-          context: laa-court-data-api-live-staging
-          requires:
-            - deploy-staging
+      # TODO: Currently we have no control over the content of the
+      # Common Platform dev environment, which CDAPI staging points to.
+      # Therefore we cannot provide sufficient record identifiers to be
+      # able to reliably run postman tests.
+      # - postman-test:
+      #     name: staging postman tests
+      #     context: laa-court-data-api-live-staging
+      #     requires:
+      #       - deploy-staging
 
   main-deploy:
     jobs:
