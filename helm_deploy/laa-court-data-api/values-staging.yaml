@@ -66,4 +66,4 @@ ingress:
           pathType: Prefix
 
 court_data_adaptor:
-  url: https://stage.court-data-adaptor.service.justice.gov.uk/
+  url: https://test.court-data-adaptor.service.justice.gov.uk/
