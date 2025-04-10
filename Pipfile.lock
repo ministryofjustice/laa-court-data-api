@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "21dc21cbb98bf9b47314996bb21a8c44f4eadac2b3ec331b6c85b6aa4b491e67"
+            "sha256": "d6c53e40811967c30d5122bab141f54cc6cbef233d55523ae52b402f606fac28"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -264,12 +264,12 @@
         },
         "sentry-sdk": {
             "hashes": [
-                "sha256:a6e623691ff03d1758f940fe421e5b65f313f4ac37638079ab94d1b6f052eb15",
-                "sha256:aa0f558209c1819391421d65e25b1c4000f49580e6ecf5c05ff0c6e74f74470b"
+                "sha256:60b016d0772789454dc55a284a6a44212044d4a16d9f8448725effee97aaf7f6",
+                "sha256:f9041b7054a7cf12d41eadabe6458ce7c6d6eea7a97cfe1b760b6692e9562cf0"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.6'",
-            "version": "==2.25.0"
+            "version": "==2.25.1"
         },
         "sniffio": {
             "hashes": [
@@ -309,12 +309,12 @@
         },
         "typing-extensions": {
             "hashes": [
-                "sha256:04e5ca0351e0f3f85c6853954072df659d0d13fac324d0072316b67d7794700d",
-                "sha256:1a7ead55c7e559dd4dee8856e3a88b41225abfe1ce8df57b7c13915fe121ffb8"
+                "sha256:4b6cf02909eb5495cfbc3f6e8fd49217e6cc7944e145cdda8caa3734777f9e69",
+                "sha256:98795af00fb9640edec5b8e31fc647597b4691f099ad75f469a2616be1a76dff"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.8'",
-            "version": "==4.12.2"
+            "version": "==4.13.1"
         },
         "urllib3": {
             "hashes": [
@@ -735,12 +735,12 @@
         },
         "pytest-cov": {
             "hashes": [
-                "sha256:cd7e1d54981d5185ef2b8d64b50172ce97e6f357e6df5cb103e828c7f993e201",
-                "sha256:ec55e828c66755e5b74a21bd7cc03c303a9f928389c0563e50ba454a6dbe71db"
+                "sha256:46935f7aaefba760e716c2ebfbe1c216240b9592966e7da99ea8292d4d3e2a0a",
+                "sha256:bddf29ed2d0ab6f4df17b4c55b0a657287db8684af9c42ea546b21b1041b3dde"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.9'",
-            "version": "==6.1.0"
+            "version": "==6.1.1"
         },
         "python-dotenv": {
             "hashes": [
