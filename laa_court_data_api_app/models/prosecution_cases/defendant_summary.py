@@ -18,4 +18,4 @@ class DefendantSummary(BaseModel):
     proceedings_concluded: bool | None
     representation_order: RepresentationOrder | None
     offence_summaries: list[OffenceSummary] | None
-    application_summaries: Optional[List[ApplicationSummary]] = None  # <-- Add this
+    application_summaries: Optional[List[ApplicationSummary]] | None

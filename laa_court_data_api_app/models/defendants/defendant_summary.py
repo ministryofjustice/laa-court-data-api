@@ -19,4 +19,4 @@ class DefendantSummary(BaseModel):
     representation_order: RepresentationOrder | None
     offence_summaries: list[OffenceSummary] | None
     prosecution_case_reference: str | None
-    application_summaries: Optional[List[ApplicationSummary]] = None  # <-- Add this
+    application_summaries: Optional[List[ApplicationSummary]] | None
