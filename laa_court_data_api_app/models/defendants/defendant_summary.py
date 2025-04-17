@@ -1,9 +1,9 @@
 from uuid import UUID
-
+from typing import List, Optional
 from pydantic import BaseModel
-
 from laa_court_data_api_app.models.defendants.offence_summary import OffenceSummary
 from laa_court_data_api_app.models.defendants.representation_order import RepresentationOrder
+from laa_court_data_api_app.models.defendants.application_summary import ApplicationSummary
 
 
 class DefendantSummary(BaseModel):
@@ -19,3 +19,4 @@ class DefendantSummary(BaseModel):
     representation_order: RepresentationOrder | None
     offence_summaries: list[OffenceSummary] | None
     prosecution_case_reference: str | None
+    application_summaries: Optional[List[ApplicationSummary]] | None
