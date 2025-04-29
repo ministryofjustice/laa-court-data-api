@@ -50,18 +50,18 @@ spec:
             - name: CDA_UID
               valueFrom:
                 secretKeyRef:
-                  name: court-data-adaptor
-                  key: uid
+                  name: aws-secrets
+                  key: court-data-adaptor-uid
             - name: CDA_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: court-data-adaptor
-                  key: secret
+                  name: aws-secrets
+                  key: court-data-adaptor-secret
             - name: SENTRY_DSN
               valueFrom:
                 secretKeyRef:
-                  name: sentry
-                  key: dsn
+                  name: aws-secrets
+                  key: sentry-dsn
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
