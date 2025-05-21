@@ -1,4 +1,8 @@
 # laa-court-data-api
+
+## THIS REPOSITORY HAS BEEN RETIRED
+This API was a proxy between laa-view-court-data and laa-court-data-adaptor. It had very little functionality, and, being written in a different language with different frameworks to the other repositories in the same system, made the system harder to maintain, harder to reason about, less reliable, more expensive and less performant. laa-view-court-data now talks directly to laa-court-data-adaptor and this codebase is no longer used.
+
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ministryofjustice_laa-court-data-api&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ministryofjustice_laa-court-data-api)
 
 LAA Court Data API layer to serve data from LAA Court Data Adaptor to LAA Court Data UI
